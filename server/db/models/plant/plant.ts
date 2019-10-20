@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
-const db = require('../../db');
+import db from '../../db';
 
-export default db.define('plant', {
+const Plant = db.define('plant', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -21,11 +21,11 @@ export default db.define('plant', {
   },
   lastWatered: {
     type: Sequelize.DATE,
-    allowNull: false,
+    defaultValue: Date.now(),
   },
   wateredBy: {
     type: Sequelize.INTEGER,
   },
 });
 
-//need to make a Sequelize hook to give defaultValue of today if lastWatered is null.
+export default Plant;

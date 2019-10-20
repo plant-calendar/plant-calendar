@@ -2,7 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
-// const db = require('./db')
+import db from './db';
 const PORT = process.env.PORT || 8080;
 const app = express();
 module.exports = app;
@@ -56,7 +56,10 @@ const startListening = () => {
   );
 };
 
+const syncDb = () => db.sync({ force: true });
+
 async function bootApp() {
+  await syncDb();
   await createApp();
   await startListening();
 }

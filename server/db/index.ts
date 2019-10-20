@@ -1,4 +1,4 @@
-const db = require('./db');
+import db from './db';
 require('./models');
 
-module.exports = db;
+export default db;
