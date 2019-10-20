@@ -1,6 +1,6 @@
 import { IBaseEntity } from '../baseEntity.interface';
 
-export interface Iuser extends IBaseEntity {
+export interface IUser extends IBaseEntity {
   id: number;
   userName: string;
   email: string;
