@@ -1,11 +1,15 @@
-const path = require('path');
 const TSLintPlugin = require('tslint-webpack-plugin');
+const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-  entry: path.join(__dirname, '/src/app.ts'),
+  mode: isDev ? 'development' : 'production',
+  entry: [
+    '@babel/polyfill', // enables async-await
+    './client/index.js'
+  ],
   output: {
-    filename: 'app.js',
-    path: __dirname + 'dist',
+    path: __dirname,
+    filename: './public/bundle.js'
   },
   module: {
     rules: [
@@ -14,7 +18,16 @@ module.exports = {
         loader: 'ts-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+      }
     ],
+  },
+  devtool: 'source-map',
+  watchOptions: {
+    ignored: /node_modules/
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
