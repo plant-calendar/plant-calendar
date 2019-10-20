@@ -8,5 +8,7 @@ User.belongsToMany(Habitat, { through: HabitatSubscription });
 Habitat.belongsToMany(User, { through: HabitatSubscription });
 User.belongsToMany(Plant, { through: PlantSubscription });
 Plant.belongsToMany(User, { through: PlantSubscription });
+Plant.belongsTo(Habitat);
+Habitat.hasMany(Plant);
 
 export { Habitat, HabitatSubscription, Plant, PlantSubscription, User };
