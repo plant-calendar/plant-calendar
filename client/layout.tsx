@@ -6,7 +6,7 @@ const Layout = ({ navBarOpen, children }) => {
   return (
     <div>
       {navBarOpen && <NavBar/>}
-      {children}
+      <div style={{  padding: '16px', paddingTop: '60px'}}>{children}</div>
     </div>
   );
 };
