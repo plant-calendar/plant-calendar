@@ -1,12 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch, withRouter} from 'react-router-dom';
-
+import Habitat from "./components/Habitat";
 
 const Routes = props => {
   return (
     <Switch>
-      <Route path="/habitats/:id" component={}
+      <Route path="/habitats/:id" component={Habitat} />
     </Switch>
   );
 };

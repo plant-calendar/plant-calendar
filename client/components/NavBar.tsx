@@ -6,17 +6,27 @@ const Bar = styled.div`
   background: ${COLORS.primaryGreen};
   float: left;
   display: block;
-  color: #f2f2f2;
-  text-align: center;
   padding: 14px;
-  text-decoration: none;
-    position: fixed;
+  position: fixed;
   top: 0;
   width: 100%;
+  height: 40px;
+`;
+
+const BarContents = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 25px;
 `;
 
 const NavBar = () => {
-  return <Bar>NavBar</Bar>;
+  return <Bar>
+    <BarContents>
+    <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 24H36V20H0V24ZM0 14H36V10H0V14ZM0 0V4H36V0H0Z" fill="white"/>
+    </svg>
+    </BarContents>
+  </Bar>;
 };
 
 export default NavBar;
