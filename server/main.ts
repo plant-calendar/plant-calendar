@@ -2,10 +2,12 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
+const graphqlHTTP = require('express-graphql');
 import db from './db';
 const PORT = process.env.PORT || 8080;
 const app = express();
 module.exports = app;
+import schema from './controller';
 
 const createApp = () => {
   // logging middleware
@@ -27,7 +29,7 @@ const createApp = () => {
     if (path.extname(req.path).length) {
       console.log(
         'this is the req path that is giving us problems: ',
-        req.path
+        req.path,
       );
       const err = new Error('Not found');
       // @ts-ignore
@@ -38,6 +40,11 @@ const createApp = () => {
     }
   });
 
+
+  app.use('/graphql',  graphqlHTTP({
+    schema,
+    graphiql: true,
+  }));
   app.use('*', (req: any, res: any) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'));
   });
@@ -52,7 +59,7 @@ const createApp = () => {
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`)
+    console.log(`Mixing it up on port ${PORT}`),
   );
 };
 

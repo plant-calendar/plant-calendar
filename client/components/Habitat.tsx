@@ -13,7 +13,7 @@ interface IHabitatComponentProps {
   plants: IPlant[];
   match: any;
   images: { [plantId: string]: object };
-  fetchPlants: (habitatId: string) => void;
+  fetchPlants: (habitatId: number) => void;
 }
 
 const Container = styled.div`
@@ -40,11 +40,11 @@ const Habitat = (props: IHabitatComponentProps) => {
   useEffect(
     () => {
       console.log(`dispatched fetchPlants for habitat ${props.match.params.id} from habitat component`);
-      props.fetchPlants(props.match.params.id);
+      props.fetchPlants(+props.match.params.id);
     },
     [],
   );
-  console.log({ 'props.plants': props.plants })
+  console.log({ 'props.plants': props.plants });
   return (
     <div>
       <Title>{props.name}</Title>
@@ -75,7 +75,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchPlants: (habitatId: string) => dispatch(plantActions.fetchPlantsByHabitatId(habitatId)),
+  fetchPlants: (habitatId: number) => dispatch(plantActions.fetchPlantsByHabitatId(habitatId)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Habitat));

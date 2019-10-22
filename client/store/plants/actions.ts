@@ -4,7 +4,7 @@ import {
   PLANTS_FETCH_BY_HABITAT_ID_SUCCEEEDED,
 } from './types';
 
-export function fetchPlantsByHabitatId(habitatId: string) {
+export function fetchPlantsByHabitatId(habitatId: number) {
   return { type: PLANTS_FETCH_BY_HABITAT_ID_REQUESTED, habitatId };
 }
 
