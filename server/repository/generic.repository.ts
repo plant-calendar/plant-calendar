@@ -1,3 +1,5 @@
+import Sequelize from "sequelize";
+
 export default class {
   private model;
 
@@ -6,46 +8,25 @@ export default class {
     this.model = model;
   }
 
+  /**
+   * this method can handle "where x = 1 or x = 2" by passing x: [1, 2]
+   * this method CANNOT handle "where x = 1 or y = 2"... create a custom method for that
+   * this method also cannot handle "where x = [1, 2]"
+   * @param params
+   */
   public async findAll(params?: object) {
-    // todo here is where the actual sequelize logic lives
-    const filterBy = params || {};
-    const ALL_PLANTS = [
-      // todo use actual plants
-      {
-        id: 1,
-        imageUrl: 'afasf',
-        name: 'Asparagus',
-        lastWatered: new Date(),
-        waterInterval: 3,
-        createdAt: 'afsrsf',
-        updatedAt: 'fasfasf',
-        habitatId: 10,
-      },
-      {
-        id: 2,
-        imageUrl: 'afasf',
-        name: 'Rose Bush',
-        lastWatered: new Date(),
-        waterInterval: 3,
-        createdAt: 'afsrsf',
-        updatedAt: 'fasfasf',
-        habitatId: 11,
-      },
-      {
-        id: 3,
-        imageUrl: 'afasf',
-        name: 'Purple One',
-        lastWatered: new Date(),
-        waterInterval: 3,
-        createdAt: 'afsrsf',
-        updatedAt: 'fasfasf',
-        habitatId: 12,
-      },
-    ];
-    return ALL_PLANTS.filter(
-      plant => Object.keys(filterBy).every(
-        columnName => plant[columnName] === filterBy[columnName],
-      ),
-    );
+    console.log("generic repository received find all params of", params);
+    if (!params || !Object.keys(params).length) {
+      return this.model.findAll();
+    }
+    // convert arrays to Op.or's... leave other kinds of values as they are
+    const where = Object.keys(params).reduce((acc, colName) => {
+      acc[colName] = Array.isArray(params[colName])
+        ? { [Sequelize.Op.or]: params[colName] }
+        : params[colName];
+      return acc;
+    }, {});
+    return this.model.findAll({ where });
   }
+
 }

@@ -8,7 +8,7 @@ const Container = styled.div`
 
 const AvatarImage = styled.img`
   border-radius: 50%;
-  height: 90%;
+  height: 80%;
   margin-left: 10%;
 `;
 

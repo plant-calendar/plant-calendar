@@ -45,6 +45,7 @@ const createApp = () => {
     schema,
     graphiql: true,
   }));
+
   app.use('*', (req: any, res: any) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'));
   });
@@ -63,7 +64,7 @@ const startListening = () => {
   );
 };
 
-const syncDb = () => db.sync({ force: true });
+const syncDb = () => db.sync();
 
 async function bootApp() {
   await syncDb();

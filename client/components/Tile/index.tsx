@@ -4,9 +4,9 @@ import Avatar from "./avatar";
 import {COLORS, TILE_HEIGHT} from "../style-config";
 
 interface ITileProps {
- title: string;
- details: string;
- imageUrl: string;
+  title: string;
+  details: string;
+  imageUrl?: string;
 }
 
 const StyledTile = styled.div`
@@ -34,15 +34,17 @@ const TileDetails = styled.div`
 `;
 
 const Tile = (props: ITileProps) => {
- return (
-   <StyledTile>
-    <Avatar imageUrl={props.imageUrl}/>
-    <TileText>
-      <TileTitle>{props.title}</TileTitle>
-      <TileDetails>{props.details}</TileDetails>
-    </TileText>
-   </StyledTile>
- );
+  return (
+    <div>
+      <StyledTile>
+        <Avatar imageUrl={props.imageUrl}/>
+        <TileText>
+          <TileTitle>{props.title}</TileTitle>
+          <TileDetails>{props.details}</TileDetails>
+        </TileText>
+      </StyledTile>
+    </div>
+  );
 };
 
 export default Tile;

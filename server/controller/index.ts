@@ -1,5 +1,6 @@
 import {GraphQLSchema, GraphQLObjectType} from "graphql";
-import { query as plantQuery } from './plant';
+import plant from './plant';
+import habitat from './habitat';
 
 // fetch all the plants for a habitat
 // fetch all the habitats for a user
@@ -15,7 +16,8 @@ import { query as plantQuery } from './plant';
 
 const queryType = new GraphQLObjectType({
   fields: () => ({
-    plant: plantQuery,
+    plant: plant.plantQuery,
+    habitat: habitat.habitatQuery,
   }),
   name: 'Query',
 });

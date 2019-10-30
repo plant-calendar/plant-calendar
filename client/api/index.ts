@@ -5,17 +5,28 @@ import ApolloClient, { gql } from 'apollo-boost';
 const client = new ApolloClient({});
 
 export default {
-  plant: {
-    getByHabitatId: (habitatId: number) => client.query({
+  habitat: {
+    getByIds: (habitatIds: number[]) => client.query({
+      // todo this is wrong for habitat
       query: gql`
-        query arbitrary($habitatId: Int!) {
-          plant(habitatId: $habitatId) {
+        query arbitrary($habitatIds: [Int]!) {
+          habitat(id: $habitatIds) {
             id
             name
+            plants {
+              id
+              name
+              habitatId
+              imageUrl
+              lastWatered
+              waterInterval
+              createdAt
+              updatedAt
+            }
           }
         }
       `,
-      variables: { habitatId },
+      variables: { habitatIds },
     }),
   },
 };
