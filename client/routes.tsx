@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Route, Switch, withRouter} from 'react-router-dom';
 import Habitat from "./components/Habitat";
 
-const Routes = props => {
+const Routes = () => {
   return (
     <Switch>
       <Route path="/habitats/:id" component={Habitat} />

@@ -3,6 +3,7 @@
   "extends": ["tslint:recommended"],
   "jsRules": {},
   "rules": {
+    "arrow-parens": false,
     "eofline": false,
     "no-trailing-whitespace": false,
     "comment-format": false,
@@ -10,7 +11,8 @@
     "no-console": false,
     "one-line": false,
     "no-consecutive-blank-lines": false,
-    "curly": false
+    "curly": false,
+    "object-literal-sort-keys": false
   },
   "rulesDirectory": []
 }
