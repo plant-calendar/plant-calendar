@@ -1,42 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import styled from 'styled-components';
+import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import Tile from '../Tile';
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {actions as habitatActions, selectors as habitatSelectors} from '../../store/habitat';
-import {COLORS} from "../style-config";
+import {PlantToWater} from "./plant-tiles/to-water";
+import {NoWaterNeededPlant} from "./plant-tiles/no-water-needed";
+import {PlantTileWrapper} from "./plant-tiles/wrapper";
+import {
+  AllTilesContainer,
+  SingleTileContainer,
+  Title,
+  Container,
+} from "./styled-components";
 import AddTile from "../AddTile";
 import PlantTransition from './plant-transition';
-import JustWateredTile from './just-watered-tile';
+import JustWateredTile from './plant-tiles/just-watered';
+import {NonSubscribedPlant} from './plant-tiles/non-subscribed';
 
-interface IHabitatComponentProps {
+export interface IHabitatComponentProps {
   name: string;
-  plants: IPlant[];
+  plantsToWater: IPlant[];
+  plantsThatDontNeedWater: IPlant[];
+  nonSubscribedPlants: IPlant[];
   match: any;
   images: { [plantId: string]: object };
   fetchHabitat: (habitatId: number) => void;
 }
 
-const Container = styled.div`
-  padding-left: 32px;
-  padding-right: 32px;
-`;
-
-const Title = styled.div`
-  font-size: 24px;
-  color: ${COLORS.darkGreen};
-  margin-top: 50px;
-  margin-bottom: 45px;
-`;
-
-const AllTilesContainer = styled.div`
-  margin-top: 60px;
-`;
-
-const SingleTileContainer = styled.div`
-  margin-top: 60px;
-`;
 
 const Habitat = (props: IHabitatComponentProps) => {
   useEffect(
@@ -57,47 +49,57 @@ const Habitat = (props: IHabitatComponentProps) => {
     }, 2000);
   };
 
+  const plantTiles = [
+    ...props.plantsToWater.map(plant => justWateredPlantId === plant.id
+        ? <JustWateredTile plant={plant} />
+        : <PlantToWater plant={plant} />),
+    ...props.plantsThatDontNeedWater.map(plant => <NoWaterNeededPlant/>),
+    ...props.nonSubscribedPlants.map(plant => <NonSubscribedPlant/>),
+  ];
+
   return (
     <div>
       <Title>{props.name}</Title>
       <Container>
         <AddTile message="Add a plant"/>
         <AllTilesContainer>
-          {props.plants.map(
-            (plant: IPlant) => {
+          {props.plantsToWater.map(plant => {
               const tile = justWateredPlantId === plant.id
-                ? (<JustWateredTile />)
-                : (
-                  <PlantTransition
-                    onReachEnd={() => waterPlant(plant.id)}
-                    plantId={plant.id}>
-                    <Tile
-                      title={plant.name}
-                      details={`Last watered 3 days ago`}
-                      imageUrl={plant.imageUrl || ''}
-                    />
-                  </PlantTransition>
-                );
+                ? <JustWateredTile plant={plant} />
+                : <PlantToWater plant={plant} />;
               return (
-                <SingleTileContainer key={`tile-container-${plant.id}`}>
-                  {tile}
-                </SingleTileContainer>
+                <div  key={`tile-container-${plant.id}`}>
+                  <PlantTileWrapper
+                    plant={plant}
+                    canWater={justWateredPlantId !== plant.id}
+                    onReachEndOfWaterTransition={() => waterPlant(plant.id)}>
+                    {tile}
+                  </PlantTileWrapper>
+                </div>
               );
             },
           )}
+          {/*{props.plantsThatDontNeedWater.map(plant => (*/}
+          {/*  <div  key={`tile-container-${plant.id}`}>*/}
+          {/*    <PlantTileWrapper*/}
+          {/*      plant={plant}*/}
+          {/*      tile={tile}*/}
+          {/*      canWater={justWateredPlantId !== plant.id}*/}
+          {/*      onReachedEndOfWaterTransition={() => waterPlant(plant.id)}/>*/}
+          {/*  </div>*/}
+          {/*))}*/}
         </AllTilesContainer>
       </Container>
     </div>
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
-  const habitatId: number = +ownProps.match.params.id;
-  return {
-    name: habitatSelectors.habitatById(habitatId, state).name,
-    plants: habitatSelectors.plantsByHabitatId(habitatId, state),
-  };
-};
+const mapStateToProps = (state, ownProps) => ({
+  name: habitatSelectors.habitatById(state, ownProps).name,
+  plantsToWater: habitatSelectors.plantsToWater(state, ownProps),
+  plantsThatDontNeedWater: habitatSelectors.plantsThatDontNeedWater(state, ownProps),
+  nonSubscribedPlants: habitatSelectors.nonSubscribedPlants(state, ownProps),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   fetchHabitat: (habitatId: number) => dispatch(habitatActions.fetchHabitatsByIds([habitatId])),

@@ -5,8 +5,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const overlayPrimaryColor = 'rgba(61, 84, 96, .4)';
-const overlaySecondaryColor = 'rgba(0, 66, 100, 0.8)';
+const overlayPrimaryColor = 'rgba(0, 66, 100, .6)';
 
 const TransitionOverlay = styled.div`
     position: absolute;
@@ -16,10 +15,10 @@ const TransitionOverlay = styled.div`
     height:0%;
     
     background:
-      radial-gradient(circle at 0% 50%, rgba(96, 16, 48, 0) 9px, ${overlaySecondaryColor} 10px, rgba(96, 16, 48, 0) 11px) 0px 10px,
-      radial-gradient(circle at 100% 50%, rgba(96, 16, 48, 0) 9px, ${overlaySecondaryColor} 10px, rgba(96, 16, 48, 0) 11px) 0px 10px,
-      ${overlayPrimaryColor};
-      background-size: 20px 20px;
+      radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),
+      radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;
+      background-color: ${overlayPrimaryColor};
+      background-size:75px 100px;
 `;
 
 const Wave = styled.div`

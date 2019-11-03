@@ -23,6 +23,7 @@ export default {
               createdAt
               updatedAt
             }
+            subscriptions
           }
         }
       `,

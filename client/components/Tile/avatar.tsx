@@ -12,7 +12,7 @@ const AvatarImage = styled.img`
   margin-left: 10%;
 `;
 
-const Avatar = (props) => {
+const Avatar = props => {
   return (
     <Container>
       <AvatarImage src="https://static.onecms.io/wp-content/uploads/sites/37/2016/05/15233355/zz-plant_AdobeStock_213696329_0.jpg" />
