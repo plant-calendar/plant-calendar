@@ -6,28 +6,29 @@ const client = new ApolloClient({});
 
 export default {
   habitat: {
-    getByIds: (habitatIds: number[]) => client.query({
-      // todo this is wrong for habitat
-      query: gql`
-        query arbitrary($habitatIds: [Int]!) {
-          habitat(id: $habitatIds) {
-            id
-            name
-            plants {
+    getByIds: (habitatIds: number[]) =>
+      client.query({
+        // todo this is wrong for habitat
+        query: gql`
+          query arbitrary($habitatIds: [Int]!) {
+            habitat(id: $habitatIds) {
               id
               name
-              habitatId
-              imageUrl
-              lastWatered
-              waterInterval
-              createdAt
-              updatedAt
+              plants {
+                id
+                name
+                habitatId
+                imageUrl
+                lastWatered
+                waterInterval
+                createdAt
+                updatedAt
+              }
+              subscriptions
             }
-            subscriptions
           }
-        }
-      `,
-      variables: { habitatIds },
-    }),
+        `,
+        variables: { habitatIds },
+      }),
   },
 };
