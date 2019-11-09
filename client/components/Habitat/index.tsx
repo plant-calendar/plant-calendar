@@ -5,7 +5,7 @@ import { plantDataAccessors } from '../../../common/data-accessors/plant';
 import Tile from '../Tile';
 import { IPlant } from '../../../server/db/models/plant/plant.interface';
 import {
-  actions as habitatActions,
+  actions as habitatActionCreators,
   selectors as habitatSelectors,
 } from '../../store/habitat';
 import { PlantToWater } from './plant-tiles/to-water';
@@ -21,6 +21,7 @@ import AddTile from '../AddTile';
 import PlantTransition from './plant-transition';
 import JustWateredTile from './plant-tiles/just-watered';
 import { NonSubscribedPlant } from './plant-tiles/non-subscribed';
+import { waterPlantById } from '../../store/plants/actions';
 
 export interface IHabitatComponentProps {
   name: string;
@@ -30,6 +31,7 @@ export interface IHabitatComponentProps {
   match: any;
   images: { [plantId: string]: object };
   fetchHabitat: (habitatId: number) => void;
+  waterPlantById: Function;
 }
 
 const Habitat = (props: IHabitatComponentProps) => {
@@ -41,11 +43,13 @@ const Habitat = (props: IHabitatComponentProps) => {
   const waterPlant = plantId => {
     // make the PUT/PATCH to water the plant here
     console.log(`watering plant ${plantId}`);
+    props.waterPlantById(plantId, () => {
+      setTimeout(() => {
+        props.fetchHabitat(+props.match.params.id);
+      }, 2000);
+    });
     setJustWateredPlantId(plantId);
     // allow the just watered message to stay there a couple seconds
-    setTimeout(() => {
-      console.log('refetching plants!');
-    }, 2000);
   };
 
   const plantTiles = [
@@ -111,8 +115,15 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchHabitat: (habitatId: number) =>
-    dispatch(habitatActions.fetchHabitatsByIds([habitatId])),
+  fetchHabitat: (habitatId: number) => {
+    const { type, habitatIds } = habitatActionCreators.fetchHabitatsByIds([
+      habitatId,
+    ]);
+    dispatch({ type, habitatIds });
+  },
+  waterPlantById: (plantId: number, callback: Function) => {
+    dispatch(waterPlantById(plantId, callback));
+  },
 });
 
 export default withRouter(

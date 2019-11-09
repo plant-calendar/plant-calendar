@@ -1,4 +1,4 @@
-import {GraphQLSchema, GraphQLObjectType} from "graphql";
+import { GraphQLSchema, GraphQLObjectType } from 'graphql';
 import plant from './plant';
 import habitat from './habitat';
 
@@ -22,6 +22,14 @@ const queryType = new GraphQLObjectType({
   name: 'Query',
 });
 
+const mutationType = new GraphQLObjectType({
+  fields: () => ({
+    plant: plant.updatePlant,
+  }),
+  name: 'Mutation',
+});
+
 export default new GraphQLSchema({
   query: queryType,
+  mutation: mutationType,
 });
