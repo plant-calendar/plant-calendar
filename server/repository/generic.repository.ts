@@ -1,4 +1,4 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize';
 
 export default class {
   private model;
@@ -15,7 +15,7 @@ export default class {
    * @param params
    */
   public async findAll(params?: object) {
-    console.log("generic repository received find all params of", params);
+    console.log('generic repository received find all params of', params);
     if (!params || !Object.keys(params).length) {
       return this.model.findAll();
     }
@@ -29,4 +29,14 @@ export default class {
     return this.model.findAll({ where });
   }
 
+  public async updateMany(ids: number[], updates: object) {
+    return this.model.update({
+      updates,
+      where: {
+        id: {
+          [Sequelize.Op.in]: ids,
+        },
+      },
+    });
+  }
 }

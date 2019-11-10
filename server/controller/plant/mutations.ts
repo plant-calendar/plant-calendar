@@ -4,7 +4,7 @@ import { plantType, configs } from './types';
 
 const plantService = new PlantService();
 
-const plantMutation = {
+const updatePlant = {
   args: {
     habitatId: configs.habitatIdConfig,
     name: configs.nameConfig,
@@ -12,8 +12,11 @@ const plantMutation = {
     waterInterval: configs.waterIntervalConfig,
     id: configs.idConfig,
   },
-  resolve: (_, args) => plantService.findAll(args),
+  resolve: (_, args) => {
+    console.log(args);
+    // plantService.updateMany(args),
+  },
   type: graphQl.GraphQLList(plantType),
 };
 
-export { plantMutation };
+export { updatePlant };
