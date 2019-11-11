@@ -24,7 +24,9 @@
   "homepage": "https://github.com/plant-calendar/plant-calendar#readme",
   "dependencies": {
     "apollo-boost": "^0.4.4",
+    "axios": "^0.19.0",
     "compression": "^1.7.4",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql": "^14.5.8",

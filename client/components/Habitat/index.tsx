@@ -46,23 +46,40 @@ const Habitat = (props: IHabitatComponentProps) => {
     props.waterPlantById(plantId, () => {
       setTimeout(() => {
         props.fetchHabitat(+props.match.params.id);
+        setJustWateredPlantId(null);
       }, 2000);
     });
     setJustWateredPlantId(plantId);
     // allow the just watered message to stay there a couple seconds
   };
 
-  const plantTiles = [
-    ...props.plantsToWater.map(plant =>
+  const getTileWithContainer = (tile, plant) => (
+    <div key={`tile-container-${plant.id}`}>
+      <PlantTileWrapper
+        plant={plant}
+        canWater={justWateredPlantId !== plant.id}
+        onReachEndOfWaterTransition={() => waterPlant(plant.id)}
+      >
+        {tile}
+      </PlantTileWrapper>
+    </div>
+  );
+
+  const plantsToWaterTiles = props.plantsToWater.map(plant => {
+    const tile =
       justWateredPlantId === plant.id ? (
         <JustWateredTile plant={plant} />
       ) : (
         <PlantToWater plant={plant} />
-      )
-    ),
-    ...props.plantsThatDontNeedWater.map(plant => <NoWaterNeededPlant />),
-    ...props.nonSubscribedPlants.map(plant => <NonSubscribedPlant />),
-  ];
+      );
+    return getTileWithContainer(tile, plant);
+  });
+  const noWaterNeededTiles = props.plantsThatDontNeedWater.map(plant =>
+    getTileWithContainer(<NoWaterNeededPlant />, plant)
+  );
+  const nonSubscribedTiles = props.nonSubscribedPlants.map(plant =>
+    getTileWithContainer(<NonSubscribedPlant />, plant)
+  );
 
   return (
     <div>
@@ -70,34 +87,9 @@ const Habitat = (props: IHabitatComponentProps) => {
       <Container>
         <AddTile message="Add a plant" />
         <AllTilesContainer>
-          {props.plantsToWater.map(plant => {
-            const tile =
-              justWateredPlantId === plant.id ? (
-                <JustWateredTile plant={plant} />
-              ) : (
-                <PlantToWater plant={plant} />
-              );
-            return (
-              <div key={`tile-container-${plant.id}`}>
-                <PlantTileWrapper
-                  plant={plant}
-                  canWater={justWateredPlantId !== plant.id}
-                  onReachEndOfWaterTransition={() => waterPlant(plant.id)}
-                >
-                  {tile}
-                </PlantTileWrapper>
-              </div>
-            );
-          })}
-          {/*{props.plantsThatDontNeedWater.map(plant => (*/}
-          {/*  <div  key={`tile-container-${plant.id}`}>*/}
-          {/*    <PlantTileWrapper*/}
-          {/*      plant={plant}*/}
-          {/*      tile={tile}*/}
-          {/*      canWater={justWateredPlantId !== plant.id}*/}
-          {/*      onReachedEndOfWaterTransition={() => waterPlant(plant.id)}/>*/}
-          {/*  </div>*/}
-          {/*))}*/}
+          {plantsToWaterTiles}
+          {noWaterNeededTiles}
+          {nonSubscribedTiles}
         </AllTilesContainer>
       </Container>
     </div>
@@ -116,6 +108,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchHabitat: (habitatId: number) => {
+    console.log('called habitat.props.fetchHabitat');
     const { type, habitatIds } = habitatActionCreators.fetchHabitatsByIds([
       habitatId,
     ]);

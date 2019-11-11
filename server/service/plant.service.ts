@@ -12,5 +12,11 @@ export default class {
     return this.repository.findAll(params);
   }
 
-  public async updateMany(ids: number[], updates: object) {}
+  public async update(update: { id: number; [updatedProperty: string]: any }) {
+    const { id, ...rest } = update;
+    if (!id) {
+      throw new Error(`Cannot update plant - must include an id!`);
+    }
+    return this.repository.update(id, rest);
+  }
 }

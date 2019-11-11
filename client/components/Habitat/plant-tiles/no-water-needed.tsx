@@ -1,3 +1,3 @@
 export const NoWaterNeededPlant = props => {
-  return 'none';
+  return 'no water needed';
 };

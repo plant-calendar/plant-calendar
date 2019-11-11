@@ -29,14 +29,8 @@ export default class {
     return this.model.findAll({ where });
   }
 
-  public async updateMany(ids: number[], updates: object) {
-    return this.model.update({
-      updates,
-      where: {
-        id: {
-          [Sequelize.Op.in]: ids,
-        },
-      },
-    });
+  public async update(id: number, updates: object) {
+    console.log(`repo received id of ${id} and updates of ${updates}`);
+    return this.model.update(updates, { where: { id } });
   }
 }

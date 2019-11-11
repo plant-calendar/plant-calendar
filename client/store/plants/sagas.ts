@@ -5,8 +5,8 @@ import TYPES from './types';
 
 function* waterPlantById({ plantId, callback }) {
   try {
-    // TODO: add this in.
-    // yield call(api.plants.waterById, plantId);
+    console.log(`saga trying to water`);
+    yield call(api.plant.waterById, plantId);
     if (typeof callback === 'function') {
       callback();
     }

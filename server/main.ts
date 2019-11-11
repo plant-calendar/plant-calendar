@@ -8,10 +8,36 @@ const PORT = process.env.PORT || 8080;
 const app = express();
 module.exports = app;
 import schema from './controller';
+import cors from 'cors';
 
 const createApp = () => {
   // logging middleware
   app.use(morgan('dev'));
+
+  app.use(cors());
+  app.use(function(req, res, next) {
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Request methods you wish to allow
+    res.setHeader(
+      'Access-Control-Allow-Methods',
+      'GET, POST, OPTIONS, PUT, PATCH, DELETE'
+    );
+
+    // Request headers you wish to allow
+    res.setHeader(
+      'Access-Control-Allow-Headers',
+      'X-Requested-With,content-type'
+    );
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
+    next();
+  });
 
   // body parsing middleware
   app.use(express.json());
@@ -29,7 +55,7 @@ const createApp = () => {
     if (path.extname(req.path).length) {
       console.log(
         'this is the req path that is giving us problems: ',
-        req.path,
+        req.path
       );
       const err = new Error('Not found');
       // @ts-ignore
@@ -40,11 +66,13 @@ const createApp = () => {
     }
   });
 
-
-  app.use('/graphql',  graphqlHTTP({
-    schema,
-    graphiql: true,
-  }));
+  app.use(
+    '/graphql',
+    graphqlHTTP({
+      schema,
+      graphiql: true,
+    })
+  );
 
   app.use('*', (req: any, res: any) => {
     res.sendFile(path.join(__dirname, '..', 'public/index.html'));
@@ -60,7 +88,7 @@ const createApp = () => {
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
   const server = app.listen(PORT, () =>
-    console.log(`Mixing it up on port ${PORT}`),
+    console.log(`Mixing it up on port ${PORT}`)
   );
 };
 

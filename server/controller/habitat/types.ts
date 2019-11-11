@@ -1,6 +1,6 @@
-import {GraphQLInt, GraphQLList} from "graphql";
-import * as graphQl from "graphql";
-import {IHabitat} from "../../db/models/habitat/habitat.interface";
+import { GraphQLInt, GraphQLList } from 'graphql';
+import * as graphQl from 'graphql';
+import { IHabitat } from '../../db/models/habitat/habitat.interface';
 import plants from '../plant';
 import PlantService from '../../service/plant.service';
 
@@ -14,7 +14,7 @@ const habitatType = new graphQl.GraphQLObjectType({
     name: nameConfig,
     plants: {
       type: GraphQLList(plants.plantType),
-      resolve: (root) => {
+      resolve: root => {
         const dataValues: IHabitat = root.dataValues;
         return plantService.findAll({ habitatId: dataValues.id });
       },
@@ -22,7 +22,6 @@ const habitatType = new graphQl.GraphQLObjectType({
     subscriptions: {
       type: GraphQLList(GraphQLInt), // list of plant ids
       resolve: root => {
-        console.log("root at subscriptions field of habitat", root);
         return [1];
       },
     },

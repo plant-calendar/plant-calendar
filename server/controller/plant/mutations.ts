@@ -14,7 +14,7 @@ const updatePlant = {
   },
   resolve: (_, args) => {
     console.log(args);
-    // plantService.updateMany(args),
+    return plantService.update(args);
   },
   type: graphQl.GraphQLList(plantType),
 };
