@@ -1,14 +1,8 @@
-import {IPlant} from "../db/models/plant/plant.interface";
-import GenericRepository from "../repository/generic.repository";
+import GenericService from "./generic.service";
 import Plant from "../db/models/plant/plant";
 
-export default class {
-  private repository;
+export default class extends GenericService {
   constructor() {
-    this.repository = new GenericRepository(Plant);
-  }
-
-  public async findAll(params?: object): Promise<IPlant[]> {
-    return this.repository.findAll(params);
+    super(Plant);
   }
 }

@@ -1,14 +1,8 @@
-import {IHabitat} from "../db/models/habitat/habitat.interface";
-import GenericRepository from "../repository/generic.repository";
 import Habitat from "../db/models/habitat/habitat";
+import GenericService from './generic.service';
 
-export default class {
-  private repository;
+export default class extends GenericService {
   constructor() {
-    this.repository = new GenericRepository(Habitat);
-  }
-
-  public async findAll(params?: object): Promise<IHabitat[]> {
-    return this.repository.findAll(params);
+    super(Habitat);
   }
 }

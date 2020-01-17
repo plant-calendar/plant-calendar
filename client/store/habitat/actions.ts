@@ -1,7 +1,8 @@
+import {entityId} from "../../../server/db/types";
 import {IStoreHabitat} from "./interfaces/store-habitat.interface";
 import TYPES from './types';
 
-export function fetchHabitatsByIds(habitatIds: number[]) {
+export function fetchHabitatsByIds(habitatIds: entityId[]) {
   return { type: TYPES.HABITATS_FETCH_BY_IDS_REQUESTED, habitatIds };
 }
 

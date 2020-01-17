@@ -2,9 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {plantDataAccessors} from "../../../common/data-accessors/plant";
+import {entityId} from "../../../server/db/types";
 import Tile from '../Tile';
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {actions as habitatActions, selectors as habitatSelectors} from '../../store/habitat';
+import {actions as plantActions} from '../../store/plant';
 import {PlantToWater} from "./plant-tiles/to-water";
 import {NoWaterNeededPlant} from "./plant-tiles/no-water-needed";
 import {PlantTileWrapper} from "./plant-tiles/wrapper";
@@ -26,27 +28,31 @@ export interface IHabitatComponentProps {
   nonSubscribedPlants: IPlant[];
   match: any;
   images: { [plantId: string]: object };
-  fetchHabitat: (habitatId: number) => void;
+  fetchHabitat: (habitatId: entityId) => void;
+  waterPlantById: (plantId: entityId, callback?) => void;
 }
 
 
 const Habitat = (props: IHabitatComponentProps) => {
+  const habitatId = +props.match.params.id;
   useEffect(
     () => {
-      props.fetchHabitat(+props.match.params.id);
+      props.fetchHabitat(habitatId);
     },
     [],
   );
   const [justWateredPlantId, setJustWateredPlantId] = useState(null);
 
   const waterPlant = (plantId) => {
-    // make the PUT/PATCH to water the plant here
     console.log(`watering plant ${plantId}`);
-    setJustWateredPlantId(plantId);
-    // allow the just watered message to stay there a couple seconds
-    setTimeout(() => {
-      console.log('refetching plants!');
-    }, 2000);
+    props.waterPlantById(plantId, () => {
+      setJustWateredPlantId(plantId);
+      // allow the just watered message to stay there a couple seconds
+      setTimeout(() => {
+        console.log('refetching habitat!');
+        props.fetchHabitat(habitatId);
+      }, 2000);
+    });
   };
 
   const plantTiles = [
@@ -102,7 +108,8 @@ const mapStateToProps = (state, ownProps) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchHabitat: (habitatId: number) => dispatch(habitatActions.fetchHabitatsByIds([habitatId])),
+  fetchHabitat: (habitatId: entityId) => dispatch(habitatActions.fetchHabitatsByIds([habitatId])),
+  waterPlantById: (plantId: entityId, callback?) => dispatch(plantActions.waterPlantById(plantId, callback)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Habitat));

@@ -21,7 +21,14 @@ const queryType = new GraphQLObjectType({
   }),
   name: 'Query',
 });
+const mutationType = new GraphQLObjectType({
+  fields: () => ({
+    plant: plant.plantMutation,
+  }),
+  name: 'Mutation',
+});
 
 export default new GraphQLSchema({
   query: queryType,
+  mutation: mutationType,
 });

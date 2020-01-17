@@ -1,4 +1,5 @@
 import ApolloClient, { gql } from 'apollo-boost';
+import {entityId} from "../../server/db/types";
 
 // by default uses the /graphql endpoint on the server you are on
 // can optionally provide uri param if that is not the endpoint you want
@@ -29,5 +30,8 @@ export default {
       `,
       variables: { habitatIds },
     }),
+  },
+  plant: {
+    updateById: (id: entityId, plant) => undefined,
   },
 };

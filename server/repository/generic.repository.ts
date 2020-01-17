@@ -1,4 +1,5 @@
 import Sequelize from "sequelize";
+import {entityId} from "../db/types";
 
 export default class {
   private model;
@@ -29,4 +30,7 @@ export default class {
     return this.model.findAll({ where });
   }
 
+  public async updateOne(id: entityId, update: object) {
+    return this.model.update(update, { where: { id }});
+  }
 }
