@@ -1,4 +1,5 @@
 import ApolloClient, { gql } from 'apollo-boost';
+import {IPlant} from "../../server/db/models/plant/plant.interface";
 import {entityId} from "../../server/db/types";
 
 // by default uses the /graphql endpoint on the server you are on
@@ -41,6 +42,25 @@ export default {
         }
       `,
       variables: { ids },
+    }),
+    createOne: async (plant: IPlant) => client.mutate({
+      mutation: gql`
+        mutation CreatePlant($name: String!, $lastWatered: String!, $waterInterval: Int!, $habitatId: Int!) {
+          createPlant(name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId) {
+            id
+            name
+            habitatId
+            lastWatered
+            waterInterval
+          }
+        }
+      `,
+      variables: {
+        name: plant.name,
+        lastWatered: plant.lastWatered,
+        waterInterval: plant.waterInterval,
+        habitatId: plant.habitatId,
+      },
     }),
   },
 };

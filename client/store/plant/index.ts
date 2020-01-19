@@ -1,4 +1,4 @@
-import {waterByIds} from "./actions";
+import {waterByIds, createOne} from "./actions";
 
-const actions = {waterByIds};
+const actions = {waterByIds, createOne};
 export {actions};

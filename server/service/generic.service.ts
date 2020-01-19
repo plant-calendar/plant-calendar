@@ -18,4 +18,8 @@ export default class {
   public async updateMany(ids: entityId[], update: object): Promise<entityId[]> {
     return this.repository.updateMany(ids, update);
   }
+
+  public async createOne(entity: object): Promise<object> {
+    return this.repository.createOne(entity);
+  }
 }

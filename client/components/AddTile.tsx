@@ -23,9 +23,14 @@ const Message = styled.div`
   margin-left: 10px;
 `;
 
-const AddTile = (props) => {
+interface IAddTileProps {
+  onClick: () => any;
+  message?: string;
+}
+
+const AddTile = (props: IAddTileProps) => {
   return (
-    <HorizontalContainer>
+    <HorizontalContainer onClick={props.onClick}>
       <VerticalContainer>
         <PlusSign height={40} width={40} />
       </VerticalContainer>

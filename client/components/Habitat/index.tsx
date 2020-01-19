@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import {entityId} from "../../../server/db/types";
+import {CreatePlant} from "../CreatePlantModal";
 import Tile from '../Tile';
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {actions as habitatActions, selectors as habitatSelectors} from '../../store/habitat';
@@ -42,7 +43,7 @@ const Habitat = (props: IHabitatComponentProps) => {
     [],
   );
   const [justWateredPlantIds, setJustWateredPlantIds] = useState([]);
-  const plantWasJustWatered = (plantId: entityId): boolean => justWateredPlantIds.includes(plantId);
+  const [createPlantOpen, setCreatePlantOpen] = useState(false);
 
   const waterPlants = (plantIds: entityId[]) => {
     props.waterPlantsByIds(plantIds, () => {
@@ -52,6 +53,7 @@ const Habitat = (props: IHabitatComponentProps) => {
     });
   };
 
+  const plantWasJustWatered = (plantId: entityId): boolean => justWateredPlantIds.includes(plantId);
   const plantTiles = [
     ...props.plantsToWater.map(plant => ({
         plant,
@@ -61,11 +63,16 @@ const Habitat = (props: IHabitatComponentProps) => {
     ...props.nonSubscribedPlants.map(plant => ({ plant, tile: <NonSubscribedPlant/> })),
   ];
 
+  const onCreatePlant = () => {
+    setCreatePlantOpen(false);
+    props.fetchHabitat(habitatId);
+  };
   return (
     <div>
+      {createPlantOpen ? <CreatePlant habitatId={habitatId} onCreate={onCreatePlant} onCancel={() => setCreatePlantOpen(false)}/> : null}
       <Title>{props.name}</Title>
       <Container>
-        <AddTile message="Add a plant"/>
+        <AddTile message="Add a plant" onClick={() => setCreatePlantOpen(true)}/>
         <AllTilesContainer>
           {plantTiles.map(({ plant, tile }) => (
             <div  key={`tile-container-${plant.id}`}>

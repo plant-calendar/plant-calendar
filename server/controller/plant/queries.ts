@@ -5,13 +5,7 @@ import {plantType, configs} from './types';
 const plantService = new PlantService();
 
 const getPlants = {
-  args: {
-    habitatId: configs.habitatIdConfig,
-    name: configs.nameConfig,
-    lastWatered: configs.lastWateredConfig,
-    waterInterval: configs.waterIntervalConfig,
-    id: configs.idConfig,
-  },
+  args: configs,
   resolve: (_, args) => plantService.findAll(args),
   type: graphQl.GraphQLList(plantType),
 };

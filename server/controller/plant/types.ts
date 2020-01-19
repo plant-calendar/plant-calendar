@@ -7,28 +7,22 @@ const lastWateredConfig = {type: graphQl.GraphQLString};
 const waterIntervalConfig = {type: graphQl.GraphQLInt};
 const idConfig = {type: graphQl.GraphQLInt};
 
+const configs = {
+  habitatId: habitatIdConfig,
+  name: nameConfig,
+  imageUrl: imageUrlConfig,
+  lastWatered: lastWateredConfig,
+  waterInterval: waterIntervalConfig,
+  createdAt: {type: graphQl.GraphQLString},
+  updatedAt: {type: graphQl.GraphQLString},
+  id: idConfig,
+};
+
 const plantType = new graphQl.GraphQLObjectType({
-  fields: {
-    habitatId: habitatIdConfig,
-    name: nameConfig,
-    imageUrl: imageUrlConfig,
-    lastWatered: lastWateredConfig,
-    waterInterval: waterIntervalConfig,
-    createdAt: {type: graphQl.GraphQLString},
-    updatedAt: {type: graphQl.GraphQLString},
-    id: idConfig,
-  },
+  fields: configs,
   name: 'Plant',
 });
 
-const configs = {
-  habitatIdConfig,
-  nameConfig,
-  imageUrlConfig,
-  lastWateredConfig,
-  waterIntervalConfig,
-  idConfig,
-};
 export {
   plantType,
   configs,
