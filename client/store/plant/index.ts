@@ -1,4 +1,4 @@
-import {waterPlantById} from "./actions";
+import {waterByIds} from "./actions";
 
-const actions = {waterPlantById};
+const actions = {waterByIds};
 export {actions};

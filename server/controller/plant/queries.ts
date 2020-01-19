@@ -4,7 +4,7 @@ import {plantType, configs} from './types';
 
 const plantService = new PlantService();
 
-const plantQuery = {
+const getPlants = {
   args: {
     habitatId: configs.habitatIdConfig,
     name: configs.nameConfig,
@@ -16,4 +16,5 @@ const plantQuery = {
   type: graphQl.GraphQLList(plantType),
 };
 
-export {plantQuery};
+const plantQueries = { getPlants };
+export {plantQueries};

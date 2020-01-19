@@ -14,4 +14,8 @@ export default class {
   public async updateOne(id: entityId, update: object): Promise<object> {
     return this.repository.updateOne(id, update);
   }
+
+  public async updateMany(ids: entityId[], update: object): Promise<entityId[]> {
+    return this.repository.updateMany(ids, update);
+  }
 }

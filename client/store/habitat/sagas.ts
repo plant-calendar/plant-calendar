@@ -7,7 +7,7 @@ function* fetchHabitatsByIds({ habitatIds }) {
   console.log('called fetchHabitatsByIds with habitatIds', habitatIds);
   const { data } = yield call(api.habitat.getByIds, habitatIds);
   console.log("data received", data);
-  yield put(setHabitats(data.habitat));
+  yield put(setHabitats(data.getHabitats));
 }
 
 export default [

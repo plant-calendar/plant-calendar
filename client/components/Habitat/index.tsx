@@ -29,7 +29,7 @@ export interface IHabitatComponentProps {
   match: any;
   images: { [plantId: string]: object };
   fetchHabitat: (habitatId: entityId) => void;
-  waterPlantById: (plantId: entityId, callback?) => void;
+  waterPlantsByIds: (plantIds: entityId[], callback?) => void;
 }
 
 
@@ -41,26 +41,24 @@ const Habitat = (props: IHabitatComponentProps) => {
     },
     [],
   );
-  const [justWateredPlantId, setJustWateredPlantId] = useState(null);
+  const [justWateredPlantIds, setJustWateredPlantIds] = useState([]);
+  const plantWasJustWatered = (plantId: entityId): boolean => justWateredPlantIds.includes(plantId);
 
-  const waterPlant = (plantId) => {
-    console.log(`watering plant ${plantId}`);
-    props.waterPlantById(plantId, () => {
-      setJustWateredPlantId(plantId);
-      // allow the just watered message to stay there a couple seconds
-      setTimeout(() => {
-        console.log('refetching habitat!');
-        props.fetchHabitat(habitatId);
-      }, 2000);
+  const waterPlants = (plantIds: entityId[]) => {
+    props.waterPlantsByIds(plantIds, () => {
+      setJustWateredPlantIds(plantIds);
+      // allow the just watered message to stay there a couple seconds, then refresh all plants
+      setTimeout(() => props.fetchHabitat(habitatId), 2000);
     });
   };
 
   const plantTiles = [
-    ...props.plantsToWater.map(plant => justWateredPlantId === plant.id
-        ? <JustWateredTile plant={plant} />
-        : <PlantToWater plant={plant} />),
-    ...props.plantsThatDontNeedWater.map(plant => <NoWaterNeededPlant/>),
-    ...props.nonSubscribedPlants.map(plant => <NonSubscribedPlant/>),
+    ...props.plantsToWater.map(plant => ({
+        plant,
+        tile: plantWasJustWatered(plant.id) ? <JustWateredTile plant={plant} /> : <PlantToWater plant={plant} />,
+      })),
+    ...props.plantsThatDontNeedWater.map(plant => ({ plant, tile: <NoWaterNeededPlant plant={plant} /> })),
+    ...props.nonSubscribedPlants.map(plant => ({ plant, tile: <NonSubscribedPlant/> })),
   ];
 
   return (
@@ -69,31 +67,16 @@ const Habitat = (props: IHabitatComponentProps) => {
       <Container>
         <AddTile message="Add a plant"/>
         <AllTilesContainer>
-          {props.plantsToWater.map(plant => {
-              const tile = justWateredPlantId === plant.id
-                ? <JustWateredTile plant={plant} />
-                : <PlantToWater plant={plant} />;
-              return (
-                <div  key={`tile-container-${plant.id}`}>
-                  <PlantTileWrapper
-                    plant={plant}
-                    canWater={justWateredPlantId !== plant.id}
-                    onReachEndOfWaterTransition={() => waterPlant(plant.id)}>
-                    {tile}
-                  </PlantTileWrapper>
-                </div>
-              );
-            },
-          )}
-          {/*{props.plantsThatDontNeedWater.map(plant => (*/}
-          {/*  <div  key={`tile-container-${plant.id}`}>*/}
-          {/*    <PlantTileWrapper*/}
-          {/*      plant={plant}*/}
-          {/*      tile={tile}*/}
-          {/*      canWater={justWateredPlantId !== plant.id}*/}
-          {/*      onReachedEndOfWaterTransition={() => waterPlant(plant.id)}/>*/}
-          {/*  </div>*/}
-          {/*))}*/}
+          {plantTiles.map(({ plant, tile }) => (
+            <div  key={`tile-container-${plant.id}`}>
+              <PlantTileWrapper
+                plant={plant}
+                canWater={!plantWasJustWatered(plant.id)}
+                onReachEndOfWaterTransition={() => waterPlants([plant.id])}>
+                {tile}
+              </PlantTileWrapper>
+            </div>
+          ))}
         </AllTilesContainer>
       </Container>
     </div>
@@ -109,7 +92,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchHabitat: (habitatId: entityId) => dispatch(habitatActions.fetchHabitatsByIds([habitatId])),
-  waterPlantById: (plantId: entityId, callback?) => dispatch(plantActions.waterPlantById(plantId, callback)),
+  waterPlantsByIds: (plantIds, callback?) => dispatch(plantActions.waterByIds(plantIds, callback)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Habitat));

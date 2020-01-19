@@ -3,15 +3,16 @@ import {entityId} from "../../server/db/types";
 
 // by default uses the /graphql endpoint on the server you are on
 // can optionally provide uri param if that is not the endpoint you want
-const client = new ApolloClient({});
+const client = new ApolloClient({
+
+});
 
 export default {
   habitat: {
-    getByIds: (habitatIds: number[]) => client.query({
-      // todo this is wrong for habitat
+    getByIds: async (habitatIds: entityId[]) => client.query({
       query: gql`
-        query arbitrary($habitatIds: [Int]!) {
-          habitat(id: $habitatIds) {
+        query GetHabitats($habitatIds: [Int]!) {
+          getHabitats(id: $habitatIds) {
             id
             name
             plants {
@@ -29,9 +30,17 @@ export default {
         }
       `,
       variables: { habitatIds },
+      fetchPolicy: 'no-cache',
     }),
   },
   plant: {
-    updateById: (id: entityId, plant) => undefined,
+    waterByIds: async (ids: entityId[]) => client.mutate({
+      mutation: gql`
+        mutation WaterPlantsByIds($ids: [Int]!) {
+          waterPlantsByIds(ids: $ids)
+        }
+      `,
+      variables: { ids },
+    }),
   },
 };

@@ -22,8 +22,7 @@ const habitatType = new graphQl.GraphQLObjectType({
     subscriptions: {
       type: GraphQLList(GraphQLInt), // list of plant ids
       resolve: root => {
-        console.log("root at subscriptions field of habitat", root);
-        return [1];
+        return [1, 2];
       },
     },
   },

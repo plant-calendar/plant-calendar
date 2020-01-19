@@ -4,15 +4,14 @@ import HabitatService from '../../service/habitat.service';
 
 const habitatService = new HabitatService();
 
-const habitatQuery = {
+const getHabitats = {
   args: {
     id: { type: graphQl.GraphQLList(graphQl.GraphQLInt) },
     name: { type: graphQl.GraphQLList(graphQl.GraphQLString) },
   },
-  resolve: (_, args) => {
-    return habitatService.findAll(args);
-  },
+  resolve: (_, args) => habitatService.findAll(args),
   type: graphQl.GraphQLList(habitatType),
 };
 
-export {habitatQuery};
+const habitatQueries = { getHabitats };
+export {habitatQueries};

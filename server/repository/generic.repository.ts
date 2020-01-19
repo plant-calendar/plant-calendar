@@ -33,4 +33,8 @@ export default class {
   public async updateOne(id: entityId, update: object) {
     return this.model.update(update, { where: { id }});
   }
+
+  public async updateMany(ids: entityId[], update: object) {
+    return this.model.update(update, { where: { id: { [Sequelize.Op.in]: ids }}});
+  }
 }

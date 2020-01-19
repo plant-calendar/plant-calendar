@@ -1,4 +1,4 @@
 import { habitatType } from "./types";
-import { habitatQuery } from "./queries";
+import { habitatQueries } from "./queries";
 
-export default { habitatQuery, habitatType };
+export default { habitatQueries, habitatType };

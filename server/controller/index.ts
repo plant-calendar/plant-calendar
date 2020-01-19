@@ -16,14 +16,14 @@ import habitat from './habitat';
 
 const queryType = new GraphQLObjectType({
   fields: () => ({
-    plant: plant.plantQuery,
-    habitat: habitat.habitatQuery,
+    ...plant.plantQueries,
+    ...habitat.habitatQueries,
   }),
   name: 'Query',
 });
 const mutationType = new GraphQLObjectType({
   fields: () => ({
-    plant: plant.plantMutation,
+    ...plant.plantMutations,
   }),
   name: 'Mutation',
 });

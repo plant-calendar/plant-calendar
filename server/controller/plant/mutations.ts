@@ -1,21 +1,20 @@
+import {GraphQLList} from "graphql";
+import * as graphQl from "graphql";
 import PlantService from "../../service/plant.service";
 import {configs, plantType} from "./types";
 
 const plantService = new PlantService();
 
-const plantMutation = {
+const waterPlantsByIds = {
   args: {
-    habitatId: configs.habitatIdConfig,
-    name: configs.nameConfig,
-    lastWatered: configs.lastWateredConfig,
-    waterInterval: configs.waterIntervalConfig,
-    id: configs.idConfig,
+    ids: { type: graphQl.GraphQLList(graphQl.GraphQLInt) },
   },
   resolve: (_, args) => {
-    console.log('hello!!!!!!!');
-    return plantService.updateOne(args.id, args);
+    console.log('hello!!!!!!!, args: ', args);
+    return plantService.updateMany(args.ids, { lastWatered: new Date() });
   },
-  type: plantType,
+  type: graphQl.GraphQLList(graphQl.GraphQLInt),
 };
 
-export {plantMutation};
+const plantMutations = {waterPlantsByIds};
+export {plantMutations};

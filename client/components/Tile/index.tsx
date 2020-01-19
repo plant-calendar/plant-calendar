@@ -7,13 +7,8 @@ interface ITileProps {
   title: string;
   details: string;
   imageUrl?: string;
+  style?: object;
 }
-
-const StyledTile = styled.div`
- display: flex;
- justify-content: center;
- height: ${TILE_HEIGHT};
-`;
 
 const TileText = styled.div`
   display: flex;
@@ -34,6 +29,15 @@ const TileDetails = styled.div`
 `;
 
 const Tile = (props: ITileProps) => {
+  const style = props.style || {};
+  const getStyleFromKeyVal = (key, val) => `\n${key}: ${val};`;
+  const styleString = Object.keys(style).reduce(
+    (s, styleKey) => s + getStyleFromKeyVal(styleKey, style[styleKey]),
+    `display: flex;
+    justify-content: center;
+    height: ${TILE_HEIGHT};`,
+  );
+  const StyledTile = styled.div`${styleString}`;
   return (
     <div>
       <StyledTile>
