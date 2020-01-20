@@ -60,8 +60,8 @@ export default (props) => {
     timerId = setTimeout(() => doTransition(newHeight), 50);
   };
 
-  const onHoldTile = () => {
-    console.log('mouse entered triggered');
+  const onHoldTile = e => {
+    e.preventDefault();
     doTransition(0);
   };
   const onUnHoldTile = () => {
