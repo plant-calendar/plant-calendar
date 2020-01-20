@@ -2,13 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Avatar from "./avatar";
 import {COLORS, TILE_HEIGHT} from "../style-config";
-
-interface ITileProps {
-  title: string;
-  details: string;
-  imageUrl?: string;
-  style?: object;
-}
+import {ITagProps, Tag} from "./tag";
 
 const TileText = styled.div`
   display: flex;
@@ -18,18 +12,44 @@ const TileText = styled.div`
   color: ${COLORS.primaryGreen};
 `;
 
+const TitleRow = styled.div`
+  display: flex;
+  margin-bottom: 6px;
+`;
+
 const TileTitle = styled.div`
  font-weight: 600;
  color: ${COLORS.darkGreen};
- margin-bottom: 6px;
 `;
 
 const TileDetails = styled.div`
   font-size: 14px;
 `;
 
+const TagsContainer = styled.div`
+  display: flex;
+  padding-left: 10px;
+`;
+
+interface ITileProps {
+  title: string;
+  details: string;
+  imageUrl?: string;
+  style?: object;
+  alert?: boolean;
+  tags?: ITagProps[];
+}
+
 const Tile = (props: ITileProps) => {
-  const style = props.style || {};
+  const {
+    style = {},
+    imageUrl = "https://static.onecms.io/wp-content/uploads/sites/37/2016/05/15233355/zz-plant_AdobeStock_213696329_0.jpg",
+    tags = [],
+    alert = false,
+    title,
+    details,
+  } = props;
+
   const getStyleFromKeyVal = (key, val) => `\n${key}: ${val};`;
   const styleString = Object.keys(style).reduce(
     (s, styleKey) => s + getStyleFromKeyVal(styleKey, style[styleKey]),
@@ -38,13 +58,20 @@ const Tile = (props: ITileProps) => {
     height: ${TILE_HEIGHT};`,
   );
   const StyledTile = styled.div`${styleString}`;
+
   return (
     <div>
       <StyledTile>
-        <Avatar imageUrl={props.imageUrl}/>
+        <Avatar alert={alert} imageUrl={imageUrl}/>
         <TileText>
-          <TileTitle>{props.title}</TileTitle>
-          <TileDetails>{props.details}</TileDetails>
+          <TitleRow>
+            <TileTitle>{title}</TileTitle>
+            <TagsContainer>{
+              // @ts-ignore
+              ...tags.map(tagProps => <Tag {...tagProps} />)
+            }</TagsContainer>
+          </TitleRow>
+          <TileDetails>{details}</TileDetails>
         </TileText>
       </StyledTile>
     </div>

@@ -1,18 +1,8 @@
 import { fetchHabitatsByIds } from './actions';
 import reducer from './reducer';
-import {
-  habitatById,
-  plantsToWater,
-  plantsThatDontNeedWater,
-  nonSubscribedPlants,
-} from "./selectors";
+import { habitatById, getPlantDataForDisplayInHabitat } from "./selectors";
 
 const actions = { fetchHabitatsByIds };
-const selectors = {
-  habitatById,
-  plantsToWater,
-  plantsThatDontNeedWater,
-  nonSubscribedPlants,
-};
+const selectors = { habitatById, getPlantDataForDisplayInHabitat };
 export { actions, selectors };
 export default reducer;

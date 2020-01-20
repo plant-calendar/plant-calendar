@@ -1,21 +1,26 @@
 import React from 'react';
 import styled from 'styled-components';
+import {COLORS} from "../style-config";
 
 const Container = styled.div`
     width: 125px;
     height: 125px;
 `;
 
-const AvatarImage = styled.img`
-  border-radius: 50%;
-  height: 80%;
-  margin-left: 10%;
-`;
-
 const Avatar = props => {
+  console.log(props.imageUrl);
+  let style = `
+    border-radius: 50%;
+    height: 80%;
+    margin-left: 10%;
+  `;
+  if (props.alert) {
+    style += `border: 2px solid ${COLORS.notification};`;
+  }
+  const AvatarImage = styled.img`${style}`;
   return (
     <Container>
-      <AvatarImage src="https://static.onecms.io/wp-content/uploads/sites/37/2016/05/15233355/zz-plant_AdobeStock_213696329_0.jpg" />
+      <AvatarImage src={props.imageUrl} />
     </Container>
   );
 };

@@ -1,7 +1,7 @@
 import {IPlant} from "../../server/db/models/plant/plant.interface";
 
 export const plantDataAccessors = {
-    daysSinceWatered(plant: IPlant | { lastWatered: number, waterInterval: number }) {
+    daysSinceWatered(plant: IPlant | { lastWatered: number }) {
       if (!plant.lastWatered) {
         return 0;
       }
@@ -13,5 +13,11 @@ export const plantDataAccessors = {
         : plant.lastWatered.getTime();
       const millisecondsSinceLastWatered = (new Date()).getTime() - lastWateredMilliseconds;
       return Math.round(millisecondsSinceLastWatered / (1000 * 60 * 60 * 24));
+    },
+    daysOverdueForWater(plant: IPlant | { lastWatered: number, waterInterval: number }) {
+      return this.daysSinceWatered(plant) - plant.waterInterval;
+    },
+    needsWater(plant: IPlant | { lastWatered: number, waterInterval: number }) {
+      return this.daysOverdueForWater(plant) > 0;
     },
 };

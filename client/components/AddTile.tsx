@@ -11,6 +11,7 @@ const HorizontalContainer = styled.div`
   height: 72px;
   margin-top: 20px;
   padding-left: 7%;
+  cursor: pointer;
 `;
 
 const VerticalContainer = styled.div`
