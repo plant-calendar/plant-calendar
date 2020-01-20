@@ -24,6 +24,7 @@ const queryType = new GraphQLObjectType({
 const mutationType = new GraphQLObjectType({
   fields: () => ({
     ...plant.plantMutations,
+    ...habitat.habitatMutations,
   }),
   name: 'Mutation',
 });
