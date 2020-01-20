@@ -74,7 +74,11 @@ export default (props) => {
   };
 
   return (
-    <Container onMouseDown={onHoldTile} onMouseUp={onUnHoldTile}>
+    <Container
+        onTouchStart={onHoldTile}
+        onTouchEnd={onHoldTile}
+        onMouseDown={onHoldTile}
+        onMouseUp={onUnHoldTile}>
       <TransitionOverlay id={overlayElementId}>
         <Wave id={waveElementId}/>
       </TransitionOverlay>
