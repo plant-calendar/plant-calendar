@@ -8,9 +8,9 @@
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server",
+    "start": "webpack; npm run start-server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
-    "start-server": "nodemon server -e html,js,scss --ignore public --ignore client"
+    "start-server": "node server -e html,js,scss --ignore public --ignore client"
   },
   "repository": {
     "type": "git",
@@ -66,7 +66,7 @@
     "ts-node-dev": "^1.0.0-pre.43",
     "tslint": "^5.20.0",
     "tslint-webpack-plugin": "^2.1.0",
-    "typescript": "^3.6.4",
+    "typescript": "~3.5.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
