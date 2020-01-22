@@ -8,6 +8,7 @@ const Habitat = db.define('habitat', {
     validate: {
       notEmpty: true,
     },
+    unique: true,
   },
 });
 

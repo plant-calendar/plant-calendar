@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import ReactModal from 'react-modal';
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {entityId} from "../../../server/db/types";
-import { getFormErrorMessages, validators } from '../../validation';
+import { getFormErrorMessages, validatorGetters } from '../../validation';
 import {actions as plantActions} from "../../store/plant";
 
 interface ICreatePlantProps {
@@ -21,17 +21,16 @@ const Component = (props: ICreatePlantProps) => {
   const [waterInterval, setWaterInterval] = useState(3);
   const values = { name, lastWateredDaysAgo, waterInterval };
 
-  const [submissionErrorMessage, setSubmissionErrorMessage] = useState(null);
+  const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
 
   const validatorsByFieldName = {
-    name: [validators.isNotNil],
-    lastWateredDaysAgo: [validators.isNotNil, validators.isNumber],
-    waterInterval: [validators.isNotNil, validators.isNumber],
+    name: [validatorGetters.isNotNil()],
+    lastWateredDaysAgo: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
+    waterInterval: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
   };
 
   const onClickCreate = () => {
     const errorMessages = getFormErrorMessages(values, validatorsByFieldName);
-    console.log({errorMessages});
     if (errorMessages && errorMessages.length) {
       setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
     } else {
@@ -64,7 +63,7 @@ const Component = (props: ICreatePlantProps) => {
             Water interval:
             <input value={waterInterval} onChange={event => setWaterInterval(+event.target.value)}/>
           </label>
-          {submissionErrorMessage ? (<div>{submissionErrorMessage}</div>) : null}
+          {submissionErrorMessage.length ? (<div>{submissionErrorMessage}</div>) : null}
           <button onClick={props.onCancel}>cancel</button>
           <button onClick={onClickCreate}>create!</button>
         </div>

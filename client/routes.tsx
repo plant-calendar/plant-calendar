@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {Route, Switch, withRouter} from 'react-router-dom';
 import Habitat from "./components/Habitat";
 
+
+// TODO if they attempt to access a page with no token, reroute them to sign in
 const Routes = () => {
   return (
     <Switch>

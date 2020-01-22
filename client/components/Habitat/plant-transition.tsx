@@ -5,7 +5,7 @@ const Container = styled.div`
   position: relative;
 `;
 
-const overlayPrimaryColor = 'rgba(0, 66, 100, .6)';
+const overlayPrimaryColor = 'rgba(0, 66, 100, .5)';
 
 const TransitionOverlay = styled.div`
     position: absolute;
@@ -65,7 +65,6 @@ export default (props) => {
     doTransition(0);
   };
   const onUnHoldTile = () => {
-    console.log('called onUnholdTile');
     // @ts-ignore
     document.getElementById(overlayElementId).style.height = '0%';
     // @ts-ignore

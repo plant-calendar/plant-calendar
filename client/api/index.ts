@@ -1,12 +1,14 @@
 import ApolloClient, { gql } from 'apollo-boost';
 import {IPlant} from "../../server/db/models/plant/plant.interface";
 import {entityId} from "../../server/db/types";
+import reduxStore from '../store';
+import { selectors as userSelectors } from '../store/user';
 
 // by default uses the /graphql endpoint on the server you are on
 // can optionally provide uri param if that is not the endpoint you want
-const client = new ApolloClient({
+const client = new ApolloClient({});
 
-});
+const getUserToken = () => userSelectors.getUserToken(reduxStore.getState());
 
 export default {
   habitat: {
@@ -61,6 +63,30 @@ export default {
         waterInterval: plant.waterInterval,
         habitatId: plant.habitatId,
       },
+    }),
+  },
+  user: {
+    getByToken: async (token: string) => client.query({
+      query: gql`
+        query GetUserByToken($token: String!) {
+          getUserByToken(token: $token) {
+            id
+            name
+          }
+        }
+      `,
+      variables: { token },
+    }),
+    createOne: async (name: string) => client.mutate({
+      mutation: gql`
+        mutation CreateUser($token: String!, $name: String!) {
+          createUser(token: $token, name: $name) {
+            id
+            name
+          }
+        }
+      `,
+      variables: { token: getUserToken(), name },
     }),
   },
 };

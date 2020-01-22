@@ -27,7 +27,7 @@ export default class {
         : params[colName];
       return acc;
     }, {});
-    return this.model.findAll({ where });
+    return (await this.model.findAll({ where })).map(entity => entity.dataValues);
   }
 
   public async updateOne(id: entityId, update: object) {

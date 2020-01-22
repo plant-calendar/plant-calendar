@@ -39,8 +39,7 @@ const createApp = () => {
       next();
     }
   });
-
-
+  
   app.use('/graphql',  graphqlHTTP({
     schema,
     graphiql: true,

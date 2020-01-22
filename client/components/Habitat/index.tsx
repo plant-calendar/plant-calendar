@@ -1,24 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import {entityId} from "../../../server/db/types";
 import {IAugmentedPlant} from "../../store/habitat/selectors";
 import {CreatePlant} from "../CreatePlantModal";
-import Tile from '../Tile';
-import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {actions as habitatActions, selectors as habitatSelectors} from '../../store/habitat';
 import {actions as plantActions} from '../../store/plant';
 import {PlantTile} from "./plant-tiles";
 import {PlantTileWrapper} from "./plant-tiles/wrapper";
-import {
-  AllTilesContainer,
-  SingleTileContainer,
-  Title,
-  Container,
-} from "./styled-components";
-import AddTile from "../AddTile";
-import PlantTransition from './plant-transition';
+import { AllTilesContainer, Title, Container } from "./styled-components";
+import AddTile from "../common/AddTile";
 import JustWateredTile from './plant-tiles/just-watered';
 
 export interface IHabitatComponentProps {
@@ -38,7 +29,7 @@ const Habitat = (props: IHabitatComponentProps) => {
   useEffect(() => {
     fetchHabitat(habitatId);
   }, []);
-  const [justWateredPlantIds, setJustWateredPlantIds] = useState([]);
+  const [justWateredPlantIds, setJustWateredPlantIds] = useState([-1]);
   const [createPlantOpen, setCreatePlantOpen] = useState(false);
 
   const waterPlants = (plantIds: entityId[]) => {

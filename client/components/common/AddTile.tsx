@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PlusSign from "./PlusSign";
-import {COLORS} from "./style-config";
+import {COLORS} from "../style-config";
 
 const HorizontalContainer = styled.div`
   border: 1px solid ${COLORS.lightGray};

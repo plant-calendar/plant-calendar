@@ -1,9 +1,8 @@
 import { IBaseEntity } from '../baseEntity.interface';
+import {entityId} from "../../types";
 
 export interface IUser extends IBaseEntity {
-  id: number;
-  userName: string;
-  email: string;
-  isAdmin: boolean;
-  password: string;
+  id: entityId;
+  name: string;
+  thirdPartyId: string;
 }

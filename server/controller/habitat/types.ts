@@ -1,12 +1,14 @@
 import {GraphQLInt, GraphQLList} from "graphql";
 import * as graphQl from "graphql";
-import {IHabitat} from "../../db/models/habitat/habitat.interface";
 import plants from '../plant';
 import PlantService from '../../service/plant.service';
+import HabitatSubscriptionService from '../../service/habitat-subscription.service';
 
 const idConfig = { type: graphQl.GraphQLInt };
 const nameConfig = { type: graphQl.GraphQLString };
+
 const plantService = new PlantService();
+const habitatSubscriptionService = new HabitatSubscriptionService();
 
 const habitatType = new graphQl.GraphQLObjectType({
   fields: {
@@ -14,9 +16,16 @@ const habitatType = new graphQl.GraphQLObjectType({
     name: nameConfig,
     plants: {
       type: GraphQLList(plants.plantType),
-      resolve: (root) => {
-        const dataValues: IHabitat = root.dataValues;
-        return plantService.findAll({ habitatId: dataValues.id });
+      resolve: async (root, args, context) => {
+        // if the user is not subscribed to habitat, they cannot see plants in it
+        // @ts-ignore
+        const subscription = (await habitatSubscriptionService.findAll({ userId: context.userId, habitatId: root.id,
+        }) || [])[0];
+        if (!subscription) {
+         return [];
+        }
+        // @ts-ignore
+        return plantService.findAll({ habitatId: root.id });
       },
     },
     subscriptions: {
