@@ -12,8 +12,9 @@ const getUserToken = () => userSelectors.getUserToken(reduxStore.getState());
 
 export default {
   habitat: {
-    getByIds: async (habitatIds: entityId[]) => client.query({
-      query: gql`
+    getByIds: {
+      request: async (habitatIds: entityId[]) => client.query({
+        query: gql`
         query GetHabitats($habitatIds: [Int]!) {
           getHabitats(id: $habitatIds) {
             id
@@ -32,21 +33,27 @@ export default {
           }
         }
       `,
-      variables: { habitatIds },
-      fetchPolicy: 'no-cache',
-    }),
+        variables: { habitatIds },
+        fetchPolicy: 'no-cache',
+      }),
+      response: res => res.data.getHabitats,
+    },
   },
   plant: {
-    waterByIds: async (ids: entityId[]) => client.mutate({
-      mutation: gql`
+    waterByIds: {
+      request: async (ids: entityId[]) => client.mutate({
+        mutation: gql`
         mutation WaterPlantsByIds($ids: [Int]!) {
           waterPlantsByIds(ids: $ids)
         }
       `,
-      variables: { ids },
-    }),
-    createOne: async (plant: IPlant) => client.mutate({
-      mutation: gql`
+        variables: { ids },
+      }),
+      response: res => res.data.waterPlantsByIds,
+    },
+    createOne: {
+      request: async (plant: IPlant) => client.mutate({
+        mutation: gql`
         mutation CreatePlant($name: String!, $lastWatered: String!, $waterInterval: Int!, $habitatId: Int!) {
           createPlant(name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId) {
             id
@@ -57,17 +64,20 @@ export default {
           }
         }
       `,
-      variables: {
-        name: plant.name,
-        lastWatered: plant.lastWatered,
-        waterInterval: plant.waterInterval,
-        habitatId: plant.habitatId,
-      },
-    }),
+        variables: {
+          name: plant.name,
+          lastWatered: plant.lastWatered,
+          waterInterval: plant.waterInterval,
+          habitatId: plant.habitatId,
+        },
+      }),
+      response: res => res.data.createPlant,
+    },
   },
   user: {
-    getByToken: async (token: string) => client.query({
-      query: gql`
+    getByToken: {
+      request: async (token: string) => client.query({
+        query: gql`
         query GetUserByToken($token: String!) {
           getUserByToken(token: $token) {
             id
@@ -75,10 +85,13 @@ export default {
           }
         }
       `,
-      variables: { token },
-    }),
-    createOne: async (name: string) => client.mutate({
-      mutation: gql`
+        variables: { token },
+      }),
+      response: res => res.data.getUserByToken,
+    },
+    createOne: {
+      request: async (name: string) => client.mutate({
+        mutation: gql`
         mutation CreateUser($token: String!, $name: String!) {
           createUser(token: $token, name: $name) {
             id
@@ -86,7 +99,9 @@ export default {
           }
         }
       `,
-      variables: { token: getUserToken(), name },
-    }),
+        variables: { token: getUserToken(), name },
+      }),
+      response: res => res.data.createUser,
+    },
   },
 };

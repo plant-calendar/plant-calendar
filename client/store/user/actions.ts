@@ -2,7 +2,7 @@ import TYPES from './types';
 import {IUser} from "../../../server/db/models/user/user.interface";
 
 export function setUserToken(token: string) {
-    return { type: TYPES.USER_SET_TOKEN, token  };
+    return { type: TYPES.USER_SET_TOKEN, token };
 }
 
 export function createUser(name: string, callback?: () => undefined) {

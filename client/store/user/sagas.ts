@@ -1,20 +1,20 @@
-import {call, takeLatest} from "@redux-saga/core/effects";
+import {call, put, takeLatest} from "@redux-saga/core/effects";
 import TYPES from "./types";
 import api from "../../api";
 import {setUser} from "./actions";
 
 function* createOne({ name, callback }) {
-    console.log('store in createOne*');
-    const { data } = yield call(api.user.createOne, name);
-    console.log({dataInCreateOneSaga: data});
-    setUser(data);
-    callback(data);
+    const response = yield call(api.user.createOne.request, name);
+    const user = api.user.createOne.response(response);
+    yield put(setUser(user));
+    callback(user);
 }
 
 function* fetchByToken({ token, callback }) {
-    const { data } = yield call(api.user.getByToken, token);
-    setUser(data);
-    callback(data);
+    const response = yield call(api.user.getByToken.request, token);
+    const user = api.user.getByToken.response(response);
+    yield put(setUser(user));
+    callback(user);
 }
 
 export default [

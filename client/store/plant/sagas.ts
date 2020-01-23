@@ -3,15 +3,13 @@ import api from "../../api";
 import TYPES from './types';
 
 function* waterByIds({ ids, callback = _ => undefined }) {
-  const { data } = yield call(api.plant.waterByIds, ids);
-  console.log("data received", data);
-  callback(data);
+  const response = yield call(api.plant.waterByIds.request, ids);
+  callback(api.plant.waterByIds.response(response));
 }
 
 function* createOne({ plant, callback = _ => undefined }) {
-  const { data } = yield call(api.plant.createOne, plant);
-  console.log("data received", data);
-  callback(data);
+  const response = yield call(api.plant.createOne.request, plant);
+  callback(api.plant.createOne.response(response));
 }
 
 export default [

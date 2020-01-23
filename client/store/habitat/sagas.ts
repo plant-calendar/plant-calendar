@@ -4,10 +4,8 @@ import {setHabitats} from "./actions";
 import TYPES from "./types";
 
 function* fetchHabitatsByIds({ habitatIds }) {
-  console.log('called fetchHabitatsByIds with habitatIds', habitatIds);
-  const { data } = yield call(api.habitat.getByIds, habitatIds);
-  console.log("data received", data);
-  yield put(setHabitats(data.getHabitats));
+  const response = yield call(api.habitat.getByIds.request, habitatIds);
+  yield put(setHabitats(api.habitat.getByIds.response(response)));
 }
 
 export default [
