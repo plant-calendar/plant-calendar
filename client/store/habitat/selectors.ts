@@ -3,13 +3,11 @@ import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {IHabitatComponentProps} from "../../components/Habitat";
 
-const habitatsSelector = state => state.habitats.data || [];
+export const habitats = state => state.habitats.data || [];
 
 export const habitatById = (state, props: IHabitatComponentProps) => {
-  console.log('recaclulated habitat');
-  console.log(state.habitats.data);
   const habitatId: number = +props.match.params.id;
-  return habitatsSelector(state).find(habitat => habitat.id === habitatId) || {};
+  return habitats(state).find(habitat => habitat.id === habitatId) || {};
 };
 
 

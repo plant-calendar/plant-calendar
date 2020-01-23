@@ -33,10 +33,36 @@ export default {
           }
         }
       `,
-        variables: { habitatIds },
+        variables: { habitatIds }, // todo... there should be token here, right???
         fetchPolicy: 'no-cache',
       }),
       response: res => res.data.getHabitats,
+    },
+    getUserSubscribed: {
+      request: async userId => client.query({
+        query: gql`
+          query GetUserSubscribedHabitats($userId: String!, $token: String!) {
+            getUserSubscribedHabitats(userId: $userId, token: $token) {
+              id
+              name
+              plants {
+                id
+                name
+                habitatId
+                imageUrl
+                lastWatered
+                waterInterval
+                createdAt
+                updatedAt
+              }
+              subscriptions
+            }
+          }
+        `,
+        variables: { userId, token: getUserToken() },
+        fetchPolicy: 'no-cache',
+      }),
+      response: res => res.data.getUserSubscribedHabitats,
     },
   },
   plant: {
@@ -47,7 +73,7 @@ export default {
           waterPlantsByIds(ids: $ids)
         }
       `,
-        variables: { ids },
+        variables: { ids }, // todo, there should be token???
       }),
       response: res => res.data.waterPlantsByIds,
     },
@@ -69,6 +95,7 @@ export default {
           lastWatered: plant.lastWatered,
           waterInterval: plant.waterInterval,
           habitatId: plant.habitatId,
+          // todo, there should be token here, right??
         },
       }),
       response: res => res.data.createPlant,

@@ -8,7 +8,7 @@ const defaultState = {
 export default (state = defaultState, action: { type: TYPES, habitats?: IStoreHabitat[] }) => {
   console.log("reducer got action of ", action);
   switch (action.type) {
-    case TYPES.HABITATS_FETCH_BY_IDS_SUCCEEDED:
+    case TYPES.SET_HABITATS:
       const { habitats } = action;
       return {
         ...state,
