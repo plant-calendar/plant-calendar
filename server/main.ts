@@ -1,4 +1,4 @@
-import getContextForGraphQlRequests from "./auth/getContextForGraphQlRequests";
+import getContextForGraphQlRequests from "./controller/context";
 
 const path = require('path');
 const express = require('express');
@@ -49,11 +49,17 @@ const configureApp = () => {
   //   next();
   // })
 
-  app.use('/graphql',  graphqlHTTP(async req => {
+  app.use('/graphql',  graphqlHTTP(async (req, res) => {
+    let context;
+    try {
+      context = await getContextForGraphQlRequests(req);
+    } catch (e) {
+      res.status(401).send(e.message);
+    }
     return {
       schema,
       graphiql: true,
-      context: await getContextForGraphQlRequests(req),
+      context,
     };
   }));
 

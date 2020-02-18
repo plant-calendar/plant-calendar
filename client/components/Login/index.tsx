@@ -1,70 +1,65 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import {GoogleLogin} from "react-google-login";
 import { actions as userActions, selectors as userSelectors } from "../../store/user";
-import {CLIENT_ID} from "../../../common/configs/google";
-import { EnterName } from "./EnterName";
-import { Redirect } from "react-router-dom";
+import styled from 'styled-components';
+import { COLORS } from "../style-config";
 
+const Container = styled.div`
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+`;
+
+
+const CentralDiv = styled.div`
+    position: absolute;
+    left: 33vw;
+    top: 33vh;
+    width: 33vw;
+
+    color: ${COLORS.darkGreen};
+    padding: 1%;
+`;
+
+const GoogleButton = styled.a`
+    display: flex;
+    background: rgb(61, 136, 237);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 1px;
+    width: 210px;
+
+    &:active {
+        background: rgb(48, 106, 207);
+    }
+`;
+
+const GoogleImage = styled.img`
+    height: 50px;
+    width: 50px;
+`;
+
+const GoogleTextContainer = styled.div`
+    padding: 5%;
+`;
+
+const GoogleText = styled.div`
+`;
 
 const LoginComponent = props => {
-    const [showNameField, setShowNameField] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [rerouteToPageOfUser, setRerouteToPageOfUser] = useState(0);
-
-    const handleGoogleResponseSuccess = res => {
-        console.log({res});
-
-        const token = res.tokenObj.id_token;
-        // set user token in redux for use in later requests
-        props.setUserToken(token);
-        // try to find user in db
-        console.log('calling fetchUserByToken from loginComponent');
-        props.fetchUserByToken(token, existingUser => {
-            setLoading(false);
-            if (existingUser) {
-                // if found, send them to their home page
-                // @ts-ignore
-                setRerouteToPageOfUser(existingUser.id);
-            } else {
-                // if not found, give them name field so that they will create a new user
-                setShowNameField(true);
-            }
-        });
-    };
-    const handleGoogleResponseError = err => {
-        setLoading(false);
-        console.log({err});
-    };
-    
-
-    const onNameSubmit = name => {
-        props.createUser(name, createdUser => {
-            setRerouteToPageOfUser(createdUser.id);
-        });
-    };
-
-    if (loading) {
-        return 'LOADING';
-    }
-    if (rerouteToPageOfUser) {
-        console.log(`calling history with ${rerouteToPageOfUser}`);
-        return <Redirect to={`users/${rerouteToPageOfUser}/habitats`} />;
-    }
     return (
-        <a href="http://localhost:3000/auth/google" >Hello</a>
-        // {/*<div>*/}
-        // {/*    {showNameField*/}
-        // {/*        ? <EnterName onSubmit={onNameSubmit} />*/}
-        // {/*        : <GoogleLogin*/}
-        // {/*                onRequest={() => setLoading(true)}*/}
-        // {/*                onSuccess={handleGoogleResponseSuccess}*/}
-        // {/*                onFailure={handleGoogleResponseError}*/}
-        // {/*                clientId={CLIENT_ID}*/}
-        // {/*                responseType="code"*/}
-        // {/*            />*/}
-        // {/*    }*/}
-        // {/*</div>*/}
+            <Container>
+                <CentralDiv>
+                    <h1>PlantCalendar</h1>
+                    <GoogleButton href="http://localhost:3000/auth/google">
+                        <GoogleImage src="/google-icon.png"/>
+                        <GoogleTextContainer>
+                            <GoogleText>Sign in with Google</GoogleText>
+                        </GoogleTextContainer>
+                    </GoogleButton>
+                </CentralDiv>
+            </Container>
     );
 };
 

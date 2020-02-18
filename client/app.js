@@ -4,11 +4,16 @@ import Layout from './layout';
 import Routes from './routes';
 import { Login } from './components/Login';
 import { selectors as userSelectors, actions as userActions } from "./store/user";
+import styled from 'styled-components';
+
+const AppDiv = styled.div`
+    
+`;
 
 const App = props => {
     const { userToken, logOut } = props;
     const loggedIn = userToken && userToken.length;
-    return <Fragment>{loggedIn ? <button onClick={logOut}>Logout</button> : null}<Routes/></Fragment>;
+    return <AppDiv>{loggedIn ? <button onClick={logOut}>Logout</button> : null}<Routes/></AppDiv>;
 };
 
 const mapStateToProps = state => ({
