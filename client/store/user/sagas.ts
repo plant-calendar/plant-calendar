@@ -10,9 +10,9 @@ function* createOne({ name, callback }) {
     callback(user);
 }
 
-function* fetchByToken({ token, callback }) {
-    const response = yield call(api.user.getByToken.request, token);
-    const user = api.user.getByToken.response(response);
+function* fetchById({ id, callback }) {
+    const response = yield call(api.user.getById.request, id);
+    const user = api.user.getById.response(response);
     yield put(setUser(user));
     callback(user);
 }
@@ -20,6 +20,8 @@ function* fetchByToken({ token, callback }) {
 export default [
     // @ts-ignore
     takeLatest(TYPES.USER_CREATE_REQUESTED, createOne),
+    // // @ts-ignore
+    // takeLatest(TYPES.USER_FETCH_BY_TOKEN_REQUESTED, fetchByToken),
     // @ts-ignore
-    takeLatest(TYPES.USER_FETCH_BY_TOKEN_REQUESTED, fetchByToken),
+    takeLatest(TYPES.USER_FETCH_BY_ID_REQUESTED, fetchById),
 ];

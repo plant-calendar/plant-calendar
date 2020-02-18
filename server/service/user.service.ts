@@ -50,8 +50,24 @@ export default class extends GenericService {
             throw new Error('No google token provided');
         }
         const client = new GoogleAuth.OAuth2Client(CLIENT_ID);
+        const authUrl = await client.generateAuthUrl({
+            // To get a refresh token, you MUST set access_type to `offline`.
+            access_type: 'offline',
+            // set the appropriate scopes
+            scope: 'https://www.googleapis.com/auth/userinfo.profile',
+            // A refresh token is only returned the first time the user
+            // consents to providing access.  For illustration purposes,
+            // setting the prompt to 'consent' will force this consent
+            // every time, forcing a refresh_token to be returned.
+            prompt: 'consent',
+        });
+        console.log({authUrl});
+        const something = await client.request({ url: authUrl});
+        console.log({something});
+
         let payload;
         try {
+            console.log(await client.getTokenInfo(googleToken));
             const ticket = await client.verifyIdToken({
                 idToken: googleToken,
                 audience: CLIENT_ID,
@@ -60,7 +76,7 @@ export default class extends GenericService {
         } catch (e) {
             throw new Error(e); // todo hide actual error from client with "invalid token" message
         }
-        // @ts-ignore
+        console.log({payload});
         return payload.sub;
     }
 }

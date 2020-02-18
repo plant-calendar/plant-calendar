@@ -13,6 +13,8 @@ const LoginComponent = props => {
     const [rerouteToPageOfUser, setRerouteToPageOfUser] = useState(0);
 
     const handleGoogleResponseSuccess = res => {
+        console.log({res});
+
         const token = res.tokenObj.id_token;
         // set user token in redux for use in later requests
         props.setUserToken(token);
@@ -50,17 +52,19 @@ const LoginComponent = props => {
         return <Redirect to={`users/${rerouteToPageOfUser}/habitats`} />;
     }
     return (
-        <div>
-            {showNameField
-                ? <EnterName onSubmit={onNameSubmit} />
-                : <GoogleLogin
-                        onRequest={() => setLoading(true)}
-                        onSuccess={handleGoogleResponseSuccess}
-                        onFailure={handleGoogleResponseError}
-                        clientId={CLIENT_ID}
-                    />
-            }
-        </div>
+        <a href="http://localhost:3000/auth/google" >Hello</a>
+        // {/*<div>*/}
+        // {/*    {showNameField*/}
+        // {/*        ? <EnterName onSubmit={onNameSubmit} />*/}
+        // {/*        : <GoogleLogin*/}
+        // {/*                onRequest={() => setLoading(true)}*/}
+        // {/*                onSuccess={handleGoogleResponseSuccess}*/}
+        // {/*                onFailure={handleGoogleResponseError}*/}
+        // {/*                clientId={CLIENT_ID}*/}
+        // {/*                responseType="code"*/}
+        // {/*            />*/}
+        // {/*    }*/}
+        // {/*</div>*/}
     );
 };
 
@@ -71,7 +75,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     setUserToken: token => dispatch(userActions.setUserToken(token)),
-    fetchUserByToken: (token, callback) => dispatch(userActions.fetchUserByToken(token, callback)),
+    // fetchUserByToken: (token, callback) => dispatch(userActions.fetchUserByToken(token, callback)),
     createUser: (name, callback) => dispatch(userActions.createUser(name, callback)),
 });
 export const Login = connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

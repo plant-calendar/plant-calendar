@@ -8,6 +8,11 @@ const getUserByToken = {
     resolve: (_, args) => userService.findOneByGoogleToken(args.token),
     type: userType,
 };
+const getUserById = {
+    args: { id: configs.id },
+    resolve: (_, args) => userService.findOneById(args.id),
+    type: userType,
+};
 
-const userQueries = { getUserByToken };
+const userQueries = { getUserByToken, getUserById };
 export {userQueries};

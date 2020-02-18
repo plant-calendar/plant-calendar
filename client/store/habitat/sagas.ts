@@ -11,7 +11,7 @@ function* fetchHabitatsByIds({ habitatIds }) {
 function* fetchUserSubscribedHabitats({ userId, callback }) {
   const response = yield call(api.habitat.getUserSubscribed.request, userId);
   const habitats = api.habitat.getUserSubscribed.response(response);
-  yield put(setHabitats(habitats);
+  yield put(setHabitats(habitats));
   callback(habitats);
 }
 

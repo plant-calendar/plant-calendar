@@ -7,6 +7,10 @@ export default class {
     this.repository = new GenericRepository(model);
   }
 
+  public async findOneById(id: entityId) {
+    return this.repository.findOneById(id);
+  }
+
   public async findAll(params?: object): Promise<object[]> {
     return this.repository.findAll(params);
   }

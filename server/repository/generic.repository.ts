@@ -9,6 +9,10 @@ export default class {
     this.model = model;
   }
 
+  public async findOneById(id: entityId) {
+    return this.model.findByPk(id);
+  }
+
   /**
    * this method can handle "where x = 1 or x = 2" by passing x: [1, 2]
    * this method CANNOT handle "where x = 1 or y = 2"... create a custom method for that
@@ -22,11 +26,22 @@ export default class {
     }
     // convert arrays to Op.or's... leave other kinds of values as they are
     const where = Object.keys(params).reduce((acc, colName) => {
-      acc[colName] = Array.isArray(params[colName])
-        ? { [Sequelize.Op.or]: params[colName] }
-        : params[colName];
+      if (Array.isArray(params[colName])) {
+        if (params[colName].length) {
+          acc[colName] = { [Sequelize.Op.or]: params[colName] };
+        }
+      } else {
+        acc[colName] = params[colName];
+        return acc;
+      }
       return acc;
     }, {});
+    // it is possible that we were passed params with just empty arrays for values to search on
+    // the expected behavior is for no results to come back, but that is not what sequelize does,
+    // so we make that happen manually
+    if (!Object.keys(where).length) {
+      return [];
+    }
     return (await this.model.findAll({ where })).map(entity => entity.dataValues);
   }
 

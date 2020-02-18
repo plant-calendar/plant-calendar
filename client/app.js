@@ -6,10 +6,9 @@ import { Login } from './components/Login';
 import { selectors as userSelectors, actions as userActions } from "./store/user";
 
 const App = props => {
-    const { user, userToken, setUser, setUserToken } = props;
-
-    return <Routes/>;
-    // return <Fragment>{user ? <Layout><Routes/></Layout> : <Login/>}</Fragment>;
+    const { userToken, logOut } = props;
+    const loggedIn = userToken && userToken.length;
+    return <Fragment>{loggedIn ? <button onClick={logOut}>Logout</button> : null}<Routes/></Fragment>;
 };
 
 const mapStateToProps = state => ({
@@ -17,7 +16,9 @@ const mapStateToProps = state => ({
     userToken: userSelectors.getUserToken(state),
 });
 const mapDispatchToProps = dispatch => ({
-    setUser: user => dispatch(userActions.setUser(user)),
-    setUserToken: token => dispatch(userActions.setUserToken(token)),
+    logOut: () => {
+      dispatch(userActions.setUserToken(''));
+      dispatch(userActions.setUser(null));
+    },
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);

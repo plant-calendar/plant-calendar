@@ -57,8 +57,8 @@ const Routes = () => {
   return (
     <Switch>
         <Route path="/login" component={Login} />
-        <LoggedInRoute path="/users/:id/habitats" component={UserHabitats} />
-        <LoggedInRoute path="/habitats/:id" component={Habitat} />
+        <Route path="/users/:id/habitats" component={UserHabitats} />
+        <Route path="/habitats/:id" component={Habitat} />
     </Switch>
   );
 };
