@@ -54,7 +54,7 @@ const configureApp = () => {
     try {
       context = await getContextForGraphQlRequests(req);
     } catch (e) {
-      res.status(401).send(e.message);
+      res.redirect('/login');
     }
     return {
       schema,

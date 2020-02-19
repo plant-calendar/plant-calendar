@@ -11,12 +11,14 @@ export default class {
     return this.repository.findOneById(id);
   }
 
-  public async findAll(params?: object): Promise<object[]> {
+  public async findAll(params?: object) {
     return this.repository.findAll(params);
   }
 
-  public async updateOne(id: entityId, update: object): Promise<object> {
-    return this.repository.updateOne(id, update);
+  public async updateOne(id: entityId, update: object) {
+    const val = await this.repository.updateOne(id, update);
+    console.log({val});
+    return val;
   }
 
   public async updateMany(ids: entityId[], update: object): Promise<entityId[]> {
@@ -25,5 +27,9 @@ export default class {
 
   public async createOne(entity: object): Promise<object> {
     return this.repository.createOne(entity);
+  }
+
+  public async findWhereNonNull(columnName) {
+    return this.repository.findWhereNot(columnName, null);
   }
 }

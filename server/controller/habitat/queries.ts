@@ -2,9 +2,11 @@ import * as graphQl from "graphql";
 import {habitatType} from "./types";
 import HabitatService from '../../service/habitat.service';
 import UserService from '../../service/user.service';
-import {IHabitat} from "../../db/models/habitat/habitat.interface";
+import HabitatSubscriptionService from '../../service/habitat-subscription.service';
+import {entityId} from "../../db/types";
 
 const habitatService = new HabitatService();
+const habitatSubscriptionService = new HabitatSubscriptionService();
 const userService = new UserService();
 
 
@@ -27,8 +29,15 @@ const getUserSubscribedHabitats = {
     if (context.userId !== args.id) {
       return null;
     }
-    const habitatIds = context.subscribedHabitats.map(subscription => subscription.habitatId);
-    return habitatService.findAll({ id: habitatIds });
+    const subscriptions = await habitatSubscriptionService.findAll({ userId: args.id });
+    // @ts-ignore
+    const habitatIds: entityId[] = subscriptions.map(sub => sub.habitatId);
+    const habitats = await habitatService.findAll({ id: habitatIds });
+    return habitats.map(habitat => ({
+      ...habitat,
+      // @ts-ignore
+      subscription: subscriptions.find(sub => sub.habitatId === habitat.id),
+    }));
   },
   type: graphQl.GraphQLList(habitatType),
 };

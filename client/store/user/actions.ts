@@ -20,3 +20,15 @@ export function fetchUserById(id: entityId, callback = () => undefined) {
 export function setUser(user: IUser) {
     return { type: TYPES.USER_SET_USER, user };
 }
+
+export function fetchAllNames() {
+    return { type: TYPES.USER_FETCH_ALL_NAMES_REQUESTED };
+}
+
+export function setAllNames(allNames: string[]) {
+    return { type: TYPES.USER_SET_ALL_NAMES, allNames };
+}
+
+export function updateName(name, callback = () => undefined) {
+    return { type: TYPES.USER_UPDATE_NAME_REQUESTED, name, callback };
+}

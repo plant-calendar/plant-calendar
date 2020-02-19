@@ -14,21 +14,22 @@ const createHabitat = {
         name: { type: graphQl.GraphQLString },
     },
     resolve: async (_, args, context) => {
-        const { userToken, ...habitatProperties } = args;
-        const userId = await userService.getOrCreateUserIdFromGoogleToken(userToken);
-        context.userId = userId;
-
-        const habitat = await habitatService.createOne(habitatProperties);
-        console.log('creating subscription');
-        await habitatSubscriptionService.createOne({
-            // @ts-ignore
-            habitatId: habitat.id,
-            userId,
-            isAdmin: true,
-            status: 'active',
-        });
-        console.log('done creating subscription');
-        return habitat;
+        // const { userToken, ...habitatProperties } = args;
+        // const userId = await userService.getOrCreateUserIdFromGoogleToken(userToken);
+        // context.userId = userId;
+        //
+        // const habitat = await habitatService.createOne(habitatProperties);
+        // console.log('creating subscription');
+        // await habitatSubscriptionService.createOne({
+        //     // @ts-ignore
+        //     habitatId: habitat.id,
+        //     userId,
+        //     isAdmin: true,
+        //     status: 'active',
+        // });
+        // console.log('done creating subscription');
+        // return habitat;
+        throw new Error('not implemented')
     },
     type: habitatType,
 };

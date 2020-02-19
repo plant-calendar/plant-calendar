@@ -5,16 +5,16 @@ import {configs, userType} from "./types";
 
 const userService = new UserService();
 
-const createUser = {
+const updateUserName = {
     args: {
-        token: { type: graphQl.GraphQLString },
         name: { type: graphQl.GraphQLString },
     },
-    resolve: (_, args) => {
-        return userService.createFromToken(args.token, args.name);
+    resolve: async (_, args, context) => {
+        const { userId } = context;
+        return userService.updateOne(userId, { name: args.name });
     },
     type: userType,
 };
 
-const userMutations = {createUser};
+const userMutations = {updateUserName};
 export {userMutations};

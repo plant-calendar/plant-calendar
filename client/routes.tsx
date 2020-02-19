@@ -1,66 +1,63 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch, withRouter, Redirect} from 'react-router-dom';
 import Habitat from "./components/Habitat";
 import UserHabitats from './components/User';
 import {Login} from "./components/Login";
-import { selectors as userSelectors } from './store/user';
-import {actions as userActions} from "./store/user";
+import { selectors as authSelectors } from './store/auth';
+import {actions as authActions} from "./store/auth";
+import MakeProfile from './components/User/make-profile';
+import api from './api';
 
 
-// note that there is ultimately no way to definitively prevent navigation
-// to any page in the app... therefore onus is on API to prevent protected
-// data from reaching ANY page if the user is not authorized ot view it
 const LoggedInRouteComponent =
     ({
         component: Component,
         LOGGED_IN_ROUTE__haveUser,
-        LOGGED_IN_ROUTE__setUserToken,
-        LOGGED_IN_ROUTE__setUser,
+        LOGGED_IN_ROUTE__getHaveUser,
+        LOGGED_IN_ROUTE__isRedirectAfterLogin,
+        LOGGED_IN_ROUTE_loadingHaveUser,
         ...rest
      }) => {
-        let isLoggedIn = false;
-        if (LOGGED_IN_ROUTE__haveUser) {
-            isLoggedIn = true;
-        } else {
-            const localStorageUserId = localStorage.getItem('userId');
-            const localStorageUserName = localStorage.getItem('userName');
-            const localStorageUserToken = localStorage.getItem('userToken');
-
-            if (localStorageUserId && localStorageUserName && localStorageUserToken) {
-                LOGGED_IN_ROUTE__setUserToken(localStorageUserToken);
-                LOGGED_IN_ROUTE__setUser({
-                    id: localStorageUserId,
-                    name: localStorageUserName,
-                });
-                isLoggedIn = true;
-            }
+        useEffect(() => {
+            LOGGED_IN_ROUTE__getHaveUser();
+        }, []);
+        if (LOGGED_IN_ROUTE__haveUser !== null && !LOGGED_IN_ROUTE_loadingHaveUser) {
+            return <Route {...rest} render={
+                props => (LOGGED_IN_ROUTE__haveUser ? <Component {...props} /> : <Redirect to="/login"/>)
+            }/>;
         }
-        return (
-            <Route {...rest} render={
-                props => (isLoggedIn ? <Component {...props} /> : <Redirect to="/login"/>)
-            }/>
-        );
+        return null;
     };
 
 const mapStateToProps = state => ({
-    LOGGED_IN_ROUTE__haveUser: !!userSelectors.getUser(state),
+    LOGGED_IN_ROUTE__haveUser: authSelectors.getHaveUser(state),
 });
 const mapDispatchToProps = dispatch => ({
-    LOGGED_IN_ROUTE__setUserToken: token => dispatch(userActions.setUserToken(token)),
-    LOGGED_IN_ROUTE__setUser: user => dispatch(userActions.setUser(user)),
+    LOGGED_IN_ROUTE__getHaveUser: () => dispatch(authActions.getHaveUser()),
 });
-
 const LoggedInRoute = connect(mapStateToProps, mapDispatchToProps)(LoggedInRouteComponent);
 
-const Routes = () => {
-  return (
-    <Switch>
-        <Route path="/login" component={Login} />
-        <Route path="/users/:id/habitats" component={UserHabitats} />
-        <Route path="/habitats/:id" component={Habitat} />
-    </Switch>
-  );
+const Routes = props => {
+    return (
+        <Switch>
+            <Route path="/login" component={Login} />
+            <LoggedInRoute
+                path="/users/:id/habitats"
+                component={UserHabitats}
+                LOGGED_IN_ROUTE__isRedirectAfterLogin
+            />
+            <LoggedInRoute
+                path="/users/:id/make-profile"
+                component={MakeProfile}
+                LOGGED_IN_ROUTE__isRedirectAfterLogin
+            />
+            <LoggedInRoute
+                path="/habitats/:id"
+                component={Habitat}
+            />
+        </Switch>
+    );
 };
 
 // The `withRouter` wrapper makes sure that updates are not blocked

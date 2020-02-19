@@ -10,6 +10,14 @@ const HabitatSubscription = db.define('habitatSubscription', {
     type: Sequelize.ENUM('pending', 'rejected', 'active', 'inactive'),
     defaultValue: 'pending',
   },
+  subscriberAccepted: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
+  adminAccepted: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 });
 
 export default HabitatSubscription;

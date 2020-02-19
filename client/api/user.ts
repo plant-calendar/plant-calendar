@@ -16,11 +16,11 @@ export default client => ({
         }),
         response: res => res.data.getUserById,
     },
-    createOne: {
-        request: async (name: string) => client.mutate({
+    updateName: {
+        request: async name => client.mutate({
             mutation: gql`
-                mutation CreateUser($token: String!, $name: String!) {
-                    createUser(token: $token, name: $name) {
+                mutation UpdateUserName($name: String!) {
+                    updateUserName(name: $name) {
                         id
                         name
                     }
@@ -28,6 +28,18 @@ export default client => ({
             `,
             variables: { name },
         }),
-        response: res => res.data.createUser,
+        response: res => res.data.updateName,
+    },
+    getAllNames: {
+        request: async () => client.query({
+           query: gql`
+                query GetAllNames() {
+                    getAllNames() {
+                        name
+                    }
+                }
+           `,
+        }),
+        response: res => res.data.getAllNames,
     },
 });

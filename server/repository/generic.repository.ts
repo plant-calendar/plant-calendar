@@ -45,6 +45,17 @@ export default class {
     return (await this.model.findAll({ where })).map(entity => entity.dataValues);
   }
 
+  public async findWhereNot(columnName: string, value: any) {
+    const results = await this.model.findAll({
+      where: {
+        [columnName]: {
+          [Sequelize.Op.ne]: value,
+        },
+      },
+    });
+    return results.map(result => result.dataValues);
+  }
+
   public async updateOne(id: entityId, update: object) {
     return this.model.update(update, { where: { id }});
   }
@@ -54,6 +65,6 @@ export default class {
   }
 
   public async createOne(entity: object) {
-    return this.model.create(entity);
+    return (await this.model.create(entity)).dataValues;
   }
 }

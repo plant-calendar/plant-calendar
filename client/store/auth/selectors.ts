@@ -1,0 +1,1 @@
+export const getHaveUser = state => state.auth.data.haveUser;

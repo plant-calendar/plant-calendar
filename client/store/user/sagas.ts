@@ -1,14 +1,7 @@
 import {call, put, takeLatest} from "@redux-saga/core/effects";
 import TYPES from "./types";
 import api from "../../api";
-import {setUser} from "./actions";
-
-function* createOne({ name, callback }) {
-    const response = yield call(api.user.createOne.request, name);
-    const user = api.user.createOne.response(response);
-    yield put(setUser(user));
-    callback(user);
-}
+import {setAllNames, setUser} from "./actions";
 
 function* fetchById({ id, callback }) {
     const response = yield call(api.user.getById.request, id);
@@ -17,11 +10,25 @@ function* fetchById({ id, callback }) {
     callback(user);
 }
 
+function* fetchAllNames() {
+    const response = yield call(api.user.getAllNames.request);
+    const names = api.user.getAllNames.response(response);
+    yield put(setAllNames(names));
+}
+
+function* updateName({ name, callback }) {
+    const response = yield call(api.user.updateName.request, name);
+    const updatedUser = api.user.updateName.response(response);
+    yield put(setUser(updatedUser));
+    callback(updatedUser);
+}
+
+
 export default [
     // @ts-ignore
-    takeLatest(TYPES.USER_CREATE_REQUESTED, createOne),
-    // // @ts-ignore
-    // takeLatest(TYPES.USER_FETCH_BY_TOKEN_REQUESTED, fetchByToken),
-    // @ts-ignore
     takeLatest(TYPES.USER_FETCH_BY_ID_REQUESTED, fetchById),
+    // @ts-ignore
+    takeLatest(TYPES.USER_FETCH_ALL_NAMES_REQUESTED, fetchAllNames),
+    // @ts-ignore
+    takeLatest(TYPES.USER_UPDATE_NAME_REQUESTED, updateName),
 ];
