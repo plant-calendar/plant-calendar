@@ -1,4 +1,5 @@
 import { IBaseEntity } from '../baseEntity.interface';
+import {entityId} from "../../types";
 
 export interface IHabitatSubscription extends IBaseEntity {
   id: number;
@@ -6,4 +7,6 @@ export interface IHabitatSubscription extends IBaseEntity {
   status: string;
   subscriberAccepted: boolean;
   adminAccepted: boolean;
+  habitatId: entityId;
+  userId: entityId;
 }

@@ -1,7 +1,9 @@
 import Sequelize from "sequelize";
 import {entityId} from "../db/types";
 
-export default class {
+export default class GenericRepository {
+  private static getValuesFromFindAll = results => (results || []).map(r => r.dataValues);
+
   private model;
 
   constructor(model) {
@@ -22,7 +24,7 @@ export default class {
   public async findAll(params?: object) {
     console.log("generic repository received find all params of", params);
     if (!params || !Object.keys(params).length) {
-      return this.model.findAll();
+      return GenericRepository.getValuesFromFindAll(await this.model.findAll());
     }
     // convert arrays to Op.or's... leave other kinds of values as they are
     const where = Object.keys(params).reduce((acc, colName) => {
@@ -42,7 +44,7 @@ export default class {
     if (!Object.keys(where).length) {
       return [];
     }
-    return (await this.model.findAll({ where })).map(entity => entity.dataValues);
+    return GenericRepository.getValuesFromFindAll((await this.model.findAll({ where })));
   }
 
   public async findWhereNot(columnName: string, value: any) {
@@ -53,7 +55,7 @@ export default class {
         },
       },
     });
-    return results.map(result => result.dataValues);
+    return GenericRepository.getValuesFromFindAll(results);
   }
 
   public async updateOne(id: entityId, update: object) {

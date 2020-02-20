@@ -20,6 +20,7 @@ function* updateName({ name, callback }) {
     const response = yield call(api.user.updateName.request, name);
     const updatedUser = api.user.updateName.response(response);
     yield put(setUser(updatedUser));
+    console.log(callback);
     callback(updatedUser);
 }
 

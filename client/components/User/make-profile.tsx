@@ -4,7 +4,7 @@ import {getFormErrorMessages, validatorGetters} from "../../validation";
 import { selectors as userSelectors, actions as userActions } from '../../store/user';
 
 const MakeProfile = props => {
-    const { allUserNames, fetchAllNames, updateName } = props;
+    const { allUserNames, fetchAllNames, updateName, history } = props;
     const [name, setName] = useState('');
     const values = { name };
 
@@ -27,8 +27,8 @@ const MakeProfile = props => {
             setSubmissionErrorMessage(`That name is already taken.  Try another?`);
             return;
         }
-        updateName(name, () => {
-
+        updateName(name, user => {
+            history.push(`/users/${user.id}/habitats`);
         });
     };
     const getOnChangeInput = stateSetter => event => stateSetter(event.target.value);
@@ -43,7 +43,7 @@ const MakeProfile = props => {
 };
 
 const mapStateToProps = state => ({
-   allUserNames: userSelectors.getAllUserNames(state),
+    allUserNames: userSelectors.getAllUserNames(state),
 });
 
 const mapDispatchToProps = dispatch => ({

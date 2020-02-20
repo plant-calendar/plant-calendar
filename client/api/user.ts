@@ -28,15 +28,13 @@ export default client => ({
             `,
             variables: { name },
         }),
-        response: res => res.data.updateName,
+        response: res => res.data.updateUserName,
     },
     getAllNames: {
         request: async () => client.query({
            query: gql`
-                query GetAllNames() {
-                    getAllNames() {
-                        name
-                    }
+                query GetAllNames {
+                    getAllNames
                 }
            `,
         }),

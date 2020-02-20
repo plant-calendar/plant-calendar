@@ -16,9 +16,8 @@ export default class {
   }
 
   public async updateOne(id: entityId, update: object) {
-    const val = await this.repository.updateOne(id, update);
-    console.log({val});
-    return val;
+    await this.repository.updateOne(id, update);
+    return this.findOneById(id);
   }
 
   public async updateMany(ids: entityId[], update: object): Promise<entityId[]> {
