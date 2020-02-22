@@ -25,13 +25,10 @@ const validateField = (value, fieldName, validatorsForField): string[] =>
     return errorMessages;
   }, []);
 
-// if there is one or more errors in all of values, get back a flat string array of all error messages
-export const getFormErrorMessages = (values: object, validatorsByFieldName: object): string[] => {
-  return Object.keys(values).reduce((allErrors, fieldName) => {
-    const validatorsForField = validatorsByFieldName[fieldName];
-    if (validatorsForField && validatorsForField.length) {
-      const errorsForField = validateField(values[fieldName], fieldName, validatorsForField);
-      // @ts-ignore
+export const getFormErrorMessages = (fields): string[] => {
+  return fields.reduce((allErrors, { validators, label, value }) => {
+    if (validators && validators.length) {
+      const errorsForField = validateField(value, label, validators);
       return allErrors.concat(errorsForField);
     }
     return allErrors;
