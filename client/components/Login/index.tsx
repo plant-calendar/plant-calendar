@@ -52,7 +52,7 @@ const LoginComponent = props => {
             <Container>
                 <CentralDiv>
                     <h1>PlantCalendar</h1>
-                    <GoogleButton href="https://hungry-plants/herokuapp.com/auth/google">
+                    <GoogleButton href="https://hungry-plants.herokuapp.com/auth/google">
                         <GoogleImage src="/google-icon.png"/>
                         <GoogleTextContainer>
                             <GoogleText>Sign in with Google</GoogleText>
