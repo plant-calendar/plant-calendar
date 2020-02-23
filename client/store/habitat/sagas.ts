@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import api from '../../api';
-import {setHabitats} from "./actions";
+import {createOneSucceeded, setHabitats} from "./actions";
 import TYPES from "./types";
 
 function* fetchHabitatsByIds({ habitatIds }) {
@@ -15,9 +15,18 @@ function* fetchUserSubscribedHabitats({ userId, callback }) {
   callback(habitats);
 }
 
+function* createOne({ habitat, callback }) {
+  const res = yield call(api.habitat.createOne.request, habitat);
+  yield put(createOneSucceeded());
+  const created = api.habitat.createOne.response(res);
+  callback(created);
+}
+
 export default [
   // @ts-ignore
   takeLatest(TYPES.HABITATS_FETCH_BY_IDS_REQUESTED, fetchHabitatsByIds),
   // @ts-ignore
   takeLatest(TYPES.HABITATS_FETCH_USER_SUBSCRIBED_REQUESTED, fetchUserSubscribedHabitats),
+  // @ts-ignore
+  takeLatest(TYPES.HABITATS_CREATE_ONE_REQUESTED, createOne),
 ];

@@ -65,8 +65,8 @@ const Habitat = (props: IHabitatComponentProps) => {
           ? <CreatePlant habitatId={habitatId} onCreate={onCreatePlant} onCancel={() => setCreatePlantOpen(false)}/>
           : null
       }
-      <Title>{props.name}</Title>
       <Container>
+        <Title>@{props.name}</Title>
         <AddTile message="Add a plant" onClick={() => setCreatePlantOpen(true)}/>
         <AllTilesContainer>
           {plantDataForDisplay.map(({ plant, tile }) => (

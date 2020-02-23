@@ -13,5 +13,5 @@ export default {
   habitat: habitatApi(client),
   plant: plantApi(client),
   user: userApi(client),
-  haveUser: async () => axios.get('/have-user'),
+  haveCorrectUser: async url => axios.get('/auth/have-correct-user', { params: { url }}),
 };

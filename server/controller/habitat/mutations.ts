@@ -41,7 +41,7 @@ const acceptInvitationToHabitat = {
         const { userId } = context;
         await habitatSubscriptionService.acceptInvitationToHabitat(userId, args.habitatId);
     },
-    type: null,
+    type: habitatType,
 };
 
 const adminAcceptUserRequestToHabitat = {
@@ -54,7 +54,7 @@ const adminAcceptUserRequestToHabitat = {
             args.subscriptionId,
         );
     },
-    type: null,
+    type: habitatType,
 };
 
 const adminInviteUserToHabitat = {
@@ -71,7 +71,7 @@ const adminInviteUserToHabitat = {
             args.asAdmin,
         );
     },
-    type: null,
+    type: habitatType,
 };
 
 

@@ -1,3 +1,5 @@
+import {IField} from "../interfaces";
+
 export const validatorGetters = {
   isDate: () => ({
     validate: () => val => true,
@@ -25,10 +27,12 @@ const validateField = (value, fieldName, validatorsForField): string[] =>
     return errorMessages;
   }, []);
 
-export const getFormErrorMessages = (fields): string[] => {
-  return fields.reduce((allErrors, { validators, label, value }) => {
+export const getFormErrorMessages = (fields: IField[], values: { [key: string]: any }): string[] => {
+  return fields.reduce((allErrors, { validators, label, key }) => {
+    const value = values[key];
     if (validators && validators.length) {
       const errorsForField = validateField(value, label, validators);
+      // @ts-ignore
       return allErrors.concat(errorsForField);
     }
     return allErrors;

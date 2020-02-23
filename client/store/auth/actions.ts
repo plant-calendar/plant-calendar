@@ -1,9 +1,9 @@
 import TYPES from './types';
 
-export function getHaveUser() {
-    return { type: TYPES.GET_HAVE_USER_REQUESTED };
+export function getHaveCorrectUser(url) {
+    return { type: TYPES.GET_HAVE_USER_REQUESTED, url };
 }
 
-export function setHaveUser(haveUser) {
-    return { type: TYPES.SET_HAVE_USER, haveUser };
+export function setHaveCorrectUser(haveCorrectUser) {
+    return { type: TYPES.SET_HAVE_USER, haveCorrectUser };
 }

@@ -1,1 +1,1 @@
-export const getHaveUser = state => state.auth.data.haveUser;
+export const getHaveCorrectUser = state => state.auth.data.haveCorrectUser;

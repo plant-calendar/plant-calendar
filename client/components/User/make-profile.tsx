@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import {getFormErrorMessages, validatorGetters} from "../../validation";
+import {getFormErrorMessages, validatorGetters} from "../../forms/validation";
 import { selectors as userSelectors, actions as userActions } from '../../store/user';
 
 const MakeProfile = props => {
     const { allUserNames, fetchAllNames, updateName, history } = props;
     const [name, setName] = useState('');
-    const values = { name };
 
     useEffect(() => {
         fetchAllNames();
     }, []);
 
-    const validatorsByFieldName = {
-        name: [validatorGetters.isNotNil(), validatorGetters.isOfLength(3)],
-    };
     const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
 
     const onSubmit = () => {
-        const errorMessages = getFormErrorMessages(values, validatorsByFieldName);
+        const errorMessages = getFormErrorMessages([
+            {
+                value: name,
+                label: 'Name',
+                validators: [validatorGetters.isNotNil(), validatorGetters.isOfLength(3)],
+                key: 'name',
+            },
+        ],
+            { name });
         if (errorMessages && errorMessages.length) {
             setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
             return;

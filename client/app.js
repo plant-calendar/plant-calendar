@@ -1,8 +1,6 @@
 import React, {Fragment} from 'react';
 import { connect } from 'react-redux';
-import Layout from './layout';
-import Routes from './routes';
-import { Login } from './components/Login';
+import Routes from './routing';
 import { selectors as userSelectors, actions as userActions } from "./store/user";
 import styled from 'styled-components';
 

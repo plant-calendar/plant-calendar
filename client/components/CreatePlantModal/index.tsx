@@ -3,8 +3,9 @@ import {connect} from 'react-redux';
 import ReactModal from 'react-modal';
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {entityId} from "../../../server/db/types";
-import { getFormErrorMessages, validatorGetters } from '../../validation';
+import { getFormErrorMessages, validatorGetters } from '../../forms/validation';
 import {actions as plantActions} from "../../store/plant";
+import {IField} from "../../forms/interfaces";
 
 interface ICreatePlantProps {
   createPlant: any;
@@ -19,18 +20,32 @@ const Component = (props: ICreatePlantProps) => {
   const [name, setName] = useState('');
   const [lastWateredDaysAgo, setLastWateredDaysAgo] = useState(0);
   const [waterInterval, setWaterInterval] = useState(3);
-  const values = { name, lastWateredDaysAgo, waterInterval };
-
   const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
 
-  const validatorsByFieldName = {
-    name: [validatorGetters.isNotNil()],
-    lastWateredDaysAgo: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
-    waterInterval: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
-  };
-
   const onClickCreate = () => {
-    const errorMessages = getFormErrorMessages(values, validatorsByFieldName);
+    const errorMessages = getFormErrorMessages(
+        [
+          {
+            key: 'name',
+            label: 'name',
+            value: name,
+            validators: [validatorGetters.isNotNil()],
+          },
+          {
+            key: 'lastWateredDaysAgo',
+            label: 'Last watered days ago',
+            value: lastWateredDaysAgo,
+            validators: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
+          },
+          {
+            key: 'waterInterval',
+            label: 'Water interval',
+            value: waterInterval,
+            validators: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
+          },
+        ],
+        { name, lastWateredDaysAgo, waterInterval },
+    );
     if (errorMessages && errorMessages.length) {
       setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
     } else {

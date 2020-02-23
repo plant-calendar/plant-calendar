@@ -1,8 +1,8 @@
-import { getHaveUser, setHaveUser } from './actions';
-import { getHaveUser as selectHaveUser } from './selectors';
+import { getHaveCorrectUser, setHaveCorrectUser } from './actions';
+import { getHaveCorrectUser as selectHaveUser } from './selectors';
 import reducer from './reducer';
 
-const actions = { getHaveUser, setHaveUser };
+const actions = { getHaveUser: getHaveCorrectUser, setHaveUser: setHaveCorrectUser };
 const selectors = { getHaveUser: selectHaveUser };
 export { actions, selectors };
 export default reducer;

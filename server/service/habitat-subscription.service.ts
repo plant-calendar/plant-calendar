@@ -9,12 +9,13 @@ export default class extends GenericService {
     }
 
     public async findInvitationToHabitat(userId: entityId, habitatId: entityId) {
-        const found = await this.findAll({
-            subscriberId: userId,
+        const params: Partial<IHabitatSubscription> ={
+            userId,
             habitatId,
             status: 'pending',
             adminAccepted: true,
-        });
+        };
+        const found = await this.findAll(params);
         return found[0] || null;
     }
 

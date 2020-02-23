@@ -52,10 +52,11 @@ const Tile = (props: ITileProps) => {
 
   const getStyleFromKeyVal = (key, val) => `\n${key}: ${val};`;
   const styleString = Object.keys(style).reduce(
-    (s, styleKey) => s + getStyleFromKeyVal(styleKey, style[styleKey]),
+    (stringSoFar, styleKey) => stringSoFar + getStyleFromKeyVal(styleKey, style[styleKey]),
     `display: flex;
     justify-content: center;
-    height: ${TILE_HEIGHT};`,
+    height: ${TILE_HEIGHT};
+    text-decoration: none;`,
   );
   const StyledTile = styled.div`${styleString}`;
 

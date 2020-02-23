@@ -54,4 +54,29 @@ export default client => ({
         }),
         response: res => res.data.getUserSubscribedHabitats,
     },
+    createOne: {
+        request: async ({ name }) => client.mutate({
+            mutation: gql`
+                mutation CreateHabitat($name: String!) {
+                    createHabitat(name: $name) {
+                        id
+                        name
+                        plants {
+                          id
+                          name
+                          habitatId
+                          imageUrl
+                          lastWatered
+                          waterInterval
+                          createdAt
+                          updatedAt
+                        }
+                        subscriptions
+                    }
+                }
+            `,
+            variables: { name },
+        }),
+        response: res => res.data.createHabitat,
+    },
 });

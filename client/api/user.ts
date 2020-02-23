@@ -13,6 +13,7 @@ export default client => ({
                 }
             `,
             variables: { id },
+            fetchPolicy: 'no-cache',
         }),
         response: res => res.data.getUserById,
     },
@@ -37,6 +38,7 @@ export default client => ({
                     getAllNames
                 }
            `,
+            fetchPolicy: 'no-cache',
         }),
         response: res => res.data.getAllNames,
     },

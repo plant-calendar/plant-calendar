@@ -13,3 +13,11 @@ export function fetchUserSubscribedHabitats(userId: string, callback = () => und
 export function setHabitats(habitats: IStoreHabitat[]) {
   return { type: TYPES.SET_HABITATS, habitats };
 }
+
+export function createOne(habitat, callback = (result: IStoreHabitat) => undefined) {
+  return { type: TYPES.HABITATS_CREATE_ONE_REQUESTED, habitat, callback };
+}
+
+export function createOneSucceeded() {
+  return { type: TYPES.HABITATS_CREATE_ONE_SUCCEEDED };
+}

@@ -7,14 +7,16 @@ import passportGoogle from 'passport-google-oauth';
 import UserService from '../service/user.service';
 import {IUser} from "../db/models/user/user.interface";
 import * as _ from 'lodash';
+import AuthService from "../service/auth.service";
 
 const FileStore = fileStore(session);
 const userService = new UserService();
+const authService = new AuthService();
 
 passport.use(new passportGoogle.OAuth2Strategy({
-        clientID: '374923858820-kd4ffv80ht0tnttkqtnqcuco92l2nst4.apps.googleusercontent.com',
-        clientSecret: '6islES8Wf2KF8z4R6oXmeXRf',
-        callbackURL: "http://localhost:3000/auth/google/callback",
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
         const users: IUser[] = await userService.findAll({ thirdPartyId: profile.id }) as IUser[];
@@ -71,7 +73,16 @@ export default app => {
         }
     });
 
-    app.use('/have-user', (req, res) => {
-        res.send(!!_.get(req.session, `passport.user.userId`));
+    // this just exists as a convenience to the user.  it is used by frontend to redirect
+    // users who go to unauthorized page.  even if this did not exist, they would not see any data
+    // on said page, thanks to the /graphql endpoint being protected.
+    app.use('/auth/have-correct-user', async (req, res) => {
+        const desiredUrl = req.query.url;
+        const userId = _.get(req.session, `passport.user.userId`);
+        if (!userId || !(await authService.urlIsAuthorized(desiredUrl, userId))) {
+            res.send(false);
+            return;
+        }
+        res.send(true);
     });
 };
