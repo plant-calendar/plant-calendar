@@ -13,6 +13,7 @@ import schema from './controller';
 import configureAuth from './auth';
 
 const configureApp = () => {
+  console.log('configuring app');
   // logging middleware
   app.use(morgan('dev'));
 
@@ -72,6 +73,7 @@ const configureApp = () => {
     console.error(err.stack);
     res.status(err.status || 500).send(err.message || 'Internal server error.');
   });
+  console.log('done configuring app');
 };
 
 const startListening = () => {
@@ -81,7 +83,11 @@ const startListening = () => {
   );
 };
 
-const syncDb = () => db.sync();
+const syncDb = async () => {
+  console.log('syncing db');
+  await db.sync();
+  console.log('done syncing db');
+};
 
 
 

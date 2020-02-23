@@ -14,7 +14,6 @@ const userService = new UserService();
 const authService = new AuthService();
 
 passport.use(new passportGoogle.OAuth2Strategy({
-        //
         clientID: process.env.GOOGLE_CLIENT_ID,
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback",
@@ -37,6 +36,7 @@ passport.deserializeUser((user, done) => done(null, user.userId));
 
 // export a function that configures the app for passport and session
 export default app => {
+    console.log('beginning auth setup');
     app.use(session({
         genid: req => uuid(), // use UUIDs for session IDs
         secret: 'keyboard cat',
@@ -86,4 +86,5 @@ export default app => {
         }
         res.send(true);
     });
+    console.log('done with auth setup');
 };
