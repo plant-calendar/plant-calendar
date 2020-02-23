@@ -8,7 +8,7 @@
     "build-client": "webpack",
     "build-client-watch": "webpack -w",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack; npm run start-server",
+    "start": "npm run start-server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "node server -e html,js,scss --ignore public --ignore client"
   },
@@ -65,6 +65,7 @@
     "reselect": "^4.0.0",
     "sequelize": "^5.21.1",
     "session-file-store": "^1.4.0",
+    "source-map-explorer": "^2.3.1",
     "styled-components": "^4.4.0",
     "ts-loader": "^6.2.0",
     "ts-node": "^8.4.1",
