@@ -16,7 +16,6 @@ const Component = (props: IProps) => {
         {
             key: 'name',
             label: 'name',
-            value: name,
             validators: [validatorGetters.isNotNil(), validatorGetters.isOfLength(3)],
         },
     ];

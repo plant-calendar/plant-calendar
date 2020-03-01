@@ -5,20 +5,13 @@ import styled from 'styled-components';
 import { COLORS } from "../style-config";
 
 const Container = styled.div`
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+
 `;
 
 
 const CentralDiv = styled.div`
-    position: absolute;
-    left: 33vw;
-    top: 33vh;
-    width: 33vw;
-
-    color: ${COLORS.darkGreen};
-    padding: 1%;
+    padding: 5%;
+    margin-top: -10px;
 `;
 
 const GoogleButton = styled.a`
@@ -41,19 +34,57 @@ const GoogleImage = styled.img`
 `;
 
 const GoogleTextContainer = styled.div`
-    padding: 5%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 7px;
 `;
 
 const GoogleText = styled.div`
+    font-family: Roboto;
+`;
+
+const TitleText = styled.div`
+    font-size: 6vh;
+    line-height: 78px;
+    color: ${COLORS.primaryGreen};
+    padding-bottom: 3vh;
+`;
+
+const Intro = styled.div`
+    padding-bottom: 5vh;
+`;
+
+const DemoLink = styled.a`
+    text-decoration: none;
+    color: ${COLORS.darkGreen};
+    font-weight: bolder;
+    -webkit-font-smoothing: antialiased;
+`;
+
+const Plant = styled.img`
+    height: 45vh;  
+    max-width: 100vw;
 `;
 
 const LoginComponent = props => {
     return (
             <Container>
+                <Plant src="https://s3-alpha-sig.figma.com/img/6c63/70ed/ad1930cd4b50ded9905c58f50ef09c33?Expires=1583107200&Signature=gCz7L7810K8SjuRcWD~8M2u4HHRjNAmFCM8k7SWsa3J9eyb9oervC6ASyUkXD0ZSr4bX4nTQql2VRnUslMYTb7GPwqAlxMlqnN38UnqRLoGIcFjIx4Ntf64glsb15gIn~~xy9tmSSkxnH47NdWQhXEvH4SIP7e7z8-JnIdL5EkeSbBeKQ09cbh3WDrxteuU0MASJjqx4Yko20WjfYIwnNeDYPvUGrYxf19s8rcJPlAFANqoNeqJ~YgtI6bSihYevKruHkOGdMqo0aSi47aIUjqpsfkL591Y5plrr61k0m2cBunmiG3AfFtKbcPgi2gulnS0AQwh95TkH~lA32VAYTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
                 <CentralDiv>
-                    <h1>PlantCalendar</h1>
-                    <GoogleButton href="https://hungry-plants.herokuapp.com/auth/google">
-                        <GoogleImage src="/google-icon.png"/>
+                    <TitleText>PlantCalender</TitleText>
+                    {/*<GoogleButton href="https://hungry-plants.herokuapp.com/auth/google">*/}
+                    <Intro>
+                        Keep track of when to water plants.  Collaborate with
+                        others to keep them watered and happy.
+                        <DemoLink
+                            href="https://www.youtube.com/watch?v=YYUyGZMJTSc"
+                        > See a demo here. </DemoLink>
+                        Click below to get started!
+                    </Intro>
+                    <GoogleButton href="http://localhost:3000/auth/google">
+                        <GoogleImage src="/icons/google-icon.png"/>
                         <GoogleTextContainer>
                             <GoogleText>Sign in with Google</GoogleText>
                         </GoogleTextContainer>

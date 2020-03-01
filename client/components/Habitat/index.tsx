@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom';
 import {entityId} from "../../../server/db/types";
 import {IAugmentedPlant} from "../../store/habitat/selectors";
 import {CreatePlant} from "../CreatePlantModal";
+import CreatePlant2 from '../CreatePlantModal/index2';
 import {actions as habitatActions, selectors as habitatSelectors} from '../../store/habitat';
 import {actions as plantActions} from '../../store/plant';
 import {PlantTile} from "./plant-tiles";
@@ -60,10 +61,20 @@ const Habitat = (props: IHabitatComponentProps) => {
   };
   return (
     <div>
+      {/*{*/}
+      {/*  createPlantOpen*/}
+      {/*    ? <CreatePlant habitatId={habitatId} onCreate={onCreatePlant} onCancel={() => setCreatePlantOpen(false)}/>*/}
+      {/*    : null*/}
+      {/*}*/}
       {
         createPlantOpen
-          ? <CreatePlant habitatId={habitatId} onCreate={onCreatePlant} onCancel={() => setCreatePlantOpen(false)}/>
-          : null
+            ? <CreatePlant2
+                habitatId={habitatId}
+                onCreate={onCreatePlant}
+                onCancel={
+                  () => setCreatePlantOpen(false)
+                }/>
+            : null
       }
       <Container>
         <Title>@{props.name}</Title>

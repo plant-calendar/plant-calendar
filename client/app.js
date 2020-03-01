@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import Routes from './routing';
 import { selectors as userSelectors, actions as userActions } from "./store/user";
 import styled from 'styled-components';
+import { COLORS } from "./components/style-config";
 
 const AppDiv = styled.div`
-    
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: normal;
+    color: ${COLORS.primaryGreen};
 `;
 
 const App = props => {

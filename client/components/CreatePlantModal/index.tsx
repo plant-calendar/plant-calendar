@@ -6,6 +6,7 @@ import {entityId} from "../../../server/db/types";
 import { getFormErrorMessages, validatorGetters } from '../../forms/validation';
 import {actions as plantActions} from "../../store/plant";
 import {IField} from "../../forms/interfaces";
+import {CreateModal} from "../common/CreateModal";
 
 interface ICreatePlantProps {
   createPlant: any;
@@ -15,75 +16,53 @@ interface ICreatePlantProps {
 }
 
 const Component = (props: ICreatePlantProps) => {
-  const [justCreated, setJustCreated] = useState(false);
-
-  const [name, setName] = useState('');
-  const [lastWateredDaysAgo, setLastWateredDaysAgo] = useState(0);
-  const [waterInterval, setWaterInterval] = useState(3);
-  const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
-
-  const onClickCreate = () => {
-    const errorMessages = getFormErrorMessages(
-        [
-          {
-            key: 'name',
-            label: 'name',
-            value: name,
-            validators: [validatorGetters.isNotNil()],
-          },
-          {
-            key: 'lastWateredDaysAgo',
-            label: 'Last watered days ago',
-            value: lastWateredDaysAgo,
-            validators: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
-          },
-          {
-            key: 'waterInterval',
-            label: 'Water interval',
-            value: waterInterval,
-            validators: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
-          },
-        ],
-        { name, lastWateredDaysAgo, waterInterval },
-    );
-    if (errorMessages && errorMessages.length) {
-      setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
-    } else {
-      props.createPlant({
-        name,
-        waterInterval,
-        lastWatered: new Date(),// todo subtract lastWateredDaysAgo from today to get date
-        habitatId: props.habitatId,
-      }, (response: IPlant) => {
-        setJustCreated(true);
-        setTimeout(() => props.onCreate(response), 2000);
-      });
-    }
+  const createPlant = partialPlantData => {
+    const { name, waterInterval, lastWateredDaysAgo } = partialPlantData;
+    props.createPlant({
+      name,
+      waterInterval,
+      lastWatered: new Date(),// todo subtract lastWateredDaysAgo from today to get date
+      habitatId: props.habitatId,
+    }, (response: IPlant) => {
+      setTimeout(() => props.onCreate(response), 2000);
+    });
   };
 
-  const getOnChangeInput = stateSetter => event => stateSetter(event.target.value);
+  const fields = [
+        {
+          key: 'name',
+          label: 'name',
+          value: name,
+          validators: [validatorGetters.isNotNil()],
+        },
+        {
+          key: 'lastWateredDaysAgo',
+          label: 'last watered days ago',
+          validators: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
+        },
+        {
+          key: 'waterInterval',
+          label: 'water interval',
+          validators: [validatorGetters.isNotNil(), validatorGetters.isNumber()],
+        },
+    ];
   return (
-    <ReactModal isOpen>
-      {justCreated ? 'Created plant!' : (
-        <div>
-          <label>
-            Plant name:
-            <input value={name} onChange={getOnChangeInput(setName)}/>
-          </label>
-          <label>
-            Days since watered:
-            <input value={lastWateredDaysAgo} onChange={getOnChangeInput(setLastWateredDaysAgo)}/>
-          </label>
-          <label>
-            Water interval:
-            <input value={waterInterval} onChange={event => setWaterInterval(+event.target.value)}/>
-          </label>
-          {submissionErrorMessage.length ? (<div>{submissionErrorMessage}</div>) : null}
-          <button onClick={props.onCancel}>cancel</button>
-          <button onClick={onClickCreate}>create!</button>
-        </div>
-      )}
-    </ReactModal>
+    <CreateModal
+        fields={fields}
+        create={createPlant}
+        onCancel={props.onCancel}
+        afterCreate={props.onCreate}
+        imageChoices={[
+            '/plant-avatars/plant1.png',
+            '/plant-avatars/plant2.png',
+            '/plant-avatars/plant3.png',
+            '/plant-avatars/plant4.png',
+            '/plant-avatars/plant5.png',
+            '/plant-avatars/plant6.png',
+            '/plant-avatars/plant7.png',
+            '/plant-avatars/plant8.png',
+        ]}
+    />
   );
 };
 

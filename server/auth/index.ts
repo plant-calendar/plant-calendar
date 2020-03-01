@@ -13,29 +13,38 @@ const FileStore = fileStore(session);
 const userService = new UserService();
 const authService = new AuthService();
 
-passport.use(new passportGoogle.OAuth2Strategy({
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback",
-    },
-    async (accessToken, refreshToken, profile, done) => {
-        const users: IUser[] = await userService.findAll({ thirdPartyId: profile.id }) as IUser[];
-        let userId = _.get(users, ['0', 'id']);
-        const userName = _.get(users, ['0', 'name']);
-        if (!userId) {
-            const newUser = await userService.createOne({ thirdPartyId: profile.id });
-            // @ts-ignore
-            userId = newUser.id;
-        }
-        done(null, { accessToken, refreshToken, id: profile.id, userId, userName });
-    },
-));
+const configureGoogleStrategy = async () => {
+    let clientID = process.env.GOOGLE_CLIENT_ID;
+    let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+    const callbackURL = process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback";
+    if (!process.env.GOOGLE_CLIENT_ID) {
+        const localConfig = await import('../../local-config.js');
+        clientID = localConfig.GOOGLE_CLIENT_ID;
+        clientSecret = localConfig.GOOGLE_CLIENT_SECRET;
+    }
+    passport.use(new passportGoogle.OAuth2Strategy({
+            clientID,
+            clientSecret,
+            callbackURL,
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            const users: IUser[] = await userService.findAll({ thirdPartyId: profile.id }) as IUser[];
+            let userId = _.get(users, ['0', 'id']);
+            const userName = _.get(users, ['0', 'name']);
+            if (!userId) {
+                const newUser = await userService.createOne({ thirdPartyId: profile.id });
+                // @ts-ignore
+                userId = newUser.id;
+            }
+            done(null, { accessToken, refreshToken, id: profile.id, userId, userName });
+        },
+    ));
+};
 
-passport.serializeUser((user, done) => done(null, user));
-passport.deserializeUser((user, done) => done(null, user.userId));
-
-// export a function that configures the app for passport and session
-export default app => {
+export default async app => {
+    await configureGoogleStrategy();
+    passport.serializeUser((user, done) => done(null, user));
+    passport.deserializeUser((user, done) => done(null, user.userId));
     console.log('beginning auth setup');
     app.use(session({
         genid: req => uuid(), // use UUIDs for session IDs

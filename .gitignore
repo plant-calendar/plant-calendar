@@ -6,3 +6,4 @@ npm-debug.log
 yarn-error.log
 backend-dist/*
 .idea
+local-config.js

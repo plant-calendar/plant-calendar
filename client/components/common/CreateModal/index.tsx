@@ -1,15 +1,16 @@
 import React, {useState} from "react";
-import ReactModal from 'react-modal';
 
 import {getFormErrorMessages, validatorGetters} from "../../../forms/validation";
 import {IPlant} from "../../../../server/db/models/plant/plant.interface";
 import {IField} from "../../../forms/interfaces";
+import {CreateModalDisplay} from "./display";
 
 interface ICreateModalProps {
     fields: IField[];
     create: (values: object, callback: any) => any;
     onCancel: () => any;
     afterCreate: (created?: object) => any;
+    imageChoices?: string[];
 }
 
 export const CreateModal = (props: ICreateModalProps) => {
@@ -46,28 +47,19 @@ export const CreateModal = (props: ICreateModalProps) => {
 
     const getOnChangeInput = stateSetter => event => stateSetter(event.target.value);
     return (
-        <ReactModal isOpen>
-                <div>
-                    {
-                        fields.map(({ label, key }) => {
-                          return (
-                              <div key={key} >
-                                <label>
-                                    {label}
-                                    <input
-                                        value={states[key].value}
-                                        onChange={getOnChangeInput(states[key].setter)}
-                                    />
-                                </label>
-                              </div>
-                          );
-                        })
-                    }
-                    {submissionErrorMessage.length ? (<div>{submissionErrorMessage}</div>) : null}
-                    <button onClick={props.onCancel}>cancel</button>
-                    <button onClick={onClickCreate}>create!</button>
-                </div>
-        </ReactModal>
+        <CreateModalDisplay
+            fields={fields.map(({ label, key }) => {
+                return {
+                    label,
+                    key,
+                    onChange: getOnChangeInput(states[key].setter),
+                    value: states[key].value,
+                };
+            }}
+            errorMessage={submissionErrorMessage}
+            imageChoices={props.imageChoices || []}
+            onSubmit={onClickCreate}
+        />
     );
 };
 

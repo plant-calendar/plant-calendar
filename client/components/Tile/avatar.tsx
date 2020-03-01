@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import {COLORS} from "../style-config";
 
 const Container = styled.div`
-    width: 125px;
-    height: 125px;
+      width: 100%;
+      height: 90%;
+      padding-top: 10%;
 `;
 
 const Avatar = props => {
@@ -12,7 +13,6 @@ const Avatar = props => {
   let style = `
     border-radius: 50%;
     height: 80%;
-    margin-left: 10%;
   `;
   if (props.alert) {
     style += `border: 2px solid ${COLORS.notification};`;
