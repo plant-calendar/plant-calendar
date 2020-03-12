@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import React, {useState} from "react";
-import Avatar from "../../components/Tile/avatar";
+import React from "react";
 import {COLORS} from "../../components/style-config";
 
 const PicturesContainer = styled.div`
@@ -31,6 +30,14 @@ const SelectableBox = props => {
     );
 };
 
+const AvatarImage = styled.img`
+    height: 60%;
+`;
+
+const Avatar = ({ imageUrl }) => (
+    <AvatarImage src={imageUrl} />
+);
+
 
 export default (imageUrls, selectedImageUrl: string, onSelectOne) => {
     const getRow = imageUrlsForRow => {
@@ -45,7 +52,8 @@ export default (imageUrls, selectedImageUrl: string, onSelectOne) => {
                     selected={imageUrlsForRow[i] === selectedImageUrl}
                     onClick={boxClick}
                     key={`box-${i}`}
-                >{avatar}
+                >
+                    {avatar}
                 </SelectableBox>);
         }
         return boxes;

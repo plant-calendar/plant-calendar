@@ -4,6 +4,20 @@ import {entityId} from "../db/types";
 export default class GenericRepository {
   private static getValuesFromFindAll = results => (results || []).map(r => r.dataValues);
 
+  private static buildWhere = (params: object) => {
+    return Object.keys(params).reduce((acc, colName) => {
+      if (Array.isArray(params[colName])) {
+        if (params[colName].length) {
+          acc[colName] = { [Sequelize.Op.or]: params[colName] };
+        }
+      } else {
+        acc[colName] = params[colName];
+        return acc;
+      }
+      return acc;
+    }, {});
+  }
+
   private model;
 
   constructor(model) {
@@ -26,18 +40,7 @@ export default class GenericRepository {
     if (!params || !Object.keys(params).length) {
       return GenericRepository.getValuesFromFindAll(await this.model.findAll());
     }
-    // convert arrays to Op.or's... leave other kinds of values as they are
-    const where = Object.keys(params).reduce((acc, colName) => {
-      if (Array.isArray(params[colName])) {
-        if (params[colName].length) {
-          acc[colName] = { [Sequelize.Op.or]: params[colName] };
-        }
-      } else {
-        acc[colName] = params[colName];
-        return acc;
-      }
-      return acc;
-    }, {});
+    const where = GenericRepository.buildWhere(params);
     // it is possible that we were passed params with just empty arrays for values to search on
     // the expected behavior is for no results to come back, but that is not what sequelize does,
     // so we make that happen manually
@@ -68,5 +71,10 @@ export default class GenericRepository {
 
   public async createOne(entity: object) {
     return (await this.model.create(entity)).dataValues;
+  }
+
+  public async deleteWhere(params: object) {
+    const where = GenericRepository.buildWhere(params);
+    return this.model.destroy({ where });
   }
 }

@@ -8,3 +8,7 @@ export function waterByIds(plantIds: entityId[], callback?: () => any) {
 export function createOne(plant: object, callback?: () => any) {
   return { type: TYPES.PLANTS_CREATE_ONE_REQUESTED, plant, callback };
 }
+
+export function updateOne(plant: object, callback?: () => any) {
+  return { type: TYPES.PLANTS_UPDATE_ONE_REQUESTED, plant, callback };
+}

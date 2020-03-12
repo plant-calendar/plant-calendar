@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import PlusSign from "./PlusSign";
 import {COLORS} from "../style-config";
@@ -12,6 +12,8 @@ const HorizontalContainer = styled.div`
   margin-top: 20px;
   padding-left: 7%;
   cursor: pointer;
+  opacity: 0.7;
+  box-shadow: 2px 2px #e8e8e8;
 `;
 
 const VerticalContainer = styled.div`
@@ -30,16 +32,22 @@ interface IAddTileProps {
 }
 
 const AddTile = (props: IAddTileProps) => {
-  return (
-    <HorizontalContainer onClick={props.onClick}>
-      <VerticalContainer>
-        <PlusSign height={40} width={40} />
-      </VerticalContainer>
-      <VerticalContainer>
-        <Message>{props.message}</Message>
-      </VerticalContainer>
-    </HorizontalContainer>
-  );
+    const [color, setColor] = useState(COLORS.lightGray);
+    return (
+        <HorizontalContainer
+            onMouseOver={() => setColor(COLORS.primaryGreen)}
+            onMouseLeave={() => setColor(COLORS.lightGray)}
+            onClick={props.onClick}
+            style={{ borderColor: color, color}}
+        >
+          <VerticalContainer>
+            <PlusSign color={color} height={40} width={40} />
+          </VerticalContainer>
+          <VerticalContainer>
+            <Message>{props.message}</Message>
+          </VerticalContainer>
+        </HorizontalContainer>
+    );
 };
 
 export default AddTile;

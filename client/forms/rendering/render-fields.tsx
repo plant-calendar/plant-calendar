@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import renderPictures from './avatars';
 import {COLORS} from "../../components/style-config";
 import {FieldTypes, IField} from "../interfaces";
+import Toggle from './toggle';
 
 const StyledInput = styled.textarea`
     border: 1px solid ${COLORS.darkGreen};
@@ -27,14 +28,14 @@ const StyledError = styled.div`
 `;
 
 const fieldGetters = {
-    [FieldTypes.INPUT]: ({ label }, value, onChange, error: string, clearError, onLeave) => (
+    [FieldTypes.INPUT]: ({ label, lowerCase }, value, onChange, error: string, clearError, onLeave) => (
         <div key={`create-${label}-1`}>
             <StyledLabel>{label}</StyledLabel>
             <StyledInput
                 onFocus={clearError}
                 onBlur={onLeave}
                 value={value}
-                onChange={event => onChange(event.target.value)}
+                onChange={event => onChange(lowerCase ? event.target.value.toLowerCase() : event.target.value)}
             />
             <StyledError>{error}</StyledError>
         </div>
@@ -54,14 +55,23 @@ const fieldGetters = {
                     onFocus={clearError}
                     onBlur={onLeave}
                     value={value}
-                    key={key}
                     onChange={event => onChange(event.target.value)}
                 >
-                    {options.map(option => (<option key={`${key}-${option}`} value={option}>{option}</option>))}
+                    {options.map(
+                        option => (<option key={`${key}-${option.value}`} value={option.value}>{option.label}</option>),
+                    )}
                 </StyledDropdown>
                 <StyledError>{error}</StyledError>
             </div>
         );
+    },
+    [FieldTypes.TOGGLE]: ({ key, label }, value, onChange) => {
+      return (
+          <div key={key}>
+              <StyledLabel>{label}</StyledLabel>
+              <Toggle value={value} onChange={onChange} />
+          </div>
+      );
     },
 };
 

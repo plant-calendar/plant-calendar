@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
-import { AllTilesContainer, Title, Container } from "../Habitat/styled-components";
-import { Link } from 'react-router-dom';
+import { TitleAndBackContainer, Title, Container } from "../Habitat/styled-components";
 import { selectors as userSelectors, actions as userActions } from '../../store/user';
 import { selectors as habitatSelectors, actions as habitatActions } from '../../store/habitat';
 import AddTile from "../common/AddTile";
-import Tile from "../Tile";
 import { CreateHabitat } from "../CreateHabitatModal";
+import TileContainer from '../TileDisplay/index2';
 
 const UserHabitatsComponent = props => {
     const { user, habitats = [], match, fetchUser, fetchUserSubscribedHabitats } = props;
@@ -15,7 +14,8 @@ const UserHabitatsComponent = props => {
         fetchUser(userId);
         return null;
     }
-    const [addHabitatOpen, setAddHabitatOpen] = useState();
+    const [addHabitatOpen, setAddHabitatOpen] = useState(false);
+    const [subscribeToNewHabitatOpen, setSubscribeToNewHabitatOpen] = useState(false);
     useEffect(() => {
         fetchUserSubscribedHabitats(userId);
     }, []);
@@ -34,18 +34,32 @@ const UserHabitatsComponent = props => {
                 : null
             }
             <Container>
-                <Title>@{user.name}</Title>
-                <AddTile message="Add a habitat" onClick={() => setAddHabitatOpen(true)}/>
-                <AllTilesContainer>
-                    {habitats.map(habitat => (
-                        <Link key={habitat.id} to={`/habitats/${habitat.id}`} >
-                            <Tile
-                                title={habitat.name}
-                                details={`${habitat.plants.length} plants`}
-                            />
-                        </Link>
-                    ))}
-                </AllTilesContainer>
+                <TitleAndBackContainer>
+                    <Title>@{user.name}</Title>
+                </TitleAndBackContainer>
+                <AddTile message="Create new habitat" onClick={() => setAddHabitatOpen(true)}/>
+                <AddTile message="Subscribe to habitat" onClick={() => setSubscribeToNewHabitatOpen(true)}/>
+                {/*<AllTilesContainer>*/}
+                {/*    {habitats.map(habitat => (*/}
+                {/*        <Link key={habitat.id} to={`/habitats/${habitat.id}`} >*/}
+                {/*            <Tile*/}
+                {/*                title={habitat.name}*/}
+                {/*                details={`${habitat.plants.length} plants`}*/}
+                {/*            />*/}
+                {/*        </Link>*/}
+                {/*    ))}*/}
+                {/*</AllTilesContainer>*/}
+                <TileContainer
+                    tiles={habitats.map(habitat => ({
+                        elementKey: habitat.id,
+                        linkTo: `/habitats/${habitat.id}`,
+                        title: habitat.name,
+                        details: `${habitat.plants.length} plants`,
+                        imageUrl: '/plant-avatars/plant5.png',
+                        hasSettings: true,
+                        openSettings: () => console.log(`opened settings for habitat ${habitat.id}`);
+                    }))}
+                />
             </Container>
         </div>
     );

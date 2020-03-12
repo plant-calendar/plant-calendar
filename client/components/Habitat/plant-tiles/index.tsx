@@ -1,7 +1,7 @@
 import React from 'react';
 import {plantDataAccessors} from "../../../../common/data-accessors/plant";
 import {COLORS} from "../../style-config";
-import Tile from "../../Tile";
+import Tile from "../../TileDisplay";
 import {IPlant} from "../../../../server/db/models/plant/plant.interface";
 
 interface IPlantTileProps {

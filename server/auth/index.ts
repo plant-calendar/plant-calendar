@@ -95,5 +95,4 @@ export default async app => {
         }
         res.send(true);
     });
-    console.log('done with auth setup');
 };

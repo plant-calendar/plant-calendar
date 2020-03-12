@@ -3,12 +3,21 @@ import * as graphQl from "graphql";
 import plants from '../plant';
 import PlantService from '../../service/plant.service';
 import HabitatSubscriptionService from '../../service/habitat-subscription.service';
+import {entityId} from "../../db/types";
+import PlantSubscriptionService from "../../service/plant-subscription.service";
 
 const idConfig = { type: graphQl.GraphQLInt };
 const nameConfig = { type: graphQl.GraphQLString };
 
 const plantService = new PlantService();
 const habitatSubscriptionService = new HabitatSubscriptionService();
+const plantSubscriptionService = new PlantSubscriptionService();
+
+// if the user is not subscribed to habitat, they cannot see plants in it
+const canSeeHabitatPlants = async (userId, habitatId): Promise<boolean> => {
+  const subscriptions = await habitatSubscriptionService.findAll({ userId, habitatId });
+  return !!subscriptions.length;
+};
 
 const habitatType = new graphQl.GraphQLObjectType({
   fields: {
@@ -17,12 +26,8 @@ const habitatType = new graphQl.GraphQLObjectType({
     plants: {
       type: GraphQLList(plants.plantType),
       resolve: async (root, args, context) => {
-        // if the user is not subscribed to habitat, they cannot see plants in it
-        // @ts-ignore
-        const subscription = (await habitatSubscriptionService.findAll({ userId: context.userId, habitatId: root.id,
-        }) || [])[0];
-        if (!subscription) {
-         return [];
+        if (!await canSeeHabitatPlants(context.userId, root.id)) {
+          return [];
         }
         // @ts-ignore
         return plantService.findAll({ habitatId: root.id });
@@ -30,8 +35,17 @@ const habitatType = new graphQl.GraphQLObjectType({
     },
     subscriptions: {
       type: GraphQLList(GraphQLInt), // list of plant ids
-      resolve: (root, args) => {
-        return [1, 2];
+      resolve: async (root, args, context): Promise<entityId[]> => {
+        if (!await canSeeHabitatPlants(context.userId, root.id)) {
+          return [];
+        }
+        const habitatPlants = await plantService.findAll({ habitatId: root.id });
+        const subs = await plantSubscriptionService.findAll({
+          plantId: habitatPlants.map(plant => plant.id),
+          userId: context.userId,
+          status: 'active',
+        });
+        return subs.map(sub => sub.plantId);
       },
     },
   },

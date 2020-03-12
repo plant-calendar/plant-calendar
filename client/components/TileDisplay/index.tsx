@@ -60,21 +60,36 @@ const Tile = (props: ITileProps) => {
   );
   const StyledTile = styled.div`${styleString}`;
 
+  // return (
+  //   <div>
+  //     <StyledTile>
+  //       <Avatar alert={alert} imageUrl={imageUrl}/>
+  //       <TileText>
+  //         <TitleRow>
+  //           <TileTitle>{title}</TileTitle>
+  //           <TagsContainer>{
+  //             // @ts-ignore
+  //             ...tags.map(tagProps => <Tag {...tagProps} />)
+  //           }</TagsContainer>
+  //         </TitleRow>
+  //         <TileDetails>{details}</TileDetails>
+  //       </TileText>
+  //     </StyledTile>
+  //   </div>
+  // );
   return (
     <div>
-      <StyledTile>
+      <div>
         <Avatar alert={alert} imageUrl={imageUrl}/>
-        <TileText>
-          <TitleRow>
-            <TileTitle>{title}</TileTitle>
-            <TagsContainer>{
-              // @ts-ignore
-              ...tags.map(tagProps => <Tag {...tagProps} />)
-            }</TagsContainer>
-          </TitleRow>
-          <TileDetails>{details}</TileDetails>
-        </TileText>
-      </StyledTile>
+        <div>
+          <div>
+            header text
+          </div>
+          <div>
+            details text
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

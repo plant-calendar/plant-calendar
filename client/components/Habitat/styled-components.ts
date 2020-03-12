@@ -9,15 +9,19 @@ export const Container = styled.div`
 export const Title = styled.div`
   font-size: 24px;
   color: ${COLORS.darkGreen};
-  margin-top: 50px;
-  margin-bottom: 45px;
 `;
 
 export const AllTilesContainer = styled.div`
-  margin-top: 60px;
 `;
 
 export const SingleTileContainer = styled.div`
   margin-top: 60px;
+`;
+
+export const TitleAndBackContainer = styled.div`
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
 `;
 

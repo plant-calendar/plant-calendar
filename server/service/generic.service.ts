@@ -31,4 +31,8 @@ export default class {
   public async findWhereNonNull(columnName) {
     return this.repository.findWhereNot(columnName, null);
   }
+
+  public async deleteWhere(params: object) {
+    return this.repository.deleteWhere(params);
+  }
 }

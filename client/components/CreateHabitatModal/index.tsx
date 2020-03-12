@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import ReactModal from 'react-modal';
 import { actions as habitatActions } from '../../store/habitat';
-import {CreateModal} from "../common/CreateModal";
+import CreateModal from "../common/CreateModal";
 import {validatorGetters} from "../../forms/validation";
 
 interface IProps {
@@ -11,20 +10,25 @@ interface IProps {
     onCancel: () => any;
 }
 
+const stages = [
+    {
+      fields: [
+          {
+              key: 'name',
+              label: 'what do you want to call this habitat?',
+              validators: [validatorGetters.isNotNil(), validatorGetters.isOfLength(3)],
+          },
+      ],
+    },
+];
+
 const Component = (props: IProps) => {
-    const fields = [
-        {
-            key: 'name',
-            label: 'name',
-            validators: [validatorGetters.isNotNil(), validatorGetters.isOfLength(3)],
-        },
-    ];
     return (
       <CreateModal
-          fields={fields}
-          create={props.create}
-          afterCreate={props.afterCreate}
-          onCancel={props.onCancel}
+          stages={stages}
+          save={props.create}
+          afterSave={props.afterCreate}
+          close={props.onCancel}
       />
     );
 };

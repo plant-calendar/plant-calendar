@@ -1,65 +1,87 @@
-import React, {useState} from "react";
-
-import {getFormErrorMessages, validatorGetters} from "../../../forms/validation";
-import {IPlant} from "../../../../server/db/models/plant/plant.interface";
+import React, {useState} from 'react';
 import {IField} from "../../../forms/interfaces";
-import {CreateModalDisplay} from "./display";
+import Display from "./display";
+import {validateField} from "../../../forms/validation";
 
-interface ICreateModalProps {
+export interface IStage {
     fields: IField[];
-    create: (values: object, callback: any) => any;
-    onCancel: () => any;
-    afterCreate: (created?: object) => any;
-    imageChoices?: string[];
 }
 
-export const CreateModal = (props: ICreateModalProps) => {
-    const { fields } = props;
-    const states = fields.reduce((acc, field: IField) => {
-        const [value, setter] = useState(field.initial || '');
-        acc[field.key] = { value, setter };
+interface IProps {
+    submitButtonText: string;
+    stages: IStage[];
+    close: () => any;
+    save: (toSave: any, callback?: (saved: any) => any) => any;
+    afterSave: (saved?: any) => any;
+}
+
+export default (props: IProps) => {
+    const { stages } = props;
+
+    const states = stages.reduce((acc, { fields }) => {
+        fields.forEach(field => {
+            const haveInitial = field.initial !== null && field.initial !== undefined;
+            const [value, setter] = useState(haveInitial ? field.initial : '');
+            const [error, errorSetter] = useState('');
+            acc[field.key] = { value, setter, error, errorSetter };
+        });
         return acc;
     }, {});
-    const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
-    const [justCreated, setJustCreated] = useState(false);
 
-    const onClickCreate = () => {
-        const values = Object.keys(states).reduce((vals, fieldKey) => {
-            vals[fieldKey] = states[fieldKey].value;
-            return vals;
-        }, {});
-        const errorMessages = getFormErrorMessages(fields, values);
-        if (errorMessages && errorMessages.length) {
-            setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
-        } else {
-            props.create(
-                Object.keys(states).reduce((objToCreate, fieldName) => {
-                    objToCreate[fieldName] = states[fieldName].value;
-                    return objToCreate;
-                }, {}),
-                createdResponse => {
-                    setJustCreated(true);
-                    setTimeout(() => props.afterCreate(createdResponse), 2000);
-                },
-            );
-        }
+    const [submissionError, setSubmissionError] = useState('');
+    const [currentStageIdx, setCurrentStageIdx] = useState(0);
+
+    const onNext = () => {
+        setCurrentStageIdx(currentStageIdx + 1);
     };
 
-    const getOnChangeInput = stateSetter => event => stateSetter(event.target.value);
+    const getFieldErrors = field => validateField(states[field.key].value, field.validators);
+
+    const onSubmit = () => {
+        let haveError = false;
+        const toSave = {};
+        for (const stage of stages) {
+            for (const field of stage.fields) {
+                const errors = getFieldErrors(field);
+                if (errors.length) {
+                    states[field.key].errorSetter(errors[0]);
+                    haveError = true;
+                }
+                toSave[field.key] = field.getFinalValue
+                    ? field.getFinalValue(states[field.key].value)
+                    : states[field.key].value;
+            }
+        }
+        if (haveError) {
+            return;
+        }
+        props.save(toSave, saved => props.afterSave(saved));
+    };
+
+    console.log({states});
     return (
-        <CreateModalDisplay
-            fields={fields.map(({ label, key }) => {
+        <Display
+            fields={stages[currentStageIdx].fields.map(field => {
+                const { setter, value, error, errorSetter } = states[field.key];
                 return {
-                    label,
-                    key,
-                    onChange: getOnChangeInput(states[key].setter),
-                    value: states[key].value,
+                    field,
+                    onChange: setter,
+                    value,
+                    error,
+                    onLeave: () => errorSetter(getFieldErrors(field)[0] || ''),
+                    clearError: () => errorSetter(''),
                 };
-            }}
-            errorMessage={submissionErrorMessage}
-            imageChoices={props.imageChoices || []}
-            onSubmit={onClickCreate}
+            })}
+            buttonText={props.submitButtonText}
+            canSubmit={currentStageIdx === stages.length - 1}
+            canBack={currentStageIdx > 0}
+            canForward={currentStageIdx !== stages.length - 1}
+            onBack={() => setCurrentStageIdx(currentStageIdx - 1)}
+            onForward={() => setCurrentStageIdx(currentStageIdx + 1)}
+            onSubmit={onSubmit}
+            submissionError={submissionError}
+            onClickForward={onNext}
+            close={props.close}
         />
     );
 };
-

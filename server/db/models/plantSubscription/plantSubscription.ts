@@ -3,8 +3,8 @@ import db from '../../db';
 
 const PlantSubscription = db.define('plantSubscription', {
   status: {
-    type: Sequelize.ENUM('pending', 'approved', 'rejected'),
-    defaultValue: 'pending',
+    type: Sequelize.ENUM('active', 'inactive'),
+    defaultValue: 'active',
   },
 });
 

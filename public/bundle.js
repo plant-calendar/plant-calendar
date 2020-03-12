@@ -307,7 +307,7 @@ exports.default = (function (client) { return ({
         request: function (ids) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, client.mutate({
-                        mutation: apollo_boost_1.gql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n        mutation WaterPlantsByIds($ids: [Int]!) {\n          waterPlantsByIds(ids: $ids)\n        }\n      "], ["\n        mutation WaterPlantsByIds($ids: [Int]!) {\n          waterPlantsByIds(ids: $ids)\n        }\n      "]))),
+                        mutation: apollo_boost_1.gql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n                mutation WaterPlantsByIds($ids: [Int]!) {\n                    waterPlantsByIds(ids: $ids)\n                }\n            "], ["\n                mutation WaterPlantsByIds($ids: [Int]!) {\n                    waterPlantsByIds(ids: $ids)\n                }\n            "]))),
                         variables: { ids: ids },
                     })];
             });
@@ -318,20 +318,41 @@ exports.default = (function (client) { return ({
         request: function (plant) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, client.mutate({
-                        mutation: apollo_boost_1.gql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n        mutation CreatePlant($name: String!, $lastWatered: String!, $waterInterval: Int!, $habitatId: Int!) {\n          createPlant(name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId) {\n            id\n            name\n            habitatId\n            lastWatered\n            waterInterval\n          }\n        }\n      "], ["\n        mutation CreatePlant($name: String!, $lastWatered: String!, $waterInterval: Int!, $habitatId: Int!) {\n          createPlant(name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId) {\n            id\n            name\n            habitatId\n            lastWatered\n            waterInterval\n          }\n        }\n      "]))),
+                        mutation: apollo_boost_1.gql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n                mutation CreatePlant($name: String!, $lastWatered: String!, $waterInterval: Int!, $habitatId: Int!, $imageUrl: String!, $subscribed: Boolean!) {\n                  createPlant(name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId, imageUrl: $imageUrl, subscribed: $subscribed) {\n                    id\n                    name\n                    habitatId\n                    lastWatered\n                    waterInterval\n                    imageUrl\n                  }\n                }\n              "], ["\n                mutation CreatePlant($name: String!, $lastWatered: String!, $waterInterval: Int!, $habitatId: Int!, $imageUrl: String!, $subscribed: Boolean!) {\n                  createPlant(name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId, imageUrl: $imageUrl, subscribed: $subscribed) {\n                    id\n                    name\n                    habitatId\n                    lastWatered\n                    waterInterval\n                    imageUrl\n                  }\n                }\n              "]))),
                         variables: {
                             name: plant.name,
                             lastWatered: plant.lastWatered,
                             waterInterval: plant.waterInterval,
                             habitatId: plant.habitatId,
+                            imageUrl: plant.imageUrl,
+                            subscribed: plant.subscribed,
                         },
                     })];
             });
         }); },
         response: function (res) { return res.data.createPlant; },
     },
+    updateOne: {
+        request: function (plant) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, client.mutate({
+                        mutation: apollo_boost_1.gql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n                mutation UpdatePlant($id: Int!, $name: String, $lastWatered: String, $waterInterval: Int, $habitatId: Int, $imageUrl: String, $subscribed: Boolean) {\n                  updatePlant(id: $id, name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId, imageUrl: $imageUrl, subscribed: $subscribed) {\n                    id\n                    name\n                    habitatId\n                    lastWatered\n                    waterInterval\n                    imageUrl\n                  }\n                }\n              "], ["\n                mutation UpdatePlant($id: Int!, $name: String, $lastWatered: String, $waterInterval: Int, $habitatId: Int, $imageUrl: String, $subscribed: Boolean) {\n                  updatePlant(id: $id, name: $name, lastWatered: $lastWatered, waterInterval: $waterInterval, habitatId: $habitatId, imageUrl: $imageUrl, subscribed: $subscribed) {\n                    id\n                    name\n                    habitatId\n                    lastWatered\n                    waterInterval\n                    imageUrl\n                  }\n                }\n              "]))),
+                        variables: {
+                            id: plant.id,
+                            name: plant.name,
+                            lastWatered: plant.lastWatered,
+                            waterInterval: plant.waterInterval,
+                            habitatId: plant.habitatId,
+                            imageUrl: plant.imageUrl,
+                            subscribed: plant.subscribed,
+                        },
+                    })];
+            });
+        }); },
+        response: function (res) { return res.data.updatePlant; },
+    },
 }); });
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
 
 
 /***/ }),
@@ -512,17 +533,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
-var CreateModal_1 = __webpack_require__(/*! ../common/CreateModal */ "./client/components/common/CreateModal/index.tsx");
+var CreateModal_1 = __importDefault(__webpack_require__(/*! ../common/CreateModal */ "./client/components/common/CreateModal/index.tsx"));
 var validation_1 = __webpack_require__(/*! ../../forms/validation */ "./client/forms/validation/index.ts");
+var stages = [
+    {
+        fields: [
+            {
+                key: 'name',
+                label: 'what do you want to call this habitat?',
+                validators: [validation_1.validatorGetters.isNotNil(), validation_1.validatorGetters.isOfLength(3)],
+            },
+        ],
+    },
+];
 var Component = function (props) {
-    var fields = [
-        {
-            key: 'name',
-            label: 'name',
-            validators: [validation_1.validatorGetters.isNotNil(), validation_1.validatorGetters.isOfLength(3)],
-        },
-    ];
-    return (react_1.default.createElement(CreateModal_1.CreateModal, { fields: fields, create: props.create, afterCreate: props.afterCreate, onCancel: props.onCancel }));
+    return (react_1.default.createElement(CreateModal_1.default, { stages: stages, save: props.create, afterSave: props.afterCreate, close: props.onCancel }));
 };
 var mapDispatchToProps = function (dispatch) { return ({
     create: function (habitat, callback) { return dispatch(habitat_1.actions.createOne(habitat, callback)); },
@@ -533,93 +558,230 @@ exports.CreateHabitat = CreateHabitat;
 
 /***/ }),
 
-/***/ "./client/components/CreatePlantModal/index2.tsx":
-/*!*******************************************************!*\
-  !*** ./client/components/CreatePlantModal/index2.tsx ***!
-  \*******************************************************/
+/***/ "./client/components/CreatePlantModal/index.tsx":
+/*!******************************************************!*\
+  !*** ./client/components/CreatePlantModal/index.tsx ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var validation_1 = __webpack_require__(/*! ../../forms/validation */ "./client/forms/validation/index.ts");
-var index2_1 = __importDefault(__webpack_require__(/*! ../common/CreateModal/index2 */ "./client/components/common/CreateModal/index2.tsx"));
+var CreateModal_1 = __importDefault(__webpack_require__(/*! ../common/CreateModal */ "./client/components/common/CreateModal/index.tsx"));
 var interfaces_1 = __webpack_require__(/*! ../../forms/interfaces */ "./client/forms/interfaces.ts");
+var plant_1 = __webpack_require__(/*! ../../store/plant */ "./client/store/plant/index.ts");
 var timeOptions = [
-    'two days', 'three days', 'four days', 'five days',
-    'six days', 'seven days', 'eight days', 'nine days', 'ten days',
-    'two weeks', 'three weeks', 'one month',
+    { value: 2, label: 'two days' },
+    { value: 3, label: 'three days' },
+    { value: 4, label: 'four days' },
+    { value: 5, label: 'five days' },
+    { value: 6, label: 'six days' },
+    { value: 7, label: 'seven days' },
+    { value: 8, label: 'eight days' },
+    { value: 9, label: 'nine days' },
+    { value: 10, label: 'ten days' },
+    { value: 14, label: 'two weeks' },
+    { value: 21, label: 'three weeks' },
+    { value: 30, label: 'one month' },
 ];
-var waterIntervalOptions = ['everyday'].concat(timeOptions.map(function (option) { return "every " + option; }));
-var lastWateredOptions = ['yesterday'].concat(timeOptions.map(function (option) { return option + " ago"; }));
-var stages = [
-    {
-        fields: [
-            {
-                key: 'name',
-                label: "what is your plant's name?",
-                value: name,
-                validators: [validation_1.validatorGetters.isNotNil()],
-            },
-            {
-                key: 'avatar',
-                label: 'pick an avatar!',
-                validators: [],
-                type: interfaces_1.FieldTypes.AVATAR,
-                imageUrls: [
-                    '/plant-avatars/plant1.png',
-                    '/plant-avatars/plant2.png',
-                    '/plant-avatars/plant3.png',
-                    '/plant-avatars/plant4.png',
-                    '/plant-avatars/plant5.png',
-                    '/plant-avatars/plant6.png',
-                    '/plant-avatars/plant7.png',
-                    '/plant-avatars/plant8.png',
-                ],
-                initial: '/plant-avatars/plant1.png',
-            },
-        ],
-    },
-    {
-        fields: [
-            {
-                key: 'waterInterval',
-                label: 'how often do you need to water it?',
-                validators: [],
-                type: interfaces_1.FieldTypes.DROPDOWN,
-                options: waterIntervalOptions,
-            },
-            {
-                key: 'lastWateredDaysAgo',
-                label: 'how long ago did you last water it?',
-                validators: [],
-                type: interfaces_1.FieldTypes.DROPDOWN,
-                options: lastWateredOptions,
-            },
-        ],
-    },
-];
-exports.default = (function (props) {
-    return (react_1.default.createElement(index2_1.default, { stages: stages, close: props.onCancel }));
-});
+var waterIntervalOptions = [{ value: 1, label: 'everyday' }].concat(timeOptions.map(function (option) { return ({ value: option.value, label: "every " + option.label }); }));
+var lastWateredOptions = [
+    { value: 0, label: 'today' },
+    { value: 1, label: 'yesterday' },
+].concat(timeOptions.map(function (option) { return ({ value: option.value, label: option.label + " ago" }); }));
+var convertDaysAgoToDate = function (daysAgo) {
+    return new Date(new Date().getTime() - (daysAgo * 1000 * 60 * 60 * 24));
+};
+var getStages = function (augmentedPlant) {
+    var _a = (augmentedPlant || {}), _b = _a.plant, plant = _b === void 0 ? {
+        // if there is no plant (i.e. we are creating oe for the first time, set default values)
+        name: '',
+        imageUrl: '/plant-avatars/plant1.png',
+        waterInterval: waterIntervalOptions[0].value,
+        lastWatered: convertDaysAgoToDate(lastWateredOptions[0].value),
+    } : _b, _c = _a.subscribed, subscribed = _c === void 0 ? true : _c;
+    console.log({ augmentedPlant: augmentedPlant });
+    return [
+        {
+            fields: [
+                {
+                    key: 'subscribed',
+                    label: 'do you want to subscribe to this plant?',
+                    type: interfaces_1.FieldTypes.TOGGLE,
+                    validators: [],
+                    initial: subscribed,
+                },
+                {
+                    key: 'name',
+                    label: "what is this plant's name?",
+                    validators: [validation_1.validatorGetters.isNotNil()],
+                    type: interfaces_1.FieldTypes.INPUT,
+                    initial: plant.name,
+                    lowerCase: true,
+                },
+            ],
+        },
+        {
+            fields: [
+                {
+                    key: 'waterInterval',
+                    label: 'how often should you water it?',
+                    validators: [],
+                    type: interfaces_1.FieldTypes.DROPDOWN,
+                    options: waterIntervalOptions,
+                    initial: plant.waterInterval,
+                },
+                {
+                    key: 'lastWatered',
+                    label: 'how long ago did you last water it?',
+                    validators: [],
+                    type: interfaces_1.FieldTypes.DROPDOWN,
+                    options: lastWateredOptions,
+                    initial: plant.lastWatered,
+                    getFinalValue: convertDaysAgoToDate,
+                },
+                {
+                    key: 'imageUrl',
+                    label: 'pick an avatar for this plant.',
+                    validators: [],
+                    type: interfaces_1.FieldTypes.AVATAR,
+                    imageUrls: [
+                        '/plant-avatars/plant1.png',
+                        '/plant-avatars/plant2.png',
+                        '/plant-avatars/plant3.png',
+                        '/plant-avatars/plant4.png',
+                        '/plant-avatars/plant5.png',
+                        '/plant-avatars/plant6.png',
+                        '/plant-avatars/plant7.png',
+                        '/plant-avatars/plant8.png',
+                    ],
+                    initial: plant.imageUrl,
+                },
+            ],
+        },
+    ];
+};
+var Component = function (props) {
+    return (react_1.default.createElement(CreateModal_1.default, { stages: getStages(props.augmentedPlant), close: props.onCancel, save: props.isCreate
+            ? props.create
+            : function (updates, callback) { return props.update(__assign({}, updates, { id: props.augmentedPlant.plant.id }), callback); }, afterSave: props.afterSave, submitButtonText: props.isCreate ? 'create' : 'update' }));
+};
+var mapDispatchToProps = function (dispatch, ownProps) { return ({
+    create: function (plantData, callback) { return dispatch(plant_1.actions.createOne(__assign({}, plantData, { habitatId: ownProps.habitatId }), callback)); },
+    update: function (plantData, callback) { return dispatch(plant_1.actions.updateOne(plantData, callback)); },
+}); };
+exports.default = react_redux_1.connect(null, mapDispatchToProps)(Component);
 
 
 /***/ }),
 
-/***/ "./client/components/Habitat/index.tsx":
-/*!*********************************************!*\
-  !*** ./client/components/Habitat/index.tsx ***!
-  \*********************************************/
+/***/ "./client/components/Habitat/get-plant-tile-data.tsx":
+/*!***********************************************************!*\
+  !*** ./client/components/Habitat/get-plant-tile-data.tsx ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+var plant_1 = __webpack_require__(/*! ../../../common/data-accessors/plant */ "./common/data-accessors/plant.ts");
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+exports.default = (function (props) {
+    var plant = props.plant, subscribed = props.subscribed, daysOverdueForWater = props.daysOverdueForWater, onReachEndOfWaveTransition = props.onReachEndOfWaveTransition;
+    var tags = [];
+    var details = '';
+    var title = plant.name;
+    var hasSettings = true;
+    var isWaterablePlant = true;
+    var imageUrl = plant.imageUrl;
+    var containerStyle = {};
+    if (props.justWatered) {
+        title = 'Watered!';
+        hasSettings = false;
+        isWaterablePlant = false;
+        imageUrl = '/check_circle.png';
+        containerStyle = { border: "1px solid " + style_config_1.COLORS.fadedPrimaryGreen };
+    }
+    else {
+        tags = (daysOverdueForWater > 0
+            ? [
+                {
+                    text: 'needs water',
+                    backgroundColor: style_config_1.COLORS.notification,
+                    color: style_config_1.COLORS.white,
+                    elementKey: plant.id + "-needs-water",
+                }
+            ]
+            : []).concat((subscribed
+            ? []
+            : [{
+                    text: 'not subscribed',
+                    backgroundColor: style_config_1.COLORS.darkGray,
+                    color: style_config_1.COLORS.white,
+                    elementKey: plant.id + "-not-subscribed",
+                }]));
+        var numOfDaysSinceWatered = plant_1.plantDataAccessors.daysSinceWatered(plant);
+        var lastWateredVerbage = numOfDaysSinceWatered === 0
+            ? "today"
+            : numOfDaysSinceWatered + " days ago";
+        details = "Last watered " + lastWateredVerbage;
+    }
+    return {
+        elementKey: plant.id,
+        title: title,
+        details: details,
+        imageUrl: imageUrl,
+        isWaterablePlant: isWaterablePlant,
+        hasSettings: hasSettings,
+        openSettings: props.openSettings,
+        tags: tags,
+        onReachEndOfWaveTransition: onReachEndOfWaveTransition,
+        containerStyle: containerStyle,
+    };
+});
+
+
+/***/ }),
+
+/***/ "./client/components/Habitat/index2.tsx":
+/*!**********************************************!*\
+  !*** ./client/components/Habitat/index2.tsx ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -633,62 +795,57 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-var index2_1 = __importDefault(__webpack_require__(/*! ../CreatePlantModal/index2 */ "./client/components/CreatePlantModal/index2.tsx"));
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
 var plant_1 = __webpack_require__(/*! ../../store/plant */ "./client/store/plant/index.ts");
-var plant_tiles_1 = __webpack_require__(/*! ./plant-tiles */ "./client/components/Habitat/plant-tiles/index.tsx");
-var wrapper_1 = __webpack_require__(/*! ./plant-tiles/wrapper */ "./client/components/Habitat/plant-tiles/wrapper.tsx");
+var index2_1 = __importDefault(__webpack_require__(/*! ../TileDisplay/index2 */ "./client/components/TileDisplay/index2.tsx"));
 var styled_components_1 = __webpack_require__(/*! ./styled-components */ "./client/components/Habitat/styled-components.ts");
 var AddTile_1 = __importDefault(__webpack_require__(/*! ../common/AddTile */ "./client/components/common/AddTile.tsx"));
-var just_watered_1 = __importDefault(__webpack_require__(/*! ./plant-tiles/just-watered */ "./client/components/Habitat/plant-tiles/just-watered.tsx"));
+var get_plant_tile_data_1 = __importDefault(__webpack_require__(/*! ./get-plant-tile-data */ "./client/components/Habitat/get-plant-tile-data.tsx"));
+var CreatePlantModal_1 = __importDefault(__webpack_require__(/*! ../CreatePlantModal */ "./client/components/CreatePlantModal/index.tsx"));
+var back_button_1 = __importDefault(__webpack_require__(/*! ../common/back-button */ "./client/components/common/back-button.tsx"));
 var Habitat = function (props) {
     var habitatId = +props.match.params.id;
-    var name = props.name, plantData = props.plantData, images = props.images, fetchHabitat = props.fetchHabitat, waterPlantsByIds = props.waterPlantsByIds;
+    var name = props.name, plantData = props.plantData, fetchHabitat = props.fetchHabitat, waterPlantsByIds = props.waterPlantsByIds;
     react_1.useEffect(function () {
         fetchHabitat(habitatId);
     }, []);
-    var _a = react_1.useState([-1]), justWateredPlantIds = _a[0], setJustWateredPlantIds = _a[1];
-    var _b = react_1.useState(false), createPlantOpen = _b[0], setCreatePlantOpen = _b[1];
-    var waterPlants = function (plantIds) {
-        waterPlantsByIds(plantIds, function () {
-            setJustWateredPlantIds(plantIds);
-            // allow the just watered message to stay there a couple seconds, then refresh all plants
-            setTimeout(function () {
-                fetchHabitat(habitatId);
-                setJustWateredPlantIds([]);
-            }, 2000);
-        });
-    };
-    var plantWasJustWatered = function (plantId) { return justWateredPlantIds.includes(plantId); };
-    var plantDataForDisplay = plantData.map(function (_a) {
-        var plant = _a.plant, subscribed = _a.subscribed, daysOverdueForWater = _a.daysOverdueForWater;
-        if (plantWasJustWatered(plant.id)) {
-            return { plant: plant, tile: react_1.default.createElement(just_watered_1.default, { plant: plant }) };
-        }
-        return {
-            plant: plant,
-            tile: react_1.default.createElement(plant_tiles_1.PlantTile, { plant: plant, subscribed: subscribed, daysOverdueForWater: daysOverdueForWater }),
-        };
-    });
+    var _a = react_1.useState(false), createPlantOpen = _a[0], setCreatePlantOpen = _a[1];
+    var _b = react_1.useState(null), plantWithSettingsOpen = _b[0], setPlantWithSettingsOpen = _b[1];
+    var _c = react_1.useState(0), justWateredPlantId = _c[0], setJustWateredPlantId = _c[1];
     var onCreatePlant = function () {
         setCreatePlantOpen(false);
         props.fetchHabitat(habitatId);
     };
+    var onUpdatePlant = function () {
+        setPlantWithSettingsOpen(null);
+        props.fetchHabitat(habitatId);
+    };
+    var waterPlant = function (plantId) {
+        waterPlantsByIds([plantId], function () {
+            setJustWateredPlantId(plantId);
+            setTimeout(function () {
+                setJustWateredPlantId(0);
+                props.fetchHabitat(habitatId);
+            }, 2000);
+        });
+    };
     return (react_1.default.createElement("div", null,
         createPlantOpen
-            ? react_1.default.createElement(index2_1.default, { habitatId: habitatId, onCreate: onCreatePlant, onCancel: function () { return setCreatePlantOpen(false); } })
+            ? react_1.default.createElement(CreatePlantModal_1.default, { isCreate: true, habitatId: habitatId, afterSave: onCreatePlant, onCancel: function () { return setCreatePlantOpen(false); } })
+            : null,
+        plantWithSettingsOpen
+            ? react_1.default.createElement(CreatePlantModal_1.default, { isCreate: false, habitatId: habitatId, augmentedPlant: props.plantData.find(function (augmentedPlant) { return augmentedPlant.plant.id === plantWithSettingsOpen; }), afterSave: onUpdatePlant, onCancel: function () { return setPlantWithSettingsOpen(null); } })
             : null,
         react_1.default.createElement(styled_components_1.Container, null,
-            react_1.default.createElement(styled_components_1.Title, null,
-                "@",
-                props.name),
+            react_1.default.createElement(styled_components_1.TitleAndBackContainer, null,
+                react_1.default.createElement(back_button_1.default, { onClick: function () { return props.history.goBack(); } }),
+                react_1.default.createElement(styled_components_1.Title, null,
+                    "@",
+                    name)),
             react_1.default.createElement(AddTile_1.default, { message: "Add a plant", onClick: function () { return setCreatePlantOpen(true); } }),
-            react_1.default.createElement(styled_components_1.AllTilesContainer, null, plantDataForDisplay.map(function (_a) {
-                var plant = _a.plant, tile = _a.tile;
-                return (react_1.default.createElement("div", { key: "tile-container-" + plant.id },
-                    react_1.default.createElement(wrapper_1.PlantTileWrapper, { plant: plant, canWater: !plantWasJustWatered(plant.id), onReachEndOfWaterTransition: function () { return waterPlants([plant.id]); } }, tile)));
-            })))));
+            react_1.default.createElement(index2_1.default, { tiles: plantData.map(function (augmentedPlant) { return get_plant_tile_data_1.default(__assign({}, augmentedPlant, { 
+                    // @ts-ignore
+                    openSettings: function () { return setPlantWithSettingsOpen(augmentedPlant.plant.id); }, justWatered: augmentedPlant.plant.id === justWateredPlantId, onReachEndOfWaveTransition: function () { return waterPlant(augmentedPlant.plant.id); } })); }) }))));
 };
 var mapStateToProps = function (state, ownProps) { return ({
     name: habitat_1.selectors.habitatById(state, ownProps).name,
@@ -698,158 +855,7 @@ var mapDispatchToProps = function (dispatch) { return ({
     fetchHabitat: function (habitatId) { return dispatch(habitat_1.actions.fetchHabitatsByIds([habitatId])); },
     waterPlantsByIds: function (plantIds, callback) { return dispatch(plant_1.actions.waterByIds(plantIds, callback)); },
 }); };
-exports.default = react_router_dom_1.withRouter(react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Habitat));
-
-
-/***/ }),
-
-/***/ "./client/components/Habitat/plant-tiles/index.tsx":
-/*!*********************************************************!*\
-  !*** ./client/components/Habitat/plant-tiles/index.tsx ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var plant_1 = __webpack_require__(/*! ../../../../common/data-accessors/plant */ "./common/data-accessors/plant.ts");
-var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
-var Tile_1 = __importDefault(__webpack_require__(/*! ../../Tile */ "./client/components/Tile/index.tsx"));
-exports.PlantTile = function (_a) {
-    var plant = _a.plant, daysOverdueForWater = _a.daysOverdueForWater, subscribed = _a.subscribed;
-    var tags = (daysOverdueForWater > 0
-        ? [{ text: 'needs water', backgroundColor: style_config_1.COLORS.notification, color: style_config_1.COLORS.white, key: plant.id + "-needs-water" }]
-        : []).concat((subscribed
-        ? []
-        : [{
-                text: 'not subscribed',
-                backgroundColor: style_config_1.COLORS.darkGray,
-                color: style_config_1.COLORS.white,
-                key: plant.id + "-not-subscribed",
-            }]));
-    return (react_1.default.createElement(Tile_1.default, { style: subscribed ? {} : { opacity: '0.4' }, alert: daysOverdueForWater > 0, tags: tags, title: plant.name, details: "Last watered " + plant_1.plantDataAccessors.daysSinceWatered(plant) + " days ago", imageUrl: plant.imageUrl ? plant.imageUrl : undefined }));
-};
-
-
-/***/ }),
-
-/***/ "./client/components/Habitat/plant-tiles/just-watered.tsx":
-/*!****************************************************************!*\
-  !*** ./client/components/Habitat/plant-tiles/just-watered.tsx ***!
-  \****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
-var Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  height: ", ";\n  background: ", ";\n  color: white;\n"], ["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n  align-items: center;\n  height: ", ";\n  background: ", ";\n  color: white;\n"])), style_config_1.TILE_HEIGHT, style_config_1.COLORS.primaryGreen);
-var AvatarImg = styled_components_1.default.img(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  height: 70px;\n  width: 70px;\n"], ["\n  height: 70px;\n  width: 70px;\n"])));
-exports.default = (function (props) {
-    return (react_1.default.createElement(Container, null,
-        react_1.default.createElement("div", null, "You watered " + props.plant.name + "!"),
-        react_1.default.createElement(AvatarImg, { src: "/plant-cartoon.png" })));
-});
-var templateObject_1, templateObject_2;
-
-
-/***/ }),
-
-/***/ "./client/components/Habitat/plant-tiles/wrapper.tsx":
-/*!***********************************************************!*\
-  !*** ./client/components/Habitat/plant-tiles/wrapper.tsx ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var styled_components_1 = __webpack_require__(/*! ../styled-components */ "./client/components/Habitat/styled-components.ts");
-var plant_transition_1 = __importDefault(__webpack_require__(/*! ../plant-transition */ "./client/components/Habitat/plant-transition.tsx"));
-exports.PlantTileWrapper = function (props) { return (react_1.default.createElement(styled_components_1.SingleTileContainer, null, props.canWater ? (react_1.default.createElement(plant_transition_1.default, { onReachEnd: props.onReachEndOfWaterTransition, plantId: props.plant.id }, props.children)) : (props.children))); };
-
-
-/***/ }),
-
-/***/ "./client/components/Habitat/plant-transition.tsx":
-/*!********************************************************!*\
-  !*** ./client/components/Habitat/plant-transition.tsx ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-var Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  position: relative;\n"], ["\n  position: relative;\n"])));
-var overlayPrimaryColor = 'rgba(0, 66, 100, .5)';
-var TransitionOverlay = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    position: absolute;\n    bottom: 0;\n    left:0;\n    width:100%;\n    height:0%;\n    \n    background:\n      radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),\n      radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;\n      background-color: ", ";\n      background-size:75px 100px;\n"], ["\n    position: absolute;\n    bottom: 0;\n    left:0;\n    width:100%;\n    height:0%;\n    \n    background:\n      radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),\n      radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;\n      background-color: ", ";\n      background-size:75px 100px;\n"])), overlayPrimaryColor);
-var Wave = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  position: relative;\n  display: none;\n  \n  &:before{\n    content: \"\";\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    background-repeat: repeat-x;\n    height: 10px;\n    background-size: 20px 20px;\n    background-image: radial-gradient(circle at 10px -5px, transparent 12px, ", " 13px);\n  }\n\n"], ["\n  position: relative;\n  display: none;\n  \n  &:before{\n    content: \"\";\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    background-repeat: repeat-x;\n    height: 10px;\n    background-size: 20px 20px;\n    background-image: radial-gradient(circle at 10px -5px, transparent 12px, ", " 13px);\n  }\n\n"])), overlayPrimaryColor);
-exports.default = (function (props) {
-    var children = props.children, onReachEnd = props.onReachEnd, plantId = props.plantId;
-    var timerId;
-    var overlayElementId = "tile-transition-" + plantId;
-    var waveElementId = "wave-" + plantId;
-    var doTransition = function (currentHeight) {
-        if (currentHeight === 0) {
-            // @ts-ignore
-            document.getElementById(waveElementId).style.display = 'block';
-        }
-        if (currentHeight === 100) {
-            onReachEnd();
-            return;
-        }
-        var newHeight = currentHeight + 5;
-        // @ts-ignore
-        document.getElementById(overlayElementId).style.height = newHeight + "%";
-        timerId = setTimeout(function () { return doTransition(newHeight); }, 50);
-    };
-    var onHoldTile = function (e) {
-        e.preventDefault();
-        doTransition(0);
-    };
-    var onUnHoldTile = function () {
-        // @ts-ignore
-        document.getElementById(overlayElementId).style.height = '0%';
-        // @ts-ignore
-        document.getElementById(waveElementId).style.display = 'none';
-        clearTimeout(timerId);
-    };
-    return (react_1.default.createElement(Container, { onTouchStart: onHoldTile, onTouchEnd: onHoldTile, onMouseDown: onHoldTile, onMouseUp: onUnHoldTile },
-        react_1.default.createElement(TransitionOverlay, { id: overlayElementId },
-            react_1.default.createElement(Wave, { id: waveElementId })),
-        children));
-});
-var templateObject_1, templateObject_2, templateObject_3;
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Habitat);
 
 
 /***/ }),
@@ -874,10 +880,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
 exports.Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  padding-left: 32px;\n  padding-right: 32px;\n"], ["\n  padding-left: 32px;\n  padding-right: 32px;\n"])));
-exports.Title = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  font-size: 24px;\n  color: ", ";\n  margin-top: 50px;\n  margin-bottom: 45px;\n"], ["\n  font-size: 24px;\n  color: ", ";\n  margin-top: 50px;\n  margin-bottom: 45px;\n"])), style_config_1.COLORS.darkGreen);
-exports.AllTilesContainer = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  margin-top: 60px;\n"], ["\n  margin-top: 60px;\n"])));
+exports.Title = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  font-size: 24px;\n  color: ", ";\n"], ["\n  font-size: 24px;\n  color: ", ";\n"])), style_config_1.COLORS.darkGreen);
+exports.AllTilesContainer = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n"], ["\n"])));
 exports.SingleTileContainer = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  margin-top: 60px;\n"], ["\n  margin-top: 60px;\n"])));
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+exports.TitleAndBackContainer = styled_components_1.default.div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    margin-top: 30px;\n    margin-bottom: 30px;\n    display: flex;\n    justify-content: space-between;\n"], ["\n    margin-top: 30px;\n    margin-bottom: 30px;\n    display: flex;\n    justify-content: space-between;\n"])));
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 
 
 /***/ }),
@@ -943,10 +950,10 @@ var templateObject_1, templateObject_2, templateObject_3, templateObject_4, temp
 
 /***/ }),
 
-/***/ "./client/components/Tile/avatar.tsx":
-/*!*******************************************!*\
-  !*** ./client/components/Tile/avatar.tsx ***!
-  \*******************************************/
+/***/ "./client/components/TileDisplay/avatar.tsx":
+/*!**************************************************!*\
+  !*** ./client/components/TileDisplay/avatar.tsx ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -963,27 +970,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
-var Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n      width: 100%;\n      height: 90%;\n      padding-top: 10%;\n"], ["\n      width: 100%;\n      height: 90%;\n      padding-top: 10%;\n"])));
+var AvatarImage = styled_components_1.default.img(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  height: ", "px;\n"], ["\n  height: ", "px;\n"])), style_config_1.TILE_HEIGHT - 30);
+var VerticalFlexer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"])));
 var Avatar = function (props) {
-    console.log(props.imageUrl);
-    var style = "\n    border-radius: 50%;\n    height: 80%;\n  ";
+    var style = "\n    height: " + (style_config_1.TILE_HEIGHT - 10) + "px;\n    width: " + (style_config_1.TILE_HEIGHT - 10) + "px;\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n  ";
     if (props.alert) {
         style += "border: 2px solid " + style_config_1.COLORS.notification + ";";
     }
-    var AvatarImage = styled_components_1.default.img(templateObject_2 || (templateObject_2 = __makeTemplateObject(["", ""], ["", ""])), style);
+    var Container = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["", ""], ["", ""])), style);
     return (react_1.default.createElement(Container, null,
-        react_1.default.createElement(AvatarImage, { src: props.imageUrl })));
+        react_1.default.createElement(VerticalFlexer, null,
+            react_1.default.createElement(AvatarImage, { src: props.imageUrl }))));
 };
 exports.default = Avatar;
-var templateObject_1, templateObject_2;
+var templateObject_1, templateObject_2, templateObject_3;
 
 
 /***/ }),
 
-/***/ "./client/components/Tile/index.tsx":
-/*!******************************************!*\
-  !*** ./client/components/Tile/index.tsx ***!
-  \******************************************/
+/***/ "./client/components/TileDisplay/index2.tsx":
+/*!**************************************************!*\
+  !*** ./client/components/TileDisplay/index2.tsx ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1010,38 +1018,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-var avatar_1 = __importDefault(__webpack_require__(/*! ./avatar */ "./client/components/Tile/avatar.tsx"));
-var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
-var tag_1 = __webpack_require__(/*! ./tag */ "./client/components/Tile/tag.tsx");
-var TileText = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  margin-top: 15px;\n  margin-left: 30px;\n  color: ", ";\n"], ["\n  display: flex;\n  flex-direction: column;\n  margin-top: 15px;\n  margin-left: 30px;\n  color: ", ";\n"])), style_config_1.COLORS.primaryGreen);
-var TitleRow = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  margin-bottom: 6px;\n"], ["\n  display: flex;\n  margin-bottom: 6px;\n"])));
-var TileTitle = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n font-weight: 600;\n color: ", ";\n"], ["\n font-weight: 600;\n color: ", ";\n"])), style_config_1.COLORS.darkGreen);
-var TileDetails = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n  font-size: 14px;\n"], ["\n  font-size: 14px;\n"])));
-var TagsContainer = styled_components_1.default.div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n  display: flex;\n  padding-left: 10px;\n"], ["\n  display: flex;\n  padding-left: 10px;\n"])));
-var Tile = function (props) {
-    var _a = props.style, style = _a === void 0 ? {} : _a, _b = props.imageUrl, imageUrl = _b === void 0 ? "https://static.onecms.io/wp-content/uploads/sites/37/2016/05/15233355/zz-plant_AdobeStock_213696329_0.jpg" : _b, _c = props.tags, tags = _c === void 0 ? [] : _c, _d = props.alert, alert = _d === void 0 ? false : _d, title = props.title, details = props.details;
-    var getStyleFromKeyVal = function (key, val) { return "\n" + key + ": " + val + ";"; };
-    var styleString = Object.keys(style).reduce(function (stringSoFar, styleKey) { return stringSoFar + getStyleFromKeyVal(styleKey, style[styleKey]); }, "display: flex;\n    justify-content: center;\n    height: " + style_config_1.TILE_HEIGHT + ";\n    text-decoration: none;");
-    var StyledTile = styled_components_1.default.div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["", ""], ["", ""])), styleString);
-    return (react_1.default.createElement("div", null,
-        react_1.default.createElement(StyledTile, null,
-            react_1.default.createElement(avatar_1.default, { alert: alert, imageUrl: imageUrl }),
-            react_1.default.createElement(TileText, null,
-                react_1.default.createElement(TitleRow, null,
-                    react_1.default.createElement(TileTitle, null, title),
-                    react_1.default.createElement(TagsContainer, null, tags.map(function (tagProps) { return react_1.default.createElement(tag_1.Tag, __assign({}, tagProps)); }))),
-                react_1.default.createElement(TileDetails, null, details)))));
-};
-exports.default = Tile;
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+var tile2_1 = __importDefault(__webpack_require__(/*! ./tile2 */ "./client/components/TileDisplay/tile2.tsx"));
+var StyledContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    margin-top: 20px;\n    \n    @media (min-width: 768px) {\n        display: flex;\n        justify-content: space-around;\n    }\n"], ["\n    margin-top: 20px;\n    \n    @media (min-width: 768px) {\n        display: flex;\n        justify-content: space-around;\n    }\n"])));
+exports.default = (function (props) {
+    return (react_1.default.createElement(StyledContainer, null, props.tiles.map(function (tile) { return react_1.default.createElement(tile2_1.default, __assign({}, tile)); })));
+});
+var templateObject_1;
 
 
 /***/ }),
 
-/***/ "./client/components/Tile/tag.tsx":
-/*!****************************************!*\
-  !*** ./client/components/Tile/tag.tsx ***!
-  \****************************************/
+/***/ "./client/components/TileDisplay/tag.tsx":
+/*!***********************************************!*\
+  !*** ./client/components/TileDisplay/tag.tsx ***!
+  \***********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1059,11 +1049,166 @@ var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/r
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 exports.Tag = function (props) {
-    var text = props.text, backgroundColor = props.backgroundColor, color = props.color;
-    var TileAlert = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    background-color: ", ";\n    margin-right: 5px;\n    color: ", ";\n    font-size: 9px;\n    padding: 5px;\n    opacity: 0.6;\n  "], ["\n    background-color: ", ";\n    margin-right: 5px;\n    color: ", ";\n    font-size: 9px;\n    padding: 5px;\n    opacity: 0.6;\n  "])), backgroundColor || style_config_1.COLORS.notification, color || style_config_1.COLORS.white);
-    return react_1.default.createElement(TileAlert, null, text);
+    var text = props.text, backgroundColor = props.backgroundColor, color = props.color, elementKey = props.elementKey;
+    var TileAlert = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    background-color: ", ";\n    margin-right: 5px;\n    color: ", ";\n    font-size: 9px;\n    padding-top: 5px;\n    padding-bottom: 5px;\n    padding-left: 3px;\n    padding-right: 3px;\n    opacity: 0.6;\n  "], ["\n    background-color: ", ";\n    margin-right: 5px;\n    color: ", ";\n    font-size: 9px;\n    padding-top: 5px;\n    padding-bottom: 5px;\n    padding-left: 3px;\n    padding-right: 3px;\n    opacity: 0.6;\n  "])), backgroundColor || style_config_1.COLORS.notification, color || style_config_1.COLORS.white);
+    return react_1.default.createElement(TileAlert, { key: elementKey }, text);
 };
 var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./client/components/TileDisplay/tile2.tsx":
+/*!*************************************************!*\
+  !*** ./client/components/TileDisplay/tile2.tsx ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+var avatar_1 = __importDefault(__webpack_require__(/*! ./avatar */ "./client/components/TileDisplay/avatar.tsx"));
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var Gear_1 = __webpack_require__(/*! ../common/Gear */ "./client/components/common/Gear.tsx");
+var tag_1 = __webpack_require__(/*! ./tag */ "./client/components/TileDisplay/tag.tsx");
+var wrap_in_wave_1 = __importDefault(__webpack_require__(/*! ./wrap-in-wave */ "./client/components/TileDisplay/wrap-in-wave.tsx"));
+var StyledTile = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    float: left;\n    height: ", "px;\n    box-shadow: 2px 2px #e8e8e8;\n\n    width: 45%; \n    @media (max-width: 768px) {\n        width: 100%;\n    }\n    \n    padding-left: 10px;\n    margin-bottom: 5px;\n    position: relative;\n    cursor: pointer;\n"], ["\n    float: left;\n    height: ", "px;\n    box-shadow: 2px 2px #e8e8e8;\n\n    width: 45%; \n    @media (max-width: 768px) {\n        width: 100%;\n    }\n    \n    padding-left: 10px;\n    margin-bottom: 5px;\n    position: relative;\n    cursor: pointer;\n"])), style_config_1.TILE_HEIGHT);
+var HorizontalFlexer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    display: flex;\n    padding-top: 3px;\n"], ["\n    display: flex;\n    padding-top: 3px;\n"])));
+var AvatarVerticalFlexer = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n"], ["\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n"])));
+var TextVerticalFlexer = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    margin-left: 1vw;\n    \n    width: 40%;\n    @media (max-width: 768px) {\n        width: 27vw;\n    }\n"], ["\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    margin-left: 1vw;\n    \n    width: 40%;\n    @media (max-width: 768px) {\n        width: 27vw;\n    }\n"])));
+var GearContainer = styled_components_1.default.button(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    position: absolute;\n    right: 2%;\n    top: 30%;\n    background: none;\n    border: none;\n    cursor: pointer;\n"], ["\n    position: absolute;\n    right: 2%;\n    top: 30%;\n    background: none;\n    border: none;\n    cursor: pointer;\n"])));
+var Title = styled_components_1.default.div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n    font-weight: 600;\n    color: ", ";\n"], ["\n    font-weight: 600;\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen);
+var Details = styled_components_1.default.div(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n    font-size: 14px;\n    color: ", ";\n"], ["\n    font-size: 14px;\n    color: ", ";\n"])), style_config_1.COLORS.primaryGreen);
+exports.default = (function (props) {
+    var gearId = "gear-" + props.elementKey;
+    var gearContainerId = "gear-container-" + props.elementKey;
+    // @ts-ignore
+    var elementIdsForGear = Gear_1.getElementIds(props.elementKey).concat(gearContainerId);
+    var _a = react_1.useState(false), isHover = _a[0], setIsHover = _a[1];
+    var innerContents = (react_1.default.createElement(HorizontalFlexer, null,
+        react_1.default.createElement(AvatarVerticalFlexer, null,
+            react_1.default.createElement(avatar_1.default, { imageUrl: props.imageUrl })),
+        react_1.default.createElement(TextVerticalFlexer, null,
+            react_1.default.createElement(Title, { style: __assign({}, (isHover ? { color: style_config_1.COLORS.primaryGreen } : {})) }, props.title),
+            react_1.default.createElement(Details, null, props.details)),
+        react_1.default.createElement("div", null, (props.tags || []).map(function (tagProps) { return react_1.default.createElement(tag_1.Tag, __assign({}, tagProps)); })),
+        props.hasSettings
+            ? (react_1.default.createElement(GearContainer, { id: gearContainerId, onClick: function (e) {
+                    e.preventDefault();
+                    // @ts-ignore
+                    props.openSettings();
+                } },
+                react_1.default.createElement(Gear_1.Gear, { color: isHover ? style_config_1.COLORS.primaryGreen : style_config_1.COLORS.darkGray, opacity: 1, elementIds: elementIdsForGear }))) : null));
+    var contents = innerContents;
+    if (props.linkTo) {
+        contents = react_1.default.createElement(react_router_dom_1.Link, { style: { textDecoration: 'none' }, to: props.linkTo }, innerContents);
+    }
+    else if (props.isWaterablePlant) {
+        contents = (react_1.default.createElement(wrap_in_wave_1.default, { elementIdKey: props.elementKey, onReachEnd: props.onReachEndOfWaveTransition ? props.onReachEndOfWaveTransition : function () { return undefined; }, suppressWaveForNodes: elementIdsForGear }, innerContents));
+    }
+    var addedStyle = __assign({}, (isHover ? { border: "1px solid " + style_config_1.COLORS.fadedPrimaryGreen } : {}), (props.containerStyle || {}));
+    return (react_1.default.createElement(StyledTile, { onMouseOver: function () { return setIsHover(true); }, onMouseLeave: function () { return setIsHover(false); }, style: addedStyle, key: props.elementKey }, contents));
+});
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
+
+
+/***/ }),
+
+/***/ "./client/components/TileDisplay/wrap-in-wave.tsx":
+/*!********************************************************!*\
+  !*** ./client/components/TileDisplay/wrap-in-wave.tsx ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var overlayPrimaryColor = 'rgba(0, 66, 100, .5)';
+var TransitionOverlay = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    position: absolute;\n    bottom: 0;\n    left:0;\n    width:100%;\n    height:0%;\n    \n    background:\n      radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),\n      radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;\n      background-color: ", ";\n      background-size:75px 100px;\n"], ["\n    position: absolute;\n    bottom: 0;\n    left:0;\n    width:100%;\n    height:0%;\n    \n    background:\n      radial-gradient(circle at 100% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent),\n      radial-gradient(circle at 0% 50%, transparent 20%, rgba(255,255,255,.3) 21%, rgba(255,255,255,.3) 34%, transparent 35%, transparent) 0 -50px;\n      background-color: ", ";\n      background-size:75px 100px;\n"])), overlayPrimaryColor);
+var Wave = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  position: relative;\n  display: none;\n  \n  &:before{\n    content: \"\";\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    background-repeat: repeat-x;\n    height: 10px;\n    background-size: 20px 20px;\n    background-image: radial-gradient(circle at 10px -5px, transparent 12px, ", " 13px);\n  }\n\n"], ["\n  position: relative;\n  display: none;\n  \n  &:before{\n    content: \"\";\n    position: absolute;\n    left: 0;\n    bottom: 0;\n    right: 0;\n    background-repeat: repeat-x;\n    height: 10px;\n    background-size: 20px 20px;\n    background-image: radial-gradient(circle at 10px -5px, transparent 12px, ", " 13px);\n  }\n\n"])), overlayPrimaryColor);
+exports.default = (function (props) {
+    var children = props.children, onReachEnd = props.onReachEnd, elementIdKey = props.elementIdKey, suppressWaveForNodes = props.suppressWaveForNodes;
+    console.log({ suppressWaveForNodes: suppressWaveForNodes });
+    var timerId;
+    var overlayElementId = "tile-transition-" + elementIdKey;
+    var waveElementId = "wave-" + elementIdKey;
+    var doTransition = function (currentHeight) {
+        if (currentHeight === 0) {
+            // @ts-ignore
+            document.getElementById(waveElementId).style.display = 'block';
+            document.getElementById(overlayElementId).style.display = 'block';
+        }
+        if (currentHeight === 100) {
+            onReachEnd();
+            return;
+        }
+        var newHeight = currentHeight + 5;
+        // @ts-ignore
+        document.getElementById(overlayElementId).style.height = newHeight + "%";
+        timerId = setTimeout(function () { return doTransition(newHeight); }, 50);
+    };
+    var onHoldTile = function (e) {
+        e.persist();
+        window.xxx = e;
+        if (suppressWaveForNodes.includes(e.target.id)) {
+            return;
+        }
+        e.preventDefault();
+        doTransition(0);
+    };
+    var onUnHoldTile = function (e) {
+        e.preventDefault();
+        // @ts-ignore
+        document.getElementById(overlayElementId).style.height = '0%';
+        // @ts-ignore
+        document.getElementById(waveElementId).style.display = 'none';
+        clearTimeout(timerId);
+    };
+    return (react_1.default.createElement("div", { onTouchStart: onHoldTile, onTouchEnd: onHoldTile, onMouseDown: onHoldTile, onMouseUp: onUnHoldTile },
+        react_1.default.createElement(TransitionOverlay, { id: overlayElementId },
+            react_1.default.createElement(Wave, { id: waveElementId })),
+        children));
+});
+var templateObject_1, templateObject_2;
 
 
 /***/ }),
@@ -1091,12 +1236,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var styled_components_1 = __webpack_require__(/*! ../Habitat/styled-components */ "./client/components/Habitat/styled-components.ts");
-var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 var user_1 = __webpack_require__(/*! ../../store/user */ "./client/store/user/index.ts");
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
 var AddTile_1 = __importDefault(__webpack_require__(/*! ../common/AddTile */ "./client/components/common/AddTile.tsx"));
-var Tile_1 = __importDefault(__webpack_require__(/*! ../Tile */ "./client/components/Tile/index.tsx"));
 var CreateHabitatModal_1 = __webpack_require__(/*! ../CreateHabitatModal */ "./client/components/CreateHabitatModal/index.tsx");
+var index2_1 = __importDefault(__webpack_require__(/*! ../TileDisplay/index2 */ "./client/components/TileDisplay/index2.tsx"));
 var UserHabitatsComponent = function (props) {
     var user = props.user, _a = props.habitats, habitats = _a === void 0 ? [] : _a, match = props.match, fetchUser = props.fetchUser, fetchUserSubscribedHabitats = props.fetchUserSubscribedHabitats;
     var userId = +match.params.id;
@@ -1104,7 +1248,8 @@ var UserHabitatsComponent = function (props) {
         fetchUser(userId);
         return null;
     }
-    var _b = react_1.useState(), addHabitatOpen = _b[0], setAddHabitatOpen = _b[1];
+    var _b = react_1.useState(false), addHabitatOpen = _b[0], setAddHabitatOpen = _b[1];
+    var _c = react_1.useState(false), subscribeToNewHabitatOpen = _c[0], setSubscribeToNewHabitatOpen = _c[1];
     react_1.useEffect(function () {
         fetchUserSubscribedHabitats(userId);
     }, []);
@@ -1116,12 +1261,21 @@ var UserHabitatsComponent = function (props) {
                 }, onCancel: function () { return setAddHabitatOpen(false); } })
             : null,
         react_1.default.createElement(styled_components_1.Container, null,
-            react_1.default.createElement(styled_components_1.Title, null,
-                "@",
-                user.name),
-            react_1.default.createElement(AddTile_1.default, { message: "Add a habitat", onClick: function () { return setAddHabitatOpen(true); } }),
-            react_1.default.createElement(styled_components_1.AllTilesContainer, null, habitats.map(function (habitat) { return (react_1.default.createElement(react_router_dom_1.Link, { key: habitat.id, to: "/habitats/" + habitat.id },
-                react_1.default.createElement(Tile_1.default, { title: habitat.name, details: habitat.plants.length + " plants" }))); })))));
+            react_1.default.createElement(styled_components_1.TitleAndBackContainer, null,
+                react_1.default.createElement(styled_components_1.Title, null,
+                    "@",
+                    user.name)),
+            react_1.default.createElement(AddTile_1.default, { message: "Create new habitat", onClick: function () { return setAddHabitatOpen(true); } }),
+            react_1.default.createElement(AddTile_1.default, { message: "Subscribe to habitat", onClick: function () { return setSubscribeToNewHabitatOpen(true); } }),
+            react_1.default.createElement(index2_1.default, { tiles: habitats.map(function (habitat) { return ({
+                    elementKey: habitat.id,
+                    linkTo: "/habitats/" + habitat.id,
+                    title: habitat.name,
+                    details: habitat.plants.length + " plants",
+                    imageUrl: '/plant-avatars/plant5.png',
+                    hasSettings: true,
+                    openSettings: function () { return console.log("opened settings for habitat " + habitat.id); }
+                }); }) }))));
 };
 var mapStateToProps = function (state) { return ({
     user: user_1.selectors.getUser(state),
@@ -1219,21 +1373,29 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var PlusSign_1 = __importDefault(__webpack_require__(/*! ./PlusSign */ "./client/components/common/PlusSign.tsx"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
-var HorizontalContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 24px;\n  height: 72px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n"], ["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 24px;\n  height: 72px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n"])), style_config_1.COLORS.lightGray, style_config_1.COLORS.darkGray);
+var HorizontalContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 24px;\n  height: 72px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n  opacity: 0.7;\n  box-shadow: 2px 2px #e8e8e8;\n"], ["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 24px;\n  height: 72px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n  opacity: 0.7;\n  box-shadow: 2px 2px #e8e8e8;\n"])), style_config_1.COLORS.lightGray, style_config_1.COLORS.darkGray);
 var VerticalContainer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"])));
 var Message = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  margin-left: 10px;\n"], ["\n  margin-left: 10px;\n"])));
 var AddTile = function (props) {
-    return (react_1.default.createElement(HorizontalContainer, { onClick: props.onClick },
+    var _a = react_1.useState(style_config_1.COLORS.lightGray), color = _a[0], setColor = _a[1];
+    return (react_1.default.createElement(HorizontalContainer, { onMouseOver: function () { return setColor(style_config_1.COLORS.primaryGreen); }, onMouseLeave: function () { return setColor(style_config_1.COLORS.lightGray); }, onClick: props.onClick, style: { borderColor: color, color: color } },
         react_1.default.createElement(VerticalContainer, null,
-            react_1.default.createElement(PlusSign_1.default, { height: 40, width: 40 })),
+            react_1.default.createElement(PlusSign_1.default, { color: color, height: 40, width: 40 })),
         react_1.default.createElement(VerticalContainer, null,
             react_1.default.createElement(Message, null, props.message))));
 };
@@ -1287,95 +1449,6 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var react_modal_1 = __importDefault(__webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js"));
-var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-var CloseSign_1 = __webpack_require__(/*! ../CloseSign */ "./client/components/common/CloseSign.tsx");
-var SubmitButton_1 = __webpack_require__(/*! ../SubmitButton */ "./client/components/common/SubmitButton.tsx");
-var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
-var avatar_1 = __importDefault(__webpack_require__(/*! ../../Tile/avatar */ "./client/components/Tile/avatar.tsx"));
-var StyledInput = styled_components_1.default.textarea(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 95%;\n"], ["\n    border: 1px solid ", ";\n    width: 95%;\n"])), style_config_1.COLORS.darkGreen);
-var StyledLabel = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    color: ", ";\n"], ["\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen);
-var fieldGetters = {
-    input: function (_a) {
-        var value = _a.value, onChange = _a.onChange, label = _a.label;
-        return (react_1.default.createElement("div", { key: "create-" + label + "-1" },
-            react_1.default.createElement(StyledLabel, null, label),
-            react_1.default.createElement(StyledInput, { value: value, onChange: onChange })));
-    },
-};
-var Container = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    height: 80%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-evenly;\n"], ["\n    height: 80%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-evenly;\n"])));
-var SubmitButtonContainer = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n"], ["\n    display: flex;\n    justify-content: center;\n"])));
-var PicturesContainer = styled_components_1.default.div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 95%;\n    height: 20vh;\n"], ["\n    border: 1px solid ", ";\n    width: 95%;\n    height: 20vh;\n"])), style_config_1.COLORS.darkGreen);
-var PicturesContainerRow = styled_components_1.default.div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n    display: flex;\n    height: 50%;\n"], ["\n    display: flex;\n    height: 50%;\n"])));
-var SinglePictureContainer = styled_components_1.default.button(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 25%;\n    height: 100%;\n    background: none;\n"], ["\n    border: 1px solid ", ";\n    width: 25%;\n    height: 100%;\n    background: none;\n"])), style_config_1.COLORS.darkGreen);
-var SelectableBox = function (props) {
-    return (react_1.default.createElement(SinglePictureContainer, { style: props.selected ? { border: "4px solid " + style_config_1.COLORS.primaryGreen } : {}, onMouseDown: function (e) { return e.preventDefault(); }, onClick: props.onClick }, props.children));
-};
-var getPictures = function (imageUrls, onSelectOne) {
-    var _a = react_1.useState(''), selectedPicture = _a[0], selectPicture = _a[1];
-    var getRow = function (imageUrlsForRow) {
-        var boxes = [];
-        var _loop_1 = function (i) {
-            // we will make a box whether or not there is an image
-            var avatar = imageUrlsForRow[i] ? react_1.default.createElement(avatar_1.default, { imageUrl: imageUrlsForRow[i] }) : null;
-            var boxClick = function () { return undefined; };
-            if (imageUrlsForRow[i]) {
-                boxClick = function () {
-                    onSelectOne(imageUrlsForRow[i]);
-                    selectPicture(imageUrlsForRow[i]);
-                };
-            }
-            boxes.push(react_1.default.createElement(SelectableBox, { selected: imageUrlsForRow[i] === selectedPicture, onClick: boxClick, key: "box-" + i }, avatar));
-        };
-        for (var i = 0; i < 4; i += 1) {
-            _loop_1(i);
-        }
-        return boxes;
-    };
-    return (react_1.default.createElement(PicturesContainer, null,
-        react_1.default.createElement(PicturesContainerRow, null, getRow(imageUrls.slice(0, 4))),
-        react_1.default.createElement(PicturesContainerRow, null, getRow(imageUrls.slice(4, 8)))));
-};
-exports.CreateModalDisplay = function (props) {
-    console.log(props.fields);
-    return (react_1.default.createElement(react_modal_1.default, { isOpen: true, style: { content: { left: '33%', width: '50%', minWidth: '300px', maxWidth: '500px' } } },
-        react_1.default.createElement(CloseSign_1.Close, null),
-        react_1.default.createElement(Container, null,
-            (props.fields || []).map(function (field) { return fieldGetters[field.type || 'input'](field); }),
-            getPictures(props.imageChoices, props.onAvatarSelect || (function () { return undefined; }))),
-        react_1.default.createElement(SubmitButtonContainer, null,
-            react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: props.onSubmit, text: props.buttonText || "create!" }))));
-};
-var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
-
-
-/***/ }),
-
-/***/ "./client/components/common/CreateModal/display2.tsx":
-/*!***********************************************************!*\
-  !*** ./client/components/common/CreateModal/display2.tsx ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -1410,7 +1483,7 @@ exports.default = (function (props) {
                 ? (react_1.default.createElement(RightArrowSubContainer, null,
                     react_1.default.createElement(arrows_1.Arrow, { onClick: props.onForward, size: "medium", direction: "right" }))) : null)),
         props.canSubmit ? (react_1.default.createElement(SubmitButtonContainer, null,
-            react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: props.onSubmit, text: props.buttonText || "create!" }))) : null,
+            react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: props.onSubmit, text: props.buttonText }))) : null,
         props.submissionError));
 });
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
@@ -1434,108 +1507,93 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var validation_1 = __webpack_require__(/*! ../../../forms/validation */ "./client/forms/validation/index.ts");
-var display_1 = __webpack_require__(/*! ./display */ "./client/components/common/CreateModal/display.tsx");
-exports.CreateModal = function (props) {
-    var fields = props.fields;
-    var states = fields.reduce(function (acc, field) {
-        var _a = react_1.useState(field.initial || ''), value = _a[0], setter = _a[1];
-        acc[field.key] = { value: value, setter: setter };
-        return acc;
-    }, {});
-    var _a = react_1.useState(''), submissionErrorMessage = _a[0], setSubmissionErrorMessage = _a[1];
-    var _b = react_1.useState(false), justCreated = _b[0], setJustCreated = _b[1];
-    var onClickCreate = function () {
-        var values = Object.keys(states).reduce(function (vals, fieldKey) {
-            vals[fieldKey] = states[fieldKey].value;
-            return vals;
-        }, {});
-        var errorMessages = validation_1.getFormErrorMessages(fields, values);
-        if (errorMessages && errorMessages.length) {
-            setSubmissionErrorMessage("There was a problem with your submission: \n" + errorMessages.join('\n'));
-        }
-        else {
-            props.create(Object.keys(states).reduce(function (objToCreate, fieldName) {
-                objToCreate[fieldName] = states[fieldName].value;
-                return objToCreate;
-            }, {}), function (createdResponse) {
-                setJustCreated(true);
-                setTimeout(function () { return props.afterCreate(createdResponse); }, 2000);
-            });
-        }
-    };
-    var getOnChangeInput = function (stateSetter) { return function (event) { return stateSetter(event.target.value); }; };
-    return (react_1.default.createElement(display_1.CreateModalDisplay, { fields: fields.map(function (_a) {
-            var label = _a.label, key = _a.key;
-            return {
-                label: label,
-                key: key,
-                onChange: getOnChangeInput(states[key].setter),
-                value: states[key].value,
-            };
-        }), errorMessage: submissionErrorMessage, imageChoices: props.imageChoices || [], onSubmit: onClickCreate }));
-};
-
-
-/***/ }),
-
-/***/ "./client/components/common/CreateModal/index2.tsx":
-/*!*********************************************************!*\
-  !*** ./client/components/common/CreateModal/index2.tsx ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var display2_1 = __importDefault(__webpack_require__(/*! ./display2 */ "./client/components/common/CreateModal/display2.tsx"));
+var display_1 = __importDefault(__webpack_require__(/*! ./display */ "./client/components/common/CreateModal/display.tsx"));
 var validation_1 = __webpack_require__(/*! ../../../forms/validation */ "./client/forms/validation/index.ts");
 exports.default = (function (props) {
     var stages = props.stages;
     var states = stages.reduce(function (acc, _a) {
         var fields = _a.fields;
         fields.forEach(function (field) {
-            var _a = react_1.useState(field.initial || ''), value = _a[0], setter = _a[1];
+            var haveInitial = field.initial !== null && field.initial !== undefined;
+            var _a = react_1.useState(haveInitial ? field.initial : ''), value = _a[0], setter = _a[1];
             var _b = react_1.useState(''), error = _b[0], errorSetter = _b[1];
             acc[field.key] = { value: value, setter: setter, error: error, errorSetter: errorSetter };
         });
         return acc;
     }, {});
-    var _a = react_1.useState(false), justCreated = _a[0], setJustCreated = _a[1];
-    var _b = react_1.useState(''), submissionError = _b[0], setSubmissionError = _b[1];
-    var _c = react_1.useState(0), currentStageIdx = _c[0], setCurrentStageIdx = _c[1];
+    var _a = react_1.useState(''), submissionError = _a[0], setSubmissionError = _a[1];
+    var _b = react_1.useState(0), currentStageIdx = _b[0], setCurrentStageIdx = _b[1];
     var onNext = function () {
         setCurrentStageIdx(currentStageIdx + 1);
     };
+    var getFieldErrors = function (field) { return validation_1.validateField(states[field.key].value, field.validators); };
     var onSubmit = function () {
+        var haveError = false;
+        var toSave = {};
+        for (var _i = 0, stages_1 = stages; _i < stages_1.length; _i++) {
+            var stage = stages_1[_i];
+            for (var _a = 0, _b = stage.fields; _a < _b.length; _a++) {
+                var field = _b[_a];
+                var errors = getFieldErrors(field);
+                if (errors.length) {
+                    states[field.key].errorSetter(errors[0]);
+                    haveError = true;
+                }
+                toSave[field.key] = field.getFinalValue
+                    ? field.getFinalValue(states[field.key].value)
+                    : states[field.key].value;
+            }
+        }
+        if (haveError) {
+            return;
+        }
+        props.save(toSave, function (saved) { return props.afterSave(saved); });
     };
     console.log({ states: states });
-    return (react_1.default.createElement(display2_1.default, { fields: stages[currentStageIdx].fields.map(function (field) {
+    return (react_1.default.createElement(display_1.default, { fields: stages[currentStageIdx].fields.map(function (field) {
             var _a = states[field.key], setter = _a.setter, value = _a.value, error = _a.error, errorSetter = _a.errorSetter;
             return {
                 field: field,
                 onChange: setter,
                 value: value,
                 error: error,
-                onLeave: function () { return errorSetter(validation_1.validateField(states[field.key].value, field.validators)); },
+                onLeave: function () { return errorSetter(getFieldErrors(field)[0] || ''); },
                 clearError: function () { return errorSetter(''); },
             };
-        }), canSubmit: currentStageIdx === stages.length - 1, canBack: currentStageIdx > 0, canForward: currentStageIdx !== stages.length - 1, onBack: function () { return setCurrentStageIdx(currentStageIdx - 1); }, onForward: function () { return setCurrentStageIdx(currentStageIdx + 1); }, onSubmit: onSubmit, submissionError: submissionError, onClickForward: onNext, close: props.close }));
+        }), buttonText: props.submitButtonText, canSubmit: currentStageIdx === stages.length - 1, canBack: currentStageIdx > 0, canForward: currentStageIdx !== stages.length - 1, onBack: function () { return setCurrentStageIdx(currentStageIdx - 1); }, onForward: function () { return setCurrentStageIdx(currentStageIdx + 1); }, onSubmit: onSubmit, submissionError: submissionError, onClickForward: onNext, close: props.close }));
 });
+
+
+/***/ }),
+
+/***/ "./client/components/common/Gear.tsx":
+/*!*******************************************!*\
+  !*** ./client/components/common/Gear.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+exports.getElementIds = function (baseElementId) {
+    return ["svg-" + baseElementId, "g-" + baseElementId, "path-" + baseElementId];
+};
+exports.Gear = function (props) {
+    var _a = props.elementIds, svgId = _a[0], gId = _a[1], pathId = _a[2];
+    return (react_1.default.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", id: svgId },
+        react_1.default.createElement("g", { id: gId },
+            react_1.default.createElement("path", { id: pathId, fillRule: "evenodd", clipRule: "evenodd", d: "M19.5022 12C19.5022 12.34 19.4722 12.66 19.4321 12.98L21.5421 14.63C21.7322 14.78 21.7821 15.05 21.6621 15.27L19.6621 18.73C19.5721 18.89 19.4021 18.98 19.2322 18.98C19.1721 18.98 19.1122 18.97 19.0521 18.95L16.5621 17.95C16.0421 18.34 15.4822 18.68 14.8722 18.93L14.4922 21.58C14.4622 21.82 14.2522 22 14.0022 22H10.0022C9.7522 22 9.54211 21.82 9.51221 21.58L9.1322 18.93C8.52222 18.68 7.96216 18.35 7.44214 17.95L4.95215 18.95C4.9021 18.97 4.84216 18.98 4.7821 18.98C4.60217 18.98 4.43213 18.89 4.34216 18.73L2.34216 15.27C2.22217 15.05 2.27222 14.78 2.46216 14.63L4.57214 12.98C4.5321 12.66 4.5022 12.33 4.5022 12C4.5022 11.67 4.5321 11.34 4.57214 11.02L2.46216 9.37C2.27222 9.22 2.21216 8.95001 2.34216 8.73001L4.34216 5.26999C4.43213 5.10999 4.60217 5.01999 4.77222 5.01999C4.83215 5.01999 4.89221 5.03 4.95215 5.04999L7.44214 6.04999C7.96216 5.66 8.52222 5.32001 9.1322 5.07001L9.51221 2.42001C9.54211 2.17999 9.7522 2 10.0022 2H14.0022C14.2522 2 14.4622 2.17999 14.4922 2.42001L14.8722 5.07001C15.4822 5.32001 16.0421 5.64999 16.5621 6.04999L19.0521 5.04999C19.1022 5.03 19.1621 5.01999 19.2222 5.01999C19.4021 5.01999 19.5721 5.10999 19.6621 5.26999L21.6621 8.73001C21.7821 8.95001 21.7322 9.22 21.5421 9.37L19.4321 11.02C19.4722 11.34 19.5022 11.66 19.5022 12ZM17.5022 12C17.5022 11.79 17.4922 11.58 17.4521 11.27L17.3121 10.14L18.2021 9.44L19.2722 8.59L18.5721 7.38L17.3021 7.89001L16.2422 8.32001L15.3322 7.62C14.9321 7.32001 14.5322 7.09 14.1022 6.91L13.0421 6.48001L12.8822 5.35001L12.6921 4H11.3021L11.1022 5.35001L10.9421 6.48001L9.8822 6.91C9.47217 7.07999 9.06213 7.32001 8.6322 7.64001L7.73218 8.32001L6.69214 7.89999L5.42212 7.39001L4.72217 8.60001L5.80212 9.44L6.69214 10.14L6.55212 11.27C6.52222 11.57 6.5022 11.8 6.5022 12C6.5022 12.2 6.52222 12.43 6.55212 12.74L6.69214 13.87L5.80212 14.57L4.72217 15.41L5.42212 16.62L6.69214 16.11L7.7522 15.68L8.66211 16.38C9.06213 16.68 9.46216 16.91 9.89221 17.09L10.9521 17.52L11.1122 18.65L11.3021 20H12.7021L12.9022 18.65L13.0621 17.52L14.1222 17.09C14.5322 16.92 14.9421 16.68 15.3722 16.36L16.2722 15.68L17.3121 16.1L18.5822 16.61L19.2822 15.4L18.2021 14.56L17.3121 13.86L17.4521 12.73C17.4822 12.43 17.5022 12.21 17.5022 12ZM12.0022 8C9.79224 8 8.0022 9.79001 8.0022 12C8.0022 14.21 9.79224 16 12.0022 16C14.2122 16 16.0022 14.21 16.0022 12C16.0022 9.79001 14.2122 8 12.0022 8ZM10.0022 12C10.0022 13.1 10.9022 14 12.0022 14C13.1022 14 14.0022 13.1 14.0022 12C14.0022 10.9 13.1022 10 12.0022 10C10.9022 10 10.0022 10.9 10.0022 12Z", fill: props.color || "black", fillOpacity: props.opacity || "0.54" }))));
+};
 
 
 /***/ }),
@@ -1554,9 +1612,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
 exports.default = (function (props) { return (react_1.default.createElement("svg", { width: props.width, height: props.height, viewBox: "0 0 28 28", fill: "none", xmlns: "http://www.w3.org/2000/svg" },
-    react_1.default.createElement("path", { d: "M28 16H16V28H12V16H0V12H12V0H16V12H28V16Z", fill: style_config_1.COLORS.lightGray }))); });
+    react_1.default.createElement("path", { d: "M28 16H16V28H12V16H0V12H12V0H16V12H28V16Z", fill: props.color }))); });
 
 
 /***/ }),
@@ -1599,11 +1656,23 @@ var templateObject_1;
 
 "use strict";
 
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
 var sizes = {
     small: {
@@ -1619,14 +1688,56 @@ var sizes = {
         height: 100,
     },
 };
+var StyledSvg = styled_components_1.default.svg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    cursor: pointer;\n"], ["\n    cursor: pointer;\n"])));
 exports.Arrow = function (props) {
     var _a = props.strokeWidth, strokeWidth = _a === void 0 ? 10 : _a, _b = props.strokeColor, strokeColor = _b === void 0 ? style_config_1.COLORS.darkGray : _b, _c = props.fillColor, fillColor = _c === void 0 ? "none" : _c;
     var pathD = props.direction === 'left' ? "M43 2L3 70.5L43 131" : "M2.5 1.5L42.5 70L2.5 130.5";
     var _d = sizes[props.size], width = _d.width, height = _d.height;
-    return (react_1.default.createElement("div", { onClick: props.onClick, style: { cursor: 'pointer' } },
-        react_1.default.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: width, height: height, viewBox: "0 0 46 132", fill: fillColor },
-            react_1.default.createElement("path", { d: pathD, stroke: strokeColor, strokeWidth: strokeWidth }))));
+    var _e = react_1.useState(false), isHover = _e[0], setIsHover = _e[1];
+    return (react_1.default.createElement("div", { onClick: props.onClick, onMouseOver: function () { return setIsHover(true); }, onMouseLeave: function () { return setIsHover(false); } },
+        react_1.default.createElement(StyledSvg, { xmlns: "http://www.w3.org/2000/svg", width: width, height: height, viewBox: "0 0 46 132", fill: fillColor },
+            react_1.default.createElement("path", { d: pathD, stroke: isHover ? style_config_1.COLORS.primaryGreen : strokeColor, strokeWidth: strokeWidth }))));
 };
+var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./client/components/common/back-button.tsx":
+/*!**************************************************!*\
+  !*** ./client/components/common/back-button.tsx ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var StyledSvg = styled_components_1.default.svg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    cursor: pointer;\n"], ["\n    cursor: pointer;\n"])));
+exports.default = (function (props) {
+    var _a = react_1.useState(false), isHover = _a[0], setIsHover = _a[1];
+    return (react_1.default.createElement(StyledSvg, { onMouseOver: function () { return setIsHover(true); }, onMouseLeave: function () { return setIsHover(false); }, onClick: props.onClick, xmlns: "http://www.w3.org/2000/svg", width: "45", height: "45", viewBox: "0 0 25 25", fill: "none" },
+        react_1.default.createElement("g", { id: "arrow_back_24px" },
+            react_1.default.createElement("path", { id: "icon/navigation/arrow_back_24px", d: "M20 11H7.83L13.42 5.41L12 4L4 12L12 20L13.41 18.59L7.83 13H20V11Z", fill: isHover ? style_config_1.COLORS.primaryGreen : style_config_1.COLORS.darkGray, fillOpacity: "1" }))));
+});
+var templateObject_1;
 
 
 /***/ }),
@@ -1646,10 +1757,11 @@ exports.COLORS = {
     darkGreen: '#076942',
     lightGray: '#999999',
     primaryGreen: '#419D78',
+    fadedPrimaryGreen: '#b8e0d1',
     notification: 'rgba(255, 0, 0, .7)',
     white: 'white',
 };
-exports.TILE_HEIGHT = '100px';
+exports.TILE_HEIGHT = 80;
 exports.FONT_STYLES = {
     primary: 'Montserrat',
 };
@@ -1672,6 +1784,7 @@ var FieldTypes;
     FieldTypes["INPUT"] = "INPUT";
     FieldTypes["AVATAR"] = "AVATAR";
     FieldTypes["DROPDOWN"] = "DROPDOWN";
+    FieldTypes["TOGGLE"] = "TOGGLE";
 })(FieldTypes = exports.FieldTypes || (exports.FieldTypes = {}));
 
 
@@ -1696,7 +1809,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
-var avatar_1 = __importDefault(__webpack_require__(/*! ../../components/Tile/avatar */ "./client/components/Tile/avatar.tsx"));
 var style_config_1 = __webpack_require__(/*! ../../components/style-config */ "./client/components/style-config.ts");
 var PicturesContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 100%;\n    height: 20vh;\n"], ["\n    border: 1px solid ", ";\n    width: 100%;\n    height: 20vh;\n"])), style_config_1.COLORS.darkGreen);
 var PicturesContainerRow = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    display: flex;\n    height: 50%;\n"], ["\n    display: flex;\n    height: 50%;\n"])));
@@ -1704,12 +1816,17 @@ var SinglePictureContainer = styled_components_1.default.button(templateObject_3
 var SelectableBox = function (props) {
     return (react_1.default.createElement(SinglePictureContainer, { style: props.selected ? { border: "4px solid " + style_config_1.COLORS.primaryGreen } : {}, onMouseDown: function (e) { return e.preventDefault(); }, onClick: props.onClick }, props.children));
 };
+var AvatarImage = styled_components_1.default.img(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    height: 60%;\n"], ["\n    height: 60%;\n"])));
+var Avatar = function (_a) {
+    var imageUrl = _a.imageUrl;
+    return (react_1.default.createElement(AvatarImage, { src: imageUrl }));
+};
 exports.default = (function (imageUrls, selectedImageUrl, onSelectOne) {
     var getRow = function (imageUrlsForRow) {
         var boxes = [];
         var _loop_1 = function (i) {
             // we will make a box whether or not there is an image
-            var avatar = imageUrlsForRow[i] ? react_1.default.createElement(avatar_1.default, { imageUrl: imageUrlsForRow[i] }) : null;
+            var avatar = imageUrlsForRow[i] ? react_1.default.createElement(Avatar, { imageUrl: imageUrlsForRow[i] }) : null;
             var boxClick = imageUrlsForRow[i] ? function () { return onSelectOne(imageUrlsForRow[i]); } : function () { return undefined; };
             boxes.push(
             // @ts-ignore
@@ -1724,7 +1841,7 @@ exports.default = (function (imageUrls, selectedImageUrl, onSelectOne) {
         react_1.default.createElement(PicturesContainerRow, null, getRow(imageUrls.slice(0, 4))),
         react_1.default.createElement(PicturesContainerRow, null, getRow(imageUrls.slice(4, 8)))));
 });
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
 
 
 /***/ }),
@@ -1752,16 +1869,17 @@ var styled_components_1 = __importDefault(__webpack_require__(/*! styled-compone
 var avatars_1 = __importDefault(__webpack_require__(/*! ./avatars */ "./client/forms/rendering/avatars.tsx"));
 var style_config_1 = __webpack_require__(/*! ../../components/style-config */ "./client/components/style-config.ts");
 var interfaces_1 = __webpack_require__(/*! ../interfaces */ "./client/forms/interfaces.ts");
+var toggle_1 = __importDefault(__webpack_require__(/*! ./toggle */ "./client/forms/rendering/toggle.tsx"));
 var StyledInput = styled_components_1.default.textarea(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 95%;\n    color: ", ";\n"], ["\n    border: 1px solid ", ";\n    width: 95%;\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen, style_config_1.COLORS.darkGreen);
 var StyledDropdown = styled_components_1.default.select(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    background: ", ";\n    border: 1px solid ", ";\n    width: 100%;\n    color:  ", ";\n"], ["\n    background: ", ";\n    border: 1px solid ", ";\n    width: 100%;\n    color:  ", ";\n"])), style_config_1.COLORS.white, style_config_1.COLORS.darkGreen, style_config_1.COLORS.darkGreen);
 var StyledLabel = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    color: ", ";\n"], ["\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen);
 var StyledError = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    color: ", ";\n    font-size: small;\n"], ["\n    color: ", ";\n    font-size: small;\n"])), style_config_1.COLORS.notification);
 var fieldGetters = (_a = {},
     _a[interfaces_1.FieldTypes.INPUT] = function (_a, value, onChange, error, clearError, onLeave) {
-        var label = _a.label;
+        var label = _a.label, lowerCase = _a.lowerCase;
         return (react_1.default.createElement("div", { key: "create-" + label + "-1" },
             react_1.default.createElement(StyledLabel, null, label),
-            react_1.default.createElement(StyledInput, { onFocus: clearError, onBlur: onLeave, value: value, onChange: function (event) { return onChange(event.target.value); } }),
+            react_1.default.createElement(StyledInput, { onFocus: clearError, onBlur: onLeave, value: value, onChange: function (event) { return onChange(lowerCase ? event.target.value.toLowerCase() : event.target.value); } }),
             react_1.default.createElement(StyledError, null, error)));
     },
     _a[interfaces_1.FieldTypes.AVATAR] = function (_a, value, onChange, error) {
@@ -1775,8 +1893,14 @@ var fieldGetters = (_a = {},
         var key = _a.key, options = _a.options, label = _a.label;
         return (react_1.default.createElement("div", { key: key },
             react_1.default.createElement(StyledLabel, null, label),
-            react_1.default.createElement(StyledDropdown, { onFocus: clearError, onBlur: onLeave, value: value, key: key, onChange: function (event) { return onChange(event.target.value); } }, options.map(function (option) { return (react_1.default.createElement("option", { key: key + "-" + option, value: option }, option)); })),
+            react_1.default.createElement(StyledDropdown, { onFocus: clearError, onBlur: onLeave, value: value, onChange: function (event) { return onChange(event.target.value); } }, options.map(function (option) { return (react_1.default.createElement("option", { key: key + "-" + option.value, value: option.value }, option.label)); })),
             react_1.default.createElement(StyledError, null, error)));
+    },
+    _a[interfaces_1.FieldTypes.TOGGLE] = function (_a, value, onChange) {
+        var key = _a.key, label = _a.label;
+        return (react_1.default.createElement("div", { key: key },
+            react_1.default.createElement(StyledLabel, null, label),
+            react_1.default.createElement(toggle_1.default, { value: value, onChange: onChange })));
     },
     _a);
 exports.default = (function (field, value, onChange, error, clearError, onLeave) {
@@ -1784,6 +1908,42 @@ exports.default = (function (field, value, onChange, error, clearError, onLeave)
     return fieldGetters[field.type || interfaces_1.FieldTypes.INPUT](field, value, onChange, error, clearError, onLeave);
 });
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+
+
+/***/ }),
+
+/***/ "./client/forms/rendering/toggle.tsx":
+/*!*******************************************!*\
+  !*** ./client/forms/rendering/toggle.tsx ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var style_config_1 = __webpack_require__(/*! ../../components/style-config */ "./client/components/style-config.ts");
+var StyledSvg = styled_components_1.default.svg(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    cursor: pointer;\n"], ["\n    cursor: pointer;\n"])));
+exports.default = (function (_a) {
+    var _b = _a.size, size = _b === void 0 ? 55 : _b, value = _a.value, onChange = _a.onChange;
+    var toggleValue = function () { return onChange(!value); };
+    var path = value
+        ? "M43.9167 15.5H18.0834C9.53254 15.5 2.58337 22.4492 2.58337 31C2.58337 39.5508 9.53254 46.5 18.0834 46.5H43.9167C52.4675 46.5 59.4167 39.5508 59.4167 31C59.4167 22.4492 52.4675 15.5 43.9167 15.5ZM43.9167 41.3334H18.0834C12.3742 41.3334 7.75004 36.7092 7.75004 31C7.75004 25.2908 12.3742 20.6667 18.0834 20.6667H43.9167C49.6259 20.6667 54.25 25.2908 54.25 31C54.25 36.7092 49.6259 41.3334 43.9167 41.3334ZM36.1667 31C36.1667 26.7117 39.6284 23.25 43.9167 23.25C48.205 23.25 51.6667 26.7117 51.6667 31C51.6667 35.2883 48.205 38.75 43.9167 38.75C39.6284 38.75 36.1667 35.2883 36.1667 31Z"
+        : "M43.9167 15.5H18.0834C9.53254 15.5 2.58337 22.4492 2.58337 31C2.58337 39.5508 9.53254 46.5 18.0834 46.5H43.9167C52.4675 46.5 59.4167 39.5508 59.4167 31C59.4167 22.4492 52.4675 15.5 43.9167 15.5ZM43.9167 41.3333H18.0834C12.3742 41.3333 7.75004 36.7092 7.75004 31C7.75004 25.2908 12.3742 20.6667 18.0834 20.6667H43.9167C49.6259 20.6667 54.25 25.2908 54.25 31C54.25 36.7092 49.6259 41.3333 43.9167 41.3333ZM10.3334 31C10.3334 26.7117 13.795 23.25 18.0834 23.25C22.3717 23.25 25.8334 26.7117 25.8334 31C25.8334 35.2883 22.3717 38.75 18.0834 38.75C13.795 38.75 10.3334 35.2883 10.3334 31Z";
+    return (react_1.default.createElement(StyledSvg, { xmlns: "http://www.w3.org/2000/svg", width: size, height: size, viewBox: "0 0 62 62", fill: "none", onClick: toggleValue },
+        react_1.default.createElement("g", null,
+            react_1.default.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: path, fill: value ? style_config_1.COLORS.primaryGreen : style_config_1.COLORS.lightGray, fillOpacity: "1" }))));
+});
+var templateObject_1;
 
 
 /***/ }),
@@ -1911,7 +2071,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-var Habitat_1 = __importDefault(__webpack_require__(/*! ../components/Habitat */ "./client/components/Habitat/index.tsx"));
+var index2_1 = __importDefault(__webpack_require__(/*! ../components/Habitat/index2 */ "./client/components/Habitat/index2.tsx"));
 var User_1 = __importDefault(__webpack_require__(/*! ../components/User */ "./client/components/User/index.tsx"));
 var Login_1 = __webpack_require__(/*! ../components/Login */ "./client/components/Login/index.tsx");
 var make_profile_1 = __importDefault(__webpack_require__(/*! ../components/User/make-profile */ "./client/components/User/make-profile.tsx"));
@@ -1921,7 +2081,7 @@ var Index = function () {
         react_1.default.createElement(react_router_dom_1.Route, { path: "/login", component: Login_1.Login }),
         react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/users/:id/habitats", component: User_1.default, LOGGED_IN_ROUTE__isRedirectAfterLogin: true }),
         react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/users/:id/make-profile", component: make_profile_1.default, LOGGED_IN_ROUTE__isRedirectAfterLogin: true }),
-        react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/habitats/:id", component: Habitat_1.default })));
+        react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/habitats/:id", component: index2_1.default })));
 };
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes
@@ -2536,6 +2696,10 @@ function createOne(plant, callback) {
     return { type: types_1.default.PLANTS_CREATE_ONE_REQUESTED, plant: plant, callback: callback };
 }
 exports.createOne = createOne;
+function updateOne(plant, callback) {
+    return { type: types_1.default.PLANTS_UPDATE_ONE_REQUESTED, plant: plant, callback: callback };
+}
+exports.updateOne = updateOne;
 
 
 /***/ }),
@@ -2551,7 +2715,7 @@ exports.createOne = createOne;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var actions_1 = __webpack_require__(/*! ./actions */ "./client/store/plant/actions.ts");
-var actions = { waterByIds: actions_1.waterByIds, createOne: actions_1.createOne };
+var actions = { waterByIds: actions_1.waterByIds, createOne: actions_1.createOne, updateOne: actions_1.updateOne };
 exports.actions = actions;
 
 
@@ -2626,11 +2790,26 @@ function createOne(_a) {
         }
     });
 }
+function updateOne(_a) {
+    var response;
+    var plant = _a.plant, _b = _a.callback, callback = _b === void 0 ? function (_) { return undefined; } : _b;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
+            case 0: return [4 /*yield*/, effects_1.call(api_1.default.plant.updateOne.request, plant)];
+            case 1:
+                response = _c.sent();
+                callback(api_1.default.plant.updateOne.response(response));
+                return [2 /*return*/];
+        }
+    });
+}
 exports.default = [
     // @ts-ignore
     effects_1.takeLatest(types_1.default.PLANTS_WATER_BY_IDS_REQUESTED, waterByIds),
     // @ts-ignore
     effects_1.takeLatest(types_1.default.PLANTS_CREATE_ONE_REQUESTED, createOne),
+    // @ts-ignore
+    effects_1.takeLatest(types_1.default.PLANTS_UPDATE_ONE_REQUESTED, updateOne),
 ];
 
 
@@ -2648,8 +2827,9 @@ exports.default = [
 Object.defineProperty(exports, "__esModule", { value: true });
 var types;
 (function (types) {
-    types["PLANTS_WATER_BY_IDS_REQUESTED"] = "PLANTS/PLANTS_WATER_BY_IDS_REQUESTED";
-    types["PLANTS_CREATE_ONE_REQUESTED"] = "PLANTS/PLANTS_CREATE_ONE_REQUESTED";
+    types["PLANTS_WATER_BY_IDS_REQUESTED"] = "PLANTS/WATER_BY_IDS_REQUESTED";
+    types["PLANTS_CREATE_ONE_REQUESTED"] = "PLANTS/CREATE_ONE_REQUESTED";
+    types["PLANTS_UPDATE_ONE_REQUESTED"] = "PLANTS/UPDATE_ONE_REQUESTED";
 })(types || (types = {}));
 exports.default = types;
 
