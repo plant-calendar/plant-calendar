@@ -1,7 +1,5 @@
-import React, {Fragment} from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import Routes from './routing';
-import { selectors as userSelectors, actions as userActions } from "./store/user";
 import styled from 'styled-components';
 import { COLORS } from "./components/style-config";
 
@@ -14,28 +12,10 @@ const AppDiv = styled.div`
     width: 100%;
 `;
 
-const App = props => {
-    const { userToken, logOut } = props;
-    const loggedIn = userToken && userToken.length;
+export default () => {
     return (
         <AppDiv>
-            {loggedIn
-                ? <button onClick={logOut}>Logout</button>
-                : null
-            }
             <Routes/>
         </AppDiv>
     );
 };
-
-const mapStateToProps = state => ({
-    user: userSelectors.getUser(state) || {},
-    userToken: userSelectors.getUserToken(state),
-});
-const mapDispatchToProps = dispatch => ({
-    logOut: () => {
-      dispatch(userActions.setUserToken(''));
-      dispatch(userActions.setUser(null));
-    },
-});
-export default connect(mapStateToProps, mapDispatchToProps)(App);
