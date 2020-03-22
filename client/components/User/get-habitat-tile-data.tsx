@@ -1,6 +1,6 @@
 import {entityId, SUBSCRIPTION_STATUSES} from "../../../server/db/types";
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
-import {ITileProps} from "../TileDisplay/tile2";
+import {ITileProps} from "../TileDisplay/tile";
 import {ITagProps} from "../TileDisplay/tag";
 import {COLORS} from "../style-config";
 

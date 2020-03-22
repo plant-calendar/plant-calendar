@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {IHabitat} from "../../../../../server/db/models/habitat/habitat.interface";
-import Tile from "../../../TileDisplay/tile2";
+import Tile from "../../../TileDisplay/tile";
 import SearchBar from './search-bar';
 import {COLORS} from "../../../style-config";
 

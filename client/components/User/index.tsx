@@ -6,13 +6,11 @@ import { selectors as userSelectors, actions as userActions } from '../../store/
 import { selectors as habitatSelectors, actions as habitatActions } from '../../store/habitat';
 import AddTile from "../common/AddTile";
 import { CreateHabitat } from "../CreateHabitatModal";
-import TileContainer from '../TileDisplay/index2';
+import TileContainer from '../TileDisplay';
 import SubscribeModal from './SubscribeModal';
 import Notification from '../common/Notification';
 import AcceptSubscriptionsModal, {ISubscriptionRequest} from './AcceptSubscriptionsModal';
 import getHabitatTileData from './get-habitat-tile-data';
-import { apiBaseUrl } from '../../config';
-import {COLORS} from "../style-config";
 import {entityId} from "../../../server/db/types";
 import Logout from '../Logout';
 

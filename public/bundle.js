@@ -516,14 +516,11 @@ var templateObject_1, templateObject_2, templateObject_3, templateObject_4, temp
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _routing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./routing */ "./client/routing/index.tsx");
-/* harmony import */ var _routing__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_routing__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _store_user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/user */ "./client/store/user/index.ts");
-/* harmony import */ var _store_user__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_store_user__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
-/* harmony import */ var _components_style_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/style-config */ "./client/components/style-config.ts");
-/* harmony import */ var _components_style_config__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_style_config__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _routing__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routing */ "./client/routing/index.tsx");
+/* harmony import */ var _routing__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_routing__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js");
+/* harmony import */ var _components_style_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/style-config */ "./client/components/style-config.ts");
+/* harmony import */ var _components_style_config__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_components_style_config__WEBPACK_IMPORTED_MODULE_3__);
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n    font-family: Montserrat;\n    font-style: normal;\n    font-weight: normal;\n    color: ", ";\n    height: 100%;\n    width: 100%;\n"]);
 
@@ -540,36 +537,10 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 
 
 
-
-
-var AppDiv = styled_components__WEBPACK_IMPORTED_MODULE_4__["default"].div(_templateObject(), _components_style_config__WEBPACK_IMPORTED_MODULE_5__["COLORS"].primaryGreen);
-
-var App = function App(props) {
-  var userToken = props.userToken,
-      logOut = props.logOut;
-  var loggedIn = userToken && userToken.length;
-  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AppDiv, null, loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-    onClick: logOut
-  }, "Logout") : null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routing__WEBPACK_IMPORTED_MODULE_2___default.a, null));
-};
-
-var mapStateToProps = function mapStateToProps(state) {
-  return {
-    user: _store_user__WEBPACK_IMPORTED_MODULE_3__["selectors"].getUser(state) || {},
-    userToken: _store_user__WEBPACK_IMPORTED_MODULE_3__["selectors"].getUserToken(state)
-  };
-};
-
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    logOut: function logOut() {
-      dispatch(_store_user__WEBPACK_IMPORTED_MODULE_3__["actions"].setUserToken(''));
-      dispatch(_store_user__WEBPACK_IMPORTED_MODULE_3__["actions"].setUser(null));
-    }
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(App));
+var AppDiv = styled_components__WEBPACK_IMPORTED_MODULE_2__["default"].div(_templateObject(), _components_style_config__WEBPACK_IMPORTED_MODULE_3__["COLORS"].primaryGreen);
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AppDiv, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_routing__WEBPACK_IMPORTED_MODULE_1___default.a, null));
+});
 
 /***/ }),
 
@@ -694,9 +665,6 @@ var lastWateredOptions = [
 var millisecondsInADay = 1000 * 60 * 60 * 24;
 var convertDaysAgoToDate = function (daysAgo) {
     return new Date(new Date().getTime() - (daysAgo * millisecondsInADay)).toUTCString();
-};
-var convertDateStringToDaysAgo = function (dateString) {
-    return (new Date().getTime() - dateString) / millisecondsInADay;
 };
 var getStages = function (augmentedPlant) {
     var _a = (augmentedPlant || {}), _b = _a.plant, plant = _b === void 0 ? {
@@ -856,10 +824,10 @@ exports.default = (function (props) {
 
 /***/ }),
 
-/***/ "./client/components/Habitat/index2.tsx":
-/*!**********************************************!*\
-  !*** ./client/components/Habitat/index2.tsx ***!
-  \**********************************************/
+/***/ "./client/components/Habitat/index.tsx":
+/*!*********************************************!*\
+  !*** ./client/components/Habitat/index.tsx ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -891,7 +859,7 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
 var plant_1 = __webpack_require__(/*! ../../store/plant */ "./client/store/plant/index.ts");
-var index2_1 = __importDefault(__webpack_require__(/*! ../TileDisplay/index2 */ "./client/components/TileDisplay/index2.tsx"));
+var TileDisplay_1 = __importDefault(__webpack_require__(/*! ../TileDisplay */ "./client/components/TileDisplay/index.tsx"));
 var styled_components_1 = __webpack_require__(/*! ./styled-components */ "./client/components/Habitat/styled-components.ts");
 var AddTile_1 = __importDefault(__webpack_require__(/*! ../common/AddTile */ "./client/components/common/AddTile.tsx"));
 var get_plant_tile_data_1 = __importDefault(__webpack_require__(/*! ./get-plant-tile-data */ "./client/components/Habitat/get-plant-tile-data.tsx"));
@@ -937,7 +905,7 @@ var Habitat = function (props) {
                     "@",
                     name)),
             react_1.default.createElement(AddTile_1.default, { message: "Add a plant", onClick: function () { return setCreatePlantOpen(true); } }),
-            react_1.default.createElement(index2_1.default, { tiles: plantData.map(function (augmentedPlant) { return get_plant_tile_data_1.default(__assign({}, augmentedPlant, { 
+            react_1.default.createElement(TileDisplay_1.default, { tiles: plantData.map(function (augmentedPlant) { return get_plant_tile_data_1.default(__assign({}, augmentedPlant, { 
                     // @ts-ignore
                     openSettings: function () { return setPlantWithSettingsOpen(augmentedPlant.plant.id); }, justWatered: augmentedPlant.plant.id === justWateredPlantId, onReachEndOfWaveTransition: function () { return waterPlant(augmentedPlant.plant.id); } })); }) }))));
 };
@@ -1115,10 +1083,10 @@ var templateObject_1, templateObject_2, templateObject_3;
 
 /***/ }),
 
-/***/ "./client/components/TileDisplay/index2.tsx":
-/*!**************************************************!*\
-  !*** ./client/components/TileDisplay/index2.tsx ***!
-  \**************************************************/
+/***/ "./client/components/TileDisplay/index.tsx":
+/*!*************************************************!*\
+  !*** ./client/components/TileDisplay/index.tsx ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1145,10 +1113,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-var tile2_1 = __importDefault(__webpack_require__(/*! ./tile2 */ "./client/components/TileDisplay/tile2.tsx"));
+var tile_1 = __importDefault(__webpack_require__(/*! ./tile */ "./client/components/TileDisplay/tile.tsx"));
 var StyledContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    margin-top: 20px;\n    \n    @media (min-width: 768px) {\n        display: flex;\n        justify-content: space-around;\n    }\n"], ["\n    margin-top: 20px;\n    \n    @media (min-width: 768px) {\n        display: flex;\n        justify-content: space-around;\n    }\n"])));
 exports.default = (function (props) {
-    return (react_1.default.createElement(StyledContainer, null, props.tiles.map(function (tile) { return react_1.default.createElement(tile2_1.default, __assign({}, tile)); })));
+    return (react_1.default.createElement(StyledContainer, null, props.tiles.map(function (tile) { return react_1.default.createElement(tile_1.default, __assign({}, tile)); })));
 });
 var templateObject_1;
 
@@ -1185,10 +1153,10 @@ var templateObject_1;
 
 /***/ }),
 
-/***/ "./client/components/TileDisplay/tile2.tsx":
-/*!*************************************************!*\
-  !*** ./client/components/TileDisplay/tile2.tsx ***!
-  \*************************************************/
+/***/ "./client/components/TileDisplay/tile.tsx":
+/*!************************************************!*\
+  !*** ./client/components/TileDisplay/tile.tsx ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1461,7 +1429,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
-var tile2_1 = __importDefault(__webpack_require__(/*! ../../../TileDisplay/tile2 */ "./client/components/TileDisplay/tile2.tsx"));
+var tile_1 = __importDefault(__webpack_require__(/*! ../../../TileDisplay/tile */ "./client/components/TileDisplay/tile.tsx"));
 var search_bar_1 = __importDefault(__webpack_require__(/*! ./search-bar */ "./client/components/User/SubscribeModal/Select/search-bar.tsx"));
 var style_config_1 = __webpack_require__(/*! ../../../style-config */ "./client/components/style-config.ts");
 var StyledTileContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n"], ["\n"])));
@@ -1473,7 +1441,7 @@ exports.default = (function (props) {
         habitats.length === 0
             ? (react_1.default.createElement(StyledNoHabitatsMessage, null, "no matching habitats found"))
             : null,
-        react_1.default.createElement(StyledTileContainer, null, habitats.map(function (habitat) { return (react_1.default.createElement(tile2_1.default, { title: habitat.name, details: '', elementKey: habitat.id, imageUrl: habitat.imageUrl, containerStyle: { width: '100%' }, onClick: function () { return onClickHabitat(habitat); } })); }))));
+        react_1.default.createElement(StyledTileContainer, null, habitats.map(function (habitat) { return (react_1.default.createElement(tile_1.default, { title: habitat.name, details: '', elementKey: habitat.id, imageUrl: habitat.imageUrl, containerStyle: { width: '100%' }, onClick: function () { return onClickHabitat(habitat); } })); }))));
 });
 var templateObject_1, templateObject_2;
 
@@ -1667,7 +1635,7 @@ var user_1 = __webpack_require__(/*! ../../store/user */ "./client/store/user/in
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
 var AddTile_1 = __importDefault(__webpack_require__(/*! ../common/AddTile */ "./client/components/common/AddTile.tsx"));
 var CreateHabitatModal_1 = __webpack_require__(/*! ../CreateHabitatModal */ "./client/components/CreateHabitatModal/index.tsx");
-var index2_1 = __importDefault(__webpack_require__(/*! ../TileDisplay/index2 */ "./client/components/TileDisplay/index2.tsx"));
+var TileDisplay_1 = __importDefault(__webpack_require__(/*! ../TileDisplay */ "./client/components/TileDisplay/index.tsx"));
 var SubscribeModal_1 = __importDefault(__webpack_require__(/*! ./SubscribeModal */ "./client/components/User/SubscribeModal/index.tsx"));
 var Notification_1 = __importDefault(__webpack_require__(/*! ../common/Notification */ "./client/components/common/Notification.tsx"));
 var AcceptSubscriptionsModal_1 = __importDefault(__webpack_require__(/*! ./AcceptSubscriptionsModal */ "./client/components/User/AcceptSubscriptionsModal/index.tsx"));
@@ -1717,7 +1685,7 @@ var UserHabitatsComponent = function (props) {
                     user.name)),
             react_1.default.createElement(AddTile_1.default, { message: "Create new habitat", onClick: function () { return setAddHabitatOpen(true); } }),
             react_1.default.createElement(AddTile_1.default, { message: "Subscribe to habitat", onClick: function () { return setSubscribeToNewHabitatOpen(true); } }),
-            react_1.default.createElement(index2_1.default, { tiles: habitats.map(get_habitat_tile_data_1.default) }))));
+            react_1.default.createElement(TileDisplay_1.default, { tiles: habitats.map(get_habitat_tile_data_1.default) }))));
 };
 var mapStateToProps = function (state) { return ({
     user: user_1.selectors.getUser(state),
@@ -2983,7 +2951,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-var index2_1 = __importDefault(__webpack_require__(/*! ../components/Habitat/index2 */ "./client/components/Habitat/index2.tsx"));
+var Habitat_1 = __importDefault(__webpack_require__(/*! ../components/Habitat */ "./client/components/Habitat/index.tsx"));
 var User_1 = __importDefault(__webpack_require__(/*! ../components/User */ "./client/components/User/index.tsx"));
 var Login_1 = __webpack_require__(/*! ../components/Login */ "./client/components/Login/index.tsx");
 var make_profile_1 = __importDefault(__webpack_require__(/*! ../components/User/make-profile */ "./client/components/User/make-profile.tsx"));
@@ -2993,7 +2961,7 @@ var Index = function () {
         react_1.default.createElement(react_router_dom_1.Route, { path: "/login", component: Login_1.Login }),
         react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/users/:id/habitats", component: User_1.default, LOGGED_IN_ROUTE__isRedirectAfterLogin: true }),
         react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/users/:id/make-profile", component: make_profile_1.default, LOGGED_IN_ROUTE__isRedirectAfterLogin: true }),
-        react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/habitats/:id", component: index2_1.default })));
+        react_1.default.createElement(logged_in_route_1.LoggedInRoute, { path: "/habitats/:id", component: Habitat_1.default })));
 };
 // The `withRouter` wrapper makes sure that updates are not blocked
 // when the url changes

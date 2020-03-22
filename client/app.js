@@ -12,10 +12,4 @@ const AppDiv = styled.div`
     width: 100%;
 `;
 
-export default () => {
-    return (
-        <AppDiv>
-            <Routes/>
-        </AppDiv>
-    );
-};
+export default () => <AppDiv><Routes/></AppDiv>;

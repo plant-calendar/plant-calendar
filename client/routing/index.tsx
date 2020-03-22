@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Route, Switch, withRouter} from 'react-router-dom';
-import Habitat from "../components/Habitat/index2";
+import Habitat from "../components/Habitat";
 import UserHabitats from '../components/User';
 import {Login} from "../components/Login";
 import MakeProfile from '../components/User/make-profile';

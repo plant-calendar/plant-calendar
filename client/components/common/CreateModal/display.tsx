@@ -6,7 +6,7 @@ import {Close} from "../CloseSign";
 import {SubmitButton} from "../SubmitButton";
 import renderField from '../../../forms/rendering/render-fields';
 import { Arrow } from "../arrows";
-import {BASE_MODAL_STYLE, COLORS} from "../../style-config";
+import { BASE_MODAL_STYLE } from "../../style-config";
 
 const Middle = styled.div`
     display: flex;

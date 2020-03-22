@@ -37,9 +37,6 @@ const millisecondsInADay = 1000 * 60 * 60 * 24;
 const convertDaysAgoToDate = (daysAgo: number) =>
     new Date(new Date().getTime() - (daysAgo * millisecondsInADay)).toUTCString();
 
-const convertDateStringToDaysAgo = dateString =>
-    (new Date().getTime() - dateString) / millisecondsInADay;
-
 const getStages = (augmentedPlant?: IAugmentedPlant): IStage[] => {
     const {
         plant = {

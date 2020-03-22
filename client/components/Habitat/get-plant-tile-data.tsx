@@ -1,5 +1,5 @@
 import {IAugmentedPlant} from "../../store/habitat/selectors";
-import {ITileProps} from "../TileDisplay/tile2";
+import {ITileProps} from "../TileDisplay/tile";
 import {ITagProps} from "../TileDisplay/tag";
 import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import {COLORS} from "../style-config";
