@@ -348,6 +348,7 @@ exports.default = (function (client) { return ({
                             waterInterval: plant.waterInterval,
                             habitatId: plant.habitatId,
                             imageUrl: plant.imageUrl,
+                            // @ts-ignore - we have added this property on create and update only
                             subscribed: plant.subscribed,
                         },
                     })];
@@ -367,6 +368,7 @@ exports.default = (function (client) { return ({
                             waterInterval: plant.waterInterval,
                             habitatId: plant.habitatId,
                             imageUrl: plant.imageUrl,
+                            // @ts-ignore - we have added this property on create and update only
                             subscribed: plant.subscribed,
                         },
                     })];
@@ -742,6 +744,7 @@ var Component = function (props) {
             ? function (toCreate, callback) {
                 props.create(__assign({}, toCreate, { lastWatered: convertDaysAgoToDate(toCreate.lastWatered), waterInterval: +toCreate.waterInterval }), callback);
             } : function (updates, callback) {
+            // if this is an update, we know the augmentedPlant prop will exist
             var existingPlant = props.augmentedPlant.plant;
             props.update(__assign({}, updates, { id: existingPlant.id }), callback);
         }, afterSave: props.afterSave, submitButtonText: props.isCreate ? 'create' : 'update' }));
@@ -1270,6 +1273,7 @@ exports.default = (function (props) {
         if (currentHeight === 0) {
             // @ts-ignore
             document.getElementById(waveElementId).style.display = 'block';
+            // @ts-ignore
             document.getElementById(overlayElementId).style.display = 'block';
         }
         if (currentHeight === 100) {
@@ -1282,8 +1286,6 @@ exports.default = (function (props) {
         timerId = setTimeout(function () { return doTransition(newHeight); }, 50);
     };
     var onHoldTile = function (e) {
-        e.persist();
-        window.xxx = e;
         if (suppressWaveForNodes.includes(e.target.id)) {
             return;
         }
@@ -1766,7 +1768,6 @@ var MakeProfile = function (props) {
     var onSubmit = function () {
         var errorMessages = validation_1.getFormErrorMessages([
             {
-                value: name,
                 label: 'Name',
                 validators: [validation_1.validatorGetters.isNotNil(), validation_1.validatorGetters.isAtLeastLength(3)],
                 key: 'name',
@@ -2004,7 +2005,6 @@ exports.default = (function (props) {
         });
         return acc;
     }, {});
-    console.log({ states: states });
     var _a = react_1.useState(''), submissionError = _a[0], setSubmissionError = _a[1];
     var _b = react_1.useState(0), currentStageIdx = _b[0], setCurrentStageIdx = _b[1];
     var onNext = function () {
@@ -2087,6 +2087,7 @@ exports.Gear = function (props) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+/* tslint:disable */
 // adapted from https://github.com/Tagussan/BSpline
 var BSpline = function (points, degree, copy) {
     if (copy) {
@@ -2227,6 +2228,7 @@ BSpline.prototype.calcAt = function (t) {
     else {
         var res = [];
         for (var i = 0; i < this.dimension; i++) {
+            // @ts-ignore
             res.push(this.getInterpol(this.seqAt(i), t));
         }
         return res;
@@ -2273,7 +2275,6 @@ exports.default = (function (configs, containerWidth, containerHeight, yStartPer
         return function step(timestamp) {
             if (!start)
                 start = timestamp;
-            var progress = timestamp - start;
             var lastPoint = pts[pts.length - 1];
             var xx = Math.random() * xFactor;
             var yy = Math.random() * yFactor;
@@ -2296,6 +2297,7 @@ exports.default = (function (configs, containerWidth, containerHeight, yStartPer
         // if(pts.length == 0) {
         //     return;
         // }
+        // tslint:disable-next-line:prefer-for-of
         for (var i = 0; i < pts.length; i++) {
             // ctx.beginPath();
             //
@@ -2469,6 +2471,17 @@ var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cook
     if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
     return cooked;
 };
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -2480,7 +2493,7 @@ var StyledButton = styled_components_1.default.button(templateObject_1 || (templ
 var DisabledButton = styled_components_1.default.button(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    background: ", ";\n    color: ", ";\n    height: 25px;\n    \n    :focus {\n        border: none;\n    }\n    border-radius: 8%;\n"], ["\n    background: ", ";\n    color: ", ";\n    height: 25px;\n    \n    :focus {\n        border: none;\n    }\n    border-radius: 8%;\n"])), style_config_1.COLORS.fadedPrimaryGreen, style_config_1.COLORS.white);
 exports.SubmitButton = function (props) {
     return props.disabled
-        ? (react_1.default.createElement(DisabledButton, { style: (props.styles || {}), onClick: function () { return undefined; } }, props.text)) : (react_1.default.createElement(StyledButton, { style: (props.styles || {}), onClick: props.onClick }, props.text));
+        ? (react_1.default.createElement(DisabledButton, { style: __assign({}, (props.styles || {})), onClick: function () { return undefined; } }, props.text)) : (react_1.default.createElement(StyledButton, { style: __assign({}, (props.styles || {})), onClick: props.onClick }, props.text));
 };
 var templateObject_1, templateObject_2;
 
@@ -7837,7 +7850,7 @@ function previouslyCompared(a, b) {
 /*!*****************************************************!*\
   !*** ./node_modules/apollo-boost/lib/bundle.esm.js ***!
   \*****************************************************/
-/*! exports provided: ApolloClient, ApolloError, FetchType, NetworkStatus, ObservableQuery, isApolloError, Observable, getOperationName, ApolloLink, concat, createOperation, empty, execute, from, fromError, fromPromise, makePromise, split, toPromise, HeuristicFragmentMatcher, InMemoryCache, IntrospectionFragmentMatcher, ObjectCache, StoreReader, StoreWriter, WriteError, assertIdValue, defaultDataIdFromObject, defaultNormalizedCacheFactory, enhanceErrorWithDocument, HttpLink, gql, default */
+/*! exports provided: HttpLink, gql, default, ApolloClient, ApolloError, FetchType, NetworkStatus, ObservableQuery, isApolloError, Observable, getOperationName, ApolloLink, concat, createOperation, empty, execute, from, fromError, fromPromise, makePromise, split, toPromise, HeuristicFragmentMatcher, InMemoryCache, IntrospectionFragmentMatcher, ObjectCache, StoreReader, StoreWriter, WriteError, assertIdValue, defaultDataIdFromObject, defaultNormalizedCacheFactory, enhanceErrorWithDocument */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62999,7 +63012,7 @@ function warning(message) {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, useHistory, useLocation, useParams, useRouteMatch, withRouter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66966,7 +66979,7 @@ if (false) {} else {
 /*!***********************************************************************!*\
   !*** ./node_modules/redux-saga/dist/redux-saga-core-npm-proxy.esm.js ***!
   \***********************************************************************/
-/*! exports provided: CANCEL, SAGA_LOCATION, buffers, detach, END, channel, eventChannel, isEnd, multicastChannel, runSaga, stdChannel, default */
+/*! exports provided: default, CANCEL, SAGA_LOCATION, buffers, detach, END, channel, eventChannel, isEnd, multicastChannel, runSaga, stdChannel */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

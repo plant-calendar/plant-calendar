@@ -27,7 +27,6 @@ export default (props: IProps) => {
         });
         return acc;
     }, {});
-    console.log({states});
 
     const [submissionError, setSubmissionError] = useState('');
     const [currentStageIdx, setCurrentStageIdx] = useState(0);

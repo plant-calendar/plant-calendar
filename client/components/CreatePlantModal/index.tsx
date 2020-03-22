@@ -137,7 +137,8 @@ const Component = (props: IProps) => {
                         waterInterval: +toCreate.waterInterval,
                     }, callback);
                   } : (updates, callback) => {
-                    const { plant: existingPlant } = props.augmentedPlant;
+                    // if this is an update, we know the augmentedPlant prop will exist
+                    const { plant: existingPlant } = props.augmentedPlant as IAugmentedPlant;
                     props.update({
                         ...updates,
                         id: existingPlant.id,

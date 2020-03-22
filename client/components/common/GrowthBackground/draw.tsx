@@ -29,7 +29,6 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
         return function step(timestamp) {
             if (!start) start = timestamp;
 
-            const progress = timestamp - start;
             const lastPoint = pts[pts.length - 1];
             const xx = Math.random() * xFactor;
             const yy = Math.random() * yFactor;
@@ -48,7 +47,7 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
         drawSpline(ctx, canv, shouldDrawFlowers);
     }
 
-    function drawSpline(ctx, canv, shouldDrawFlowers){
+    function drawSpline(ctx, canv, shouldDrawFlowers) {
         ctx.clearRect(0, 0, canv.width, canv.height);
         ctx.lineWidth += 0.002;
         leafSize += 0.1;
@@ -56,6 +55,7 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
         // if(pts.length == 0) {
         //     return;
         // }
+        // tslint:disable-next-line:prefer-for-of
         for (let i = 0; i < pts.length; i++){
             // ctx.beginPath();
             //
@@ -71,9 +71,9 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
             //     drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
             //     ctx.fill();
             // }
-                const angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
-                drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
-                ctx.fill();
+            const angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
+            drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
+            ctx.fill();
             ctx.closePath();
         }
         const spline = new BSpline(pts, degree, true);

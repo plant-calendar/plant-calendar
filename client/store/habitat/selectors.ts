@@ -1,12 +1,11 @@
 import {createSelector} from "reselect";
 import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
-import {IHabitatComponentProps} from "../../components/Habitat";
 
 export const habitats = state => state.habitats.data.habitats || [];
 export const queriedHabitats = state => state.habitats.data.queriedHabitats || [];
 
-export const habitatById = (state, props: IHabitatComponentProps) => {
+export const habitatById = (state, props: any) => {
   const habitatId: number = +props.match.params.id;
   return habitats(state).find(habitat => habitat.id === habitatId) || {};
 };

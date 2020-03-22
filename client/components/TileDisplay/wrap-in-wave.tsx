@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import React from "react";
-import {entityId} from "../../../server/db/types";
 
 const overlayPrimaryColor = 'rgba(0, 66, 100, .5)';
 
@@ -54,6 +53,7 @@ export default (props: IProps) => {
         if (currentHeight === 0) {
             // @ts-ignore
             document.getElementById(waveElementId).style.display = 'block';
+            // @ts-ignore
             document.getElementById(overlayElementId).style.display = 'block';
         }
         if (currentHeight === 100) {
@@ -67,8 +67,6 @@ export default (props: IProps) => {
     };
 
     const onHoldTile = e => {
-        e.persist();
-        window.xxx = e;
         if (suppressWaveForNodes.includes(e.target.id)) {
             return;
         }

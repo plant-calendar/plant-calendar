@@ -34,6 +34,7 @@ export default client => ({
                 waterInterval: plant.waterInterval,
                 habitatId: plant.habitatId,
                 imageUrl: plant.imageUrl,
+                // @ts-ignore - we have added this property on create and update only
                 subscribed: plant.subscribed,
             },
         }),
@@ -60,6 +61,7 @@ export default client => ({
                 waterInterval: plant.waterInterval,
                 habitatId: plant.habitatId,
                 imageUrl: plant.imageUrl,
+                // @ts-ignore - we have added this property on create and update only
                 subscribed: plant.subscribed,
             },
         }),

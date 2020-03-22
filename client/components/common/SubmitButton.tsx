@@ -39,14 +39,14 @@ export const SubmitButton = (props: IProps) => {
     return props.disabled
         ? (
             <DisabledButton
-                style={...(props.styles || {})}
+                style={{ ...(props.styles || {}) }}
                 onClick={() => undefined}
             >
                 {props.text}
             </DisabledButton>
         ) : (
             <StyledButton
-                style={...(props.styles || {})}
+                style={{ ...(props.styles || {}) }}
                 onClick={props.onClick}
             >
                 {props.text}

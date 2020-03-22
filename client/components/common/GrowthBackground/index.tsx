@@ -27,11 +27,11 @@ export default (props: IProps) => {
     const yStart = (props.yStart || props.yStart === 0) ? props.yStart : 0.4;
 
     useEffect(() => {
-        const container = document.getElementById(containerId);
+        const container = document.getElementById(containerId) as any;
 
         const configs: IDrawConfig[] = [];
         for (let i = 0; i < 1; i += 1) {
-            const canv = document.createElement('CANVAS');
+            const canv = document.createElement('CANVAS') as any;
             canv.width = window.innerWidth;
             canv.height = window.innerHeight;
             canv.style.zIndex = '-10000';

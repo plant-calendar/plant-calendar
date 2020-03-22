@@ -63,14 +63,14 @@ const MakeProfile = props => {
 
     const onSubmit = () => {
         const errorMessages = getFormErrorMessages([
-            {
-                value: name,
-                label: 'Name',
-                validators: [validatorGetters.isNotNil(), validatorGetters.isAtLeastLength(3)],
-                key: 'name',
-            },
-        ],
-            { name });
+                {
+                    label: 'Name',
+                    validators: [validatorGetters.isNotNil(), validatorGetters.isAtLeastLength(3)],
+                    key: 'name',
+                },
+            ],
+            { name },
+        );
         if (errorMessages && errorMessages.length) {
             setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
             return;

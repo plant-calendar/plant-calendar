@@ -1,3 +1,4 @@
+/* tslint:disable */
 // adapted from https://github.com/Tagussan/BSpline
 const BSpline = function(points, degree, copy){
     if (copy){
@@ -119,6 +120,7 @@ BSpline.prototype.calcAt = function(t){
     }else{
         var res = [];
         for(var i = 0;i<this.dimension;i++){
+            // @ts-ignore
             res.push(this.getInterpol(this.seqAt(i),t));
         }
         return res;
