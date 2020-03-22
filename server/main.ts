@@ -14,6 +14,7 @@ import configureAuth from './auth';
 
 const configureApp = () => {
   console.log('configuring app');
+  console.log('dirname', path.join(__dirname, '..', 'public'));
   // logging middleware
   app.use(morgan('dev'));
 
@@ -27,6 +28,7 @@ const configureApp = () => {
   app.use(express.static(path.join(__dirname, '..', 'public')));
 
   app.use((req: any, res: any, next: any) => {
+    console.log('here is something', path.join(__dirname, '..', 'public'))
     if (path.extname(req.path).length) {
       console.log(
         'this is the req path that is giving us problems: ',
@@ -40,15 +42,6 @@ const configureApp = () => {
       next();
     }
   });
-
-  // app.use('*', (req, res, next) => {
-  //   console.log('hello!!!!!');
-  //   // if no token or expired token, send some response that causes redirect to login page
-  //   // if valid token, convert to user.id and pass on
-  //   //    - somehow make exception for create user endpoint
-  //   //    - check how close token is to expiring: if soon, make sure
-  //   next();
-  // })
 
   app.use('/graphql',  graphqlHTTP(async (req, res) => {
     let context;

@@ -1,20 +1,20 @@
 import {call, takeLatest} from "@redux-saga/core/effects";
-import api from "../../api";
+import { apiPlant } from "../../api";
 import TYPES from './types';
 
 function* waterByIds({ ids, callback = _ => undefined }) {
-  const response = yield call(api.plant.waterByIds.request, ids);
-  callback(api.plant.waterByIds.response(response));
+  const response = yield call(apiPlant.waterByIds.request, ids);
+  callback(apiPlant.waterByIds.response(response));
 }
 
 function* createOne({ plant, callback = _ => undefined }) {
-  const response = yield call(api.plant.createOne.request, plant);
-  callback(api.plant.createOne.response(response));
+  const response = yield call(apiPlant.createOne.request, plant);
+  callback(apiPlant.createOne.response(response));
 }
 
 function* updateOne({ plant, callback = _ => undefined }) {
-  const response = yield call(api.plant.updateOne.request, plant);
-  callback(api.plant.updateOne.response(response));
+  const response = yield call(apiPlant.updateOne.request, plant);
+  callback(apiPlant.updateOne.response(response));
 }
 
 export default [

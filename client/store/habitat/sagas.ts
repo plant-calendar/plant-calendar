@@ -1,37 +1,37 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import api from '../../api';
+import { apiHabitat } from '../../api';
 import {createOneSucceeded, setHabitats, setQueriedHabitats} from "./actions";
 import TYPES from "./types";
 
 function* fetchHabitatsByIds({ habitatIds }) {
-  const response = yield call(api.habitat.getByIds.request, habitatIds);
-  yield put(setHabitats(api.habitat.getByIds.response(response)));
+  const response = yield call(apiHabitat.getByIds.request, habitatIds);
+  yield put(setHabitats(apiHabitat.getByIds.response(response)));
 }
 
 function* fetchUserSubscribedHabitats({ userId, callback }) {
-  const response = yield call(api.habitat.getUserSubscribed.request, userId);
-  const habitats = api.habitat.getUserSubscribed.response(response);
+  const response = yield call(apiHabitat.getUserSubscribed.request, userId);
+  const habitats = apiHabitat.getUserSubscribed.response(response);
   yield put(setHabitats(habitats));
   callback(habitats);
 }
 
 function* createOne({ habitat, callback }) {
-  const res = yield call(api.habitat.createOne.request, habitat);
+  const res = yield call(apiHabitat.createOne.request, habitat);
   yield put(createOneSucceeded());
-  const created = api.habitat.createOne.response(res);
+  const created = apiHabitat.createOne.response(res);
   callback(created);
 }
 
 function* searchHabitats({ name, callback }) {
-  const res = yield call(api.habitat.nameSearch.request, name);
-  const found = api.habitat.nameSearch.response(res);
+  const res = yield call(apiHabitat.nameSearch.request, name);
+  const found = apiHabitat.nameSearch.response(res);
   yield put(setQueriedHabitats(found));
   callback(found);
 }
 
 function* requestSubscription({ habitatId, callback }) {
   console.log({habitatIdInSaga: habitatId});
-  yield call(api.habitat.requestSubscription.request, habitatId);
+  yield call(apiHabitat.requestSubscription.request, habitatId);
   callback();
 }
 

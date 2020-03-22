@@ -2,7 +2,7 @@ import {applyMiddleware, createStore, combineReducers, compose} from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import habitats from './habitat';
 import user from './user';
-import saga from './saga';
+// import saga from './saga';
 import auth from './auth';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -12,6 +12,10 @@ const middleware = [sagaMiddleware];
 // @ts-ignore
 const reducer = combineReducers({ habitats, user, auth });
 const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)));
-sagaMiddleware.run(saga);
+
+import('./saga').then(saga => {
+    const rootSagaGenerator = saga.default;
+    sagaMiddleware.run(rootSagaGenerator);
+});
 
 export default store;
