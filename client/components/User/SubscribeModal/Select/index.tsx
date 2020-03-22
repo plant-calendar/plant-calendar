@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import {IHabitat} from "../../../../../server/db/models/habitat/habitat.interface";
+import {IHabitat} from "../../../../../common/db-interfaces/habitat.interface";
 import Tile from "../../../TileDisplay/tile";
 import SearchBar from './search-bar';
 import {COLORS} from "../../../style-config";

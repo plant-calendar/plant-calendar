@@ -1,6 +1,6 @@
 import GenericService from "./generic.service";
 import {PlantSubscription} from "../db/models";
-import {entityId} from "../db/types";
+import {entityId} from "../../common/db-interfaces/types";
 
 export default class PlantSubscriptionService extends GenericService {
     constructor() {

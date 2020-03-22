@@ -11,7 +11,7 @@ import SubscribeModal from './SubscribeModal';
 import Notification from '../common/Notification';
 import AcceptSubscriptionsModal, {ISubscriptionRequest} from './AcceptSubscriptionsModal';
 import getHabitatTileData from './get-habitat-tile-data';
-import {entityId} from "../../../server/db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 import Logout from '../Logout';
 
 const StyledNotificationAndLogoutContainer = styled.div`
@@ -41,13 +41,13 @@ const UserHabitatsComponent = props => {
     const [addHabitatOpen, setAddHabitatOpen] = useState(false);
     const [subscribeToNewHabitatOpen, setSubscribeToNewHabitatOpen] = useState(false);
     const [subscriptionRequestModalOpen, setSubscriptionRequestModalOpen] = useState(false);
+
     useEffect(() => {
         fetchUserSubscribedHabitats(userId);
     }, []);
     useEffect(() => {
         fetchSubscriptionRequests();
     }, []);
-
 
     const getSubscriptionRequestDecisionCallback = (requestId: entityId) => () => {
         setSubscriptionRequests(subscriptionRequests.filter(request => request.id !== requestId));

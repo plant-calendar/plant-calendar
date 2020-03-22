@@ -6,8 +6,7 @@ import axios from 'axios';
 
 // by default uses the /graphql endpoint on the server you are on
 // can optionally provide uri param if that is not the endpoint you want
-const client = new ApolloClient({
-});
+const client = new ApolloClient({});
 
 export default {
   habitat: habitatApi(client),

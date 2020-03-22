@@ -1,4 +1,4 @@
-import {IPlant} from "../../server/db/models/plant/plant.interface";
+import {IPlant} from "../db-interfaces/plant.interface";
 
 export const plantDataAccessors = {
     daysSinceWatered(plant: IPlant | { lastWatered: number }) {

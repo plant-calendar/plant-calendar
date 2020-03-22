@@ -1,5 +1,5 @@
 import TYPES from "./types";
-import {IUser} from "../../../server/db/models/user/user.interface";
+import {IUser} from "../../../common/db-interfaces/user.interface";
 
 const defaultState = {
     data: { user: null, allNames: [], subscriptionRequests: [] },

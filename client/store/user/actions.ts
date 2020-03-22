@@ -1,6 +1,6 @@
 import TYPES from './types';
-import {IUser} from "../../../server/db/models/user/user.interface";
-import {entityId} from "../../../server/db/types";
+import {IUser} from "../../../common/db-interfaces/user.interface";
+import {entityId} from "../../../common/db-interfaces/types";
 import {ISubscriptionRequest} from "../../components/User/AcceptSubscriptionsModal";
 
 export function setUserToken(token: string) {

@@ -1,4 +1,4 @@
-import {entityId} from "../../../server/db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 import {IStoreHabitat} from "./interfaces/store-habitat.interface";
 import TYPES from './types';
 

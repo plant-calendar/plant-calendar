@@ -1,6 +1,6 @@
 import sequelizeDb from '../db/db';
 import GenericRepository from "./generic.repository";
-import {SUBSCRIPTION_STATUSES} from "../db/types";
+import {SUBSCRIPTION_STATUSES} from "../../common/db-interfaces/types";
 
 export default class HabitatSubscriptionRepository extends GenericRepository {
     public async getSubscriptionRequestsForHabitats(habitatIds: string[]) {

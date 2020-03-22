@@ -6,9 +6,10 @@ import saga from './saga';
 import auth from './auth';
 
 const sagaMiddleware = createSagaMiddleware();
+// @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const middleware = [sagaMiddleware];
-
+// @ts-ignore
 const reducer = combineReducers({ habitats, user, auth });
 const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)));
 sagaMiddleware.run(saga);

@@ -3,7 +3,7 @@ import * as graphQl from "graphql";
 import plants from '../plant';
 import PlantService from '../../service/plant.service';
 import HabitatSubscriptionService from '../../service/habitat-subscription.service';
-import {entityId, SUBSCRIPTION_STATUSES} from "../../db/types";
+import {entityId, SUBSCRIPTION_STATUSES} from "../../../common/db-interfaces/types";
 import PlantSubscriptionService from "../../service/plant-subscription.service";
 import userController from '../user';
 

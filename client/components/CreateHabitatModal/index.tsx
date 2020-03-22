@@ -4,7 +4,7 @@ import {actions as habitatActions} from '../../store/habitat';
 import CreateModal from "../common/CreateModal";
 import {validatorGetters} from "../../forms/validation";
 import {FieldTypes} from "../../forms/interfaces";
-import {IHabitat} from "../../../server/db/models/habitat/habitat.interface";
+import {IHabitat} from "../../../common/db-interfaces/habitat.interface";
 
 interface IProps {
     create: (p1: any, p2: any) => any;

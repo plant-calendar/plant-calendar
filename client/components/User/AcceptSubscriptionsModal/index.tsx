@@ -3,7 +3,7 @@ import ReactModal from 'react-modal';
 import styled from 'styled-components';
 import {BASE_MODAL_STYLE, COLORS} from "../../style-config";
 import {Close} from "../../common/CloseSign";
-import {entityId} from "../../../../server/db/types";
+import {entityId} from "../../../../common/db-interfaces/types";
 import {SubmitButton} from "../../common/SubmitButton";
 import { TILE_HEIGHT } from "../../style-config";
 

@@ -18,7 +18,7 @@ interface IProps {
 export default (props: IProps) => {
     return (
       <StyledContainer>
-          {props.tiles.map(tile => <Tile {...tile} />)}
+          {props.tiles.map(tile => <Tile key={`tile-${tile.elementKey}`} {...tile} />)}
       </StyledContainer>
     );
 };

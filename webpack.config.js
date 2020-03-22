@@ -4,8 +4,8 @@ const isDev = process.env.NODE_ENV === 'development';
 module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: [
-    '@babel/polyfill', // enables async-await
-    './client/index.js'
+    // '@babel/polyfill', // enables async-await... but actually seems unnecessary
+    './client/index.tsx'
   ],
   output: {
     path: __dirname,
@@ -34,7 +34,7 @@ module.exports = {
   },
   plugins: [
     new TSLintPlugin({
-      files: ['./src/**/*.ts'],
+      files: ['./src/client/*.ts', './src/client/*.tsx'],
     }),
   ],
 };

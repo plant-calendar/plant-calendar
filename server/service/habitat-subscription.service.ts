@@ -1,7 +1,7 @@
 import GenericService from './generic.service';
 import {HabitatSubscription} from "../db/models";
-import {entityId, SUBSCRIPTION_STATUSES} from "../db/types";
-import {IHabitatSubscription} from "../db/models/habitatSubsription/habitatSubscription.interface";
+import {entityId, SUBSCRIPTION_STATUSES} from "../../common/db-interfaces/types";
+import {IHabitatSubscription} from "../../common/db-interfaces/habitatSubscription.interface";
 import HabitatSubscriptionRepository from "../repository/habitat-subscription.repository";
 
 export default class extends GenericService {

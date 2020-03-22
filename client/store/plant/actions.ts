@@ -1,4 +1,4 @@
-import {entityId} from "../../../server/db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 import TYPES from './types';
 
 export function waterByIds(plantIds: entityId[], callback?: () => any) {

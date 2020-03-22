@@ -1,4 +1,4 @@
-import { IBaseEntity } from '../baseEntity.interface';
+import { IBaseEntity } from './baseEntity.interface';
 
 export interface IPlantSubscription extends IBaseEntity {
   id: number;

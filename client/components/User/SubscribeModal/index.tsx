@@ -5,9 +5,9 @@ import {BASE_MODAL_STYLE} from "../../style-config";
 import Confirm from './Confirm';
 import Select from './Select';
 import {Close} from "../../common/CloseSign";
-import {IHabitat} from "../../../../server/db/models/habitat/habitat.interface";
+import {IHabitat} from "../../../../common/db-interfaces/habitat.interface";
 import { actions as habitatActions, selectors as habitatSelectors } from '../../../store/habitat';
-import {entityId} from "../../../../server/db/types";
+import {entityId} from "../../../../common/db-interfaces/types";
 
 interface IProps {
     close: () => any;

@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { actions as userActions, selectors as userSelectors } from "../../store/user";
+import React from 'react';
 import styled from 'styled-components';
 import { COLORS } from "../style-config";
 import GrowthBackground from '../common/GrowthBackground';
 import { apiBaseUrl } from '../../config';
 
 const Container = styled.div`
-
 `;
-
 
 const CentralDiv = styled.div`
     padding: 5%;
@@ -67,12 +63,7 @@ const DemoLink = styled.a`
     -webkit-font-smoothing: antialiased;
 `;
 
-const Plant = styled.img`
-    height: 45vh;  
-    max-width: 100vw;
-`;
-
-const LoginComponent = props => {
+export default () => {
     return (
             <Container>
                 <GrowthBackground yStart={0.2} keyBase="login" />
@@ -96,15 +87,3 @@ const LoginComponent = props => {
             </Container>
     );
 };
-
-const mapStateToProps = state => ({
-   user: userSelectors.getUser(state),
-   userToken: userSelectors.getUserToken(state),
-});
-
-const mapDispatchToProps = dispatch => ({
-    setUserToken: token => dispatch(userActions.setUserToken(token)),
-    // fetchUserByToken: (token, callback) => dispatch(userActions.fetchUserByToken(token, callback)),
-    createUser: (name, callback) => dispatch(userActions.createUser(name, callback)),
-});
-export const Login = connect(mapStateToProps, mapDispatchToProps)(LoginComponent);

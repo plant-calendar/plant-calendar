@@ -1,4 +1,4 @@
-import {entityId} from "../../server/db/types";
+import {entityId} from "../../common/db-interfaces/types";
 import {gql} from "apollo-boost";
 import {ISubscriptionRequest} from "../components/User/AcceptSubscriptionsModal";
 

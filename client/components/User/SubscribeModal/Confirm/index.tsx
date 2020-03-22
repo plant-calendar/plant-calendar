@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import {IHabitat} from "../../../../../server/db/models/habitat/habitat.interface";
+import {IHabitat} from "../../../../../common/db-interfaces/habitat.interface";
 import {SubmitButton} from "../../../common/SubmitButton";
 import {COLORS} from "../../../style-config";
 import Avatar from "../../../TileDisplay/avatar";
-import {entityId} from "../../../../../server/db/types";
+import {entityId} from "../../../../../common/db-interfaces/types";
 
 const StyledContainer = styled.div`
     display: flex;

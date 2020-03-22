@@ -1,4 +1,4 @@
-import {entityId} from "../db/types";
+import {entityId} from "../../common/db-interfaces/types";
 import GenericRepository from "../repository/generic.repository";
 
 export default class {

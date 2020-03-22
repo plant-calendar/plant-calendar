@@ -1,11 +1,10 @@
-// const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 import uuid from 'uuid/v4';
 import fileStore from 'session-file-store';
 import session from 'express-session';
 import passport from 'passport';
 import passportGoogle from 'passport-google-oauth';
 import UserService from '../service/user.service';
-import {IUser} from "../db/models/user/user.interface";
+import {IUser} from "../../common/db-interfaces/user.interface";
 import * as _ from 'lodash';
 import AuthService from "../service/auth.service";
 
@@ -45,10 +44,9 @@ export default async app => {
     await configureGoogleStrategy();
     passport.serializeUser((user, done) => done(null, user));
     passport.deserializeUser((user, done) => done(null, user.userId));
-    console.log('beginning auth setup');
     app.use(session({
-        genid: req => uuid(), // use UUIDs for session IDs
-        secret: 'keyboard cat',
+        genid: () => uuid(), // use UUIDs for session IDs
+        secret: process.env.SESSION_SECRET || 'keyboard cat',
         resave: false,
         saveUninitialized: true,
         store: new FileStore(),

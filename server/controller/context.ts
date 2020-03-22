@@ -1,6 +1,6 @@
 import HabitatSubscriptionService from '../service/habitat-subscription.service';
-import {entityId} from "../db/types";
-import {IHabitatSubscription} from "../db/models/habitatSubsription/habitatSubscription.interface";
+import {entityId} from "../../common/db-interfaces/types";
+import {IHabitatSubscription} from "../../common/db-interfaces/habitatSubscription.interface";
 import * as _ from 'lodash';
 
 const habitatSubscriptionService = new HabitatSubscriptionService();

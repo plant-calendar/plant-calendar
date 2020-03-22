@@ -1,5 +1,5 @@
-import {IHabitat} from "../../../../server/db/models/habitat/habitat.interface";
-import {IPlant} from "../../../../server/db/models/plant/plant.interface";
+import {IHabitat} from "../../../../common/db-interfaces/habitat.interface";
+import {IPlant} from "../../../../common/db-interfaces/plant.interface";
 
 export interface IStoreHabitat extends IHabitat {
   plants?: IPlant[];

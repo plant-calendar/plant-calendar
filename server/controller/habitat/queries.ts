@@ -3,7 +3,7 @@ import {habitatType} from "./types";
 import HabitatService from '../../service/habitat.service';
 import UserService from '../../service/user.service';
 import HabitatSubscriptionService from '../../service/habitat-subscription.service';
-import {entityId} from "../../db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 
 const habitatService = new HabitatService();
 const habitatSubscriptionService = new HabitatSubscriptionService();

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {actions as habitatActions, selectors as habitatSelectors} from "../../store/habitat";
 import {IAugmentedPlant} from "../../store/habitat/selectors";
-import {entityId} from "../../../server/db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 import {actions as plantActions} from "../../store/plant";
 import TilesContainer from '../TileDisplay';
 import {Container, Title, TitleAndBackContainer} from "./styled-components";

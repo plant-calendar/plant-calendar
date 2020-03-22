@@ -3,8 +3,8 @@ import UserService from "../../service/user.service";
 import HabitatSubscriptionService from "../../service/habitat-subscription.service";
 import * as graphQl from "graphql";
 import {habitatType} from "./types";
-import {IHabitatSubscription} from "../../db/models/habitatSubsription/habitatSubscription.interface";
-import {SUBSCRIPTION_STATUSES} from "../../db/types";
+import {IHabitatSubscription} from "../../../common/db-interfaces/habitatSubscription.interface";
+import {SUBSCRIPTION_STATUSES} from "../../../common/db-interfaces/types";
 
 const habitatService = new HabitatService();
 const userService = new UserService();

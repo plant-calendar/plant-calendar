@@ -1,5 +1,5 @@
 import Sequelize from "sequelize";
-import {entityId} from "../db/types";
+import {entityId} from "../../common/db-interfaces/types";
 import Model from "sequelize";
 import User from "../db/models/user/user";
 import Habitat from "../db/models/habitat/habitat";

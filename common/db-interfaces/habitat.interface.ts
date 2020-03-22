@@ -1,4 +1,4 @@
-import { IBaseEntity } from '../baseEntity.interface';
+import { IBaseEntity } from './baseEntity.interface';
 
 export interface IHabitat extends IBaseEntity {
   id: number;

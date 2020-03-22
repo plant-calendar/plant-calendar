@@ -1,6 +1,6 @@
-import {entityId} from "../../server/db/types";
+import {entityId} from "../../common/db-interfaces/types";
 import {gql} from "apollo-boost";
-import {IPlant} from "../../server/db/models/plant/plant.interface";
+import {IPlant} from "../../common/db-interfaces/plant.interface";
 
 export default client => ({
     waterByIds: {

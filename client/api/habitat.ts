@@ -1,4 +1,4 @@
-import {entityId} from "../../server/db/types";
+import {entityId} from "../../common/db-interfaces/types";
 import {gql} from "apollo-boost";
 
 export default client => ({
@@ -20,7 +20,7 @@ export default client => ({
                       createdAt
                       updatedAt
                     }
-                    subscriptions
+                    plantSubscriptions
                   }
                 }
             `,
@@ -80,7 +80,7 @@ export default client => ({
                           createdAt
                           updatedAt
                         }
-                        subscriptions
+                        plantSubscriptions
                     }
                 }
             `,

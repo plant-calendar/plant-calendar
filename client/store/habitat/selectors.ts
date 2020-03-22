@@ -1,6 +1,6 @@
 import {createSelector} from "reselect";
 import {plantDataAccessors} from "../../../common/data-accessors/plant";
-import {IPlant} from "../../../server/db/models/plant/plant.interface";
+import {IPlant} from "../../../common/db-interfaces/plant.interface";
 
 export const habitats = state => state.habitats.data.habitats || [];
 export const queriedHabitats = state => state.habitats.data.queriedHabitats || [];

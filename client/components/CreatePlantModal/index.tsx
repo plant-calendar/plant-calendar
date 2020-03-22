@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {validatorGetters} from "../../forms/validation";
-import {entityId} from "../../../server/db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 import CreateModal, {IStage} from "../common/CreateModal";
 import {FieldTypes} from "../../forms/interfaces";
 import {actions as plantActions} from '../../store/plant';

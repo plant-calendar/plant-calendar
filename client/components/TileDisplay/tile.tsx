@@ -5,7 +5,7 @@ import Avatar from './avatar';
 import {COLORS, TILE_HEIGHT} from "../style-config";
 import {Gear, getElementIds} from "../common/Gear";
 import {Tag, ITagProps} from "./tag";
-import {entityId} from "../../../server/db/types";
+import {entityId} from "../../../common/db-interfaces/types";
 import WaveWrapper from './wrap-in-wave';
 
 const StyledTile = styled.div`
