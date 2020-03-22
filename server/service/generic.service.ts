@@ -2,7 +2,7 @@ import {entityId} from "../db/types";
 import GenericRepository from "../repository/generic.repository";
 
 export default class {
-  private repository;
+  protected repository;
   constructor(model) {
     this.repository = new GenericRepository(model);
   }
@@ -11,8 +11,8 @@ export default class {
     return this.repository.findOneById(id);
   }
 
-  public async findAll(params?: object) {
-    return this.repository.findAll(params);
+  public async findAll(params: object, joins?: string[]) {
+    return this.repository.findAll(params, joins);
   }
 
   public async updateOne(id: entityId, update: object) {
@@ -34,5 +34,9 @@ export default class {
 
   public async deleteWhere(params: object) {
     return this.repository.deleteWhere(params);
+  }
+
+  public async stringColumnIncludesSearch(columnName: string, queried: string) {
+    return this.repository.stringColumnIncludesSearch(columnName, queried);
   }
 }

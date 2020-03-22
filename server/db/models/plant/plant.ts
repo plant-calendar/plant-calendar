@@ -21,7 +21,10 @@ const Plant = db.define('plant', {
   },
   lastWatered: {
     type: Sequelize.DATE,
-    defaultValue: Date.now(),
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
   },
   wateredBy: {
     type: Sequelize.INTEGER,

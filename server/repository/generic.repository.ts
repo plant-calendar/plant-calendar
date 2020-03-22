@@ -1,5 +1,11 @@
 import Sequelize from "sequelize";
 import {entityId} from "../db/types";
+import Model from "sequelize";
+import User from "../db/models/user/user";
+import Habitat from "../db/models/habitat/habitat";
+import Plant from "../db/models/plant/plant";
+import PlantSubscription from "../db/models/plantSubscription/plantSubscription";
+import HabitatSubscription from "../db/models/habitatSubsription/habitatSubscription";
 
 export default class GenericRepository {
   private static getValuesFromFindAll = results => (results || []).map(r => r.dataValues);
@@ -16,6 +22,21 @@ export default class GenericRepository {
       }
       return acc;
     }, {});
+  };
+
+  private static getModel(name: string): typeof Model {
+    const model = ({
+      user: User,
+      habitat: Habitat,
+      plant: Plant,
+      plantSubscription: PlantSubscription,
+      habitatSubscription: HabitatSubscription,
+    })[name];
+
+    if (!model) {
+      throw new Error(`GenericRepository.getModel got an invalid string ${name}`);
+    }
+    return model;
   }
 
   private model;
@@ -34,8 +55,9 @@ export default class GenericRepository {
    * this method CANNOT handle "where x = 1 or y = 2"... create a custom method for that
    * this method also cannot handle "where x = [1, 2]"
    * @param params
+   * @param joins
    */
-  public async findAll(params?: object) {
+  public async findAll(params: object, joins?: string[]) {
     console.log("generic repository received find all params of", params);
     if (!params || !Object.keys(params).length) {
       return GenericRepository.getValuesFromFindAll(await this.model.findAll());
@@ -47,7 +69,12 @@ export default class GenericRepository {
     if (!Object.keys(where).length) {
       return [];
     }
-    return GenericRepository.getValuesFromFindAll((await this.model.findAll({ where })));
+    const finalQueryObject = {
+      where,
+      ...((joins && joins.length) ? { include: joins.map(GenericRepository.getModel) } : {}),
+    };
+    console.log({finalQueryObject});
+    return GenericRepository.getValuesFromFindAll((await this.model.findAll(finalQueryObject)));
   }
 
   public async findWhereNot(columnName: string, value: any) {
@@ -76,5 +103,16 @@ export default class GenericRepository {
   public async deleteWhere(params: object) {
     const where = GenericRepository.buildWhere(params);
     return this.model.destroy({ where });
+  }
+
+  public async stringColumnIncludesSearch(columnName: string, queried: string) {
+    const found = await this.model.findAll({
+      where: {
+        [columnName]: {
+          [Sequelize.Op.iLike]: `%${queried}%`,
+        },
+      },
+    });
+    return GenericRepository.getValuesFromFindAll(found);
   }
 }

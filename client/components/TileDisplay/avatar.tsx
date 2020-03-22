@@ -12,8 +12,13 @@ const VerticalFlexer = styled.div`
   justify-content: center;
 `;
 
+interface IProps {
+  borderColor?: string;
+  alert?: boolean;
+  imageUrl: string;
+}
 
-const Avatar = props => {
+const Avatar = (props: IProps) => {
   let style = `
     height: ${TILE_HEIGHT - 10}px;
     width: ${TILE_HEIGHT - 10}px;
@@ -21,6 +26,9 @@ const Avatar = props => {
     display: flex;
     justify-content: center;
   `;
+  if (props.borderColor) {
+    style += `border: 2px solid ${props.borderColor};`;
+  }
   if (props.alert) {
     style += `border: 2px solid ${COLORS.notification};`;
   }

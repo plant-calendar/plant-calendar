@@ -2,10 +2,10 @@ import TYPES from "./types";
 import {IUser} from "../../../server/db/models/user/user.interface";
 
 const defaultState = {
-    data: { token: '', user: null, allNames: [] },
+    data: { user: null, allNames: [], subscriptionRequests: [] },
 };
 
-export default (state = defaultState, action: { type: TYPES, user?: IUser, allNames: string[] }) => {
+export default (state = defaultState, action: { type: TYPES, user?: IUser, allNames: string[], requests?: any }) => {
     console.log("reducer got action of ", action);
     switch (action.type) {
         case TYPES.USER_SET_USER:
@@ -25,6 +25,12 @@ export default (state = defaultState, action: { type: TYPES, user?: IUser, allNa
             return {
               ...state,
               data: { ...state.data, allNames },
+            };
+        case TYPES.USER_SET_SUBSCRIPTION_REQUESTS:
+            const { requests } = action;
+            return {
+              ...state,
+              data: { ...state.data, subscriptionRequests: requests },
             };
         default:
             return state;

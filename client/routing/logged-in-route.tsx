@@ -16,9 +16,12 @@ const LoggedInRouteComponent =
             LOGGED_IN_ROUTE__getHaveUser();
         }, []);
         if (LOGGED_IN_ROUTE__haveUser !== null && !LOGGED_IN_ROUTE_loadingHaveUser) {
-            return <Route {...rest} render={
-                props => (LOGGED_IN_ROUTE__haveUser ? <Component {...props} /> : <Redirect to="/login"/>)
-            }/>;
+            return (
+                <Route
+                    {...rest}
+                    render={props => (LOGGED_IN_ROUTE__haveUser ? <Component {...props} /> : <Redirect to="/login"/>)}
+                />
+            );
         }
         return null;
     };

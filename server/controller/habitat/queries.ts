@@ -14,9 +14,14 @@ const getHabitats = {
   args: {
     id: { type: graphQl.GraphQLList(graphQl.GraphQLInt) },
     name: { type: graphQl.GraphQLList(graphQl.GraphQLString) },
-    userToken: { type: graphQl.GraphQLString },
   },
   resolve: async (_, args) => habitatService.findAll(args),
+  type: graphQl.GraphQLList(habitatType),
+};
+
+const searchHabitats = {
+  args: { name: { type: graphQl.GraphQLString }},
+  resolve: async (_, args) => habitatService.searchByName(args.name),
   type: graphQl.GraphQLList(habitatType),
 };
 
@@ -44,5 +49,5 @@ const getUserSubscribedHabitats = {
 
 
 
-const habitatQueries = { getHabitats, getUserSubscribedHabitats };
+const habitatQueries = { getHabitats, getUserSubscribedHabitats, searchHabitats };
 export {habitatQueries};

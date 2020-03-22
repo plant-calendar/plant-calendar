@@ -6,9 +6,11 @@ import {FieldTypes, IField} from "../interfaces";
 import Toggle from './toggle';
 
 const StyledInput = styled.textarea`
+    resize: none;
     border: 1px solid ${COLORS.darkGreen};
     width: 95%;
     color: ${COLORS.darkGreen};
+    text-decoration: none;
 `;
 
 const StyledDropdown = styled.select`
@@ -25,6 +27,7 @@ const StyledLabel = styled.div`
 const StyledError = styled.div`
     color: ${COLORS.notification};
     font-size: small;
+    height: 20px;
 `;
 
 const fieldGetters = {
@@ -36,6 +39,7 @@ const fieldGetters = {
                 onBlur={onLeave}
                 value={value}
                 onChange={event => onChange(lowerCase ? event.target.value.toLowerCase() : event.target.value)}
+                spellCheck={false}
             />
             <StyledError>{error}</StyledError>
         </div>

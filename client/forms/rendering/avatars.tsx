@@ -6,6 +6,7 @@ const PicturesContainer = styled.div`
     border: 1px solid ${COLORS.darkGreen};
     width: 100%;
     height: 20vh;
+    margin-top: 2px;
 `;
 const PicturesContainerRow = styled.div`
     display: flex;

@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { actions as userActions, selectors as userSelectors } from "../../store/user";
 import styled from 'styled-components';
 import { COLORS } from "../style-config";
+import GrowthBackground from '../common/GrowthBackground';
+import { apiBaseUrl } from '../../config';
 
 const Container = styled.div`
 
@@ -12,6 +14,8 @@ const Container = styled.div`
 const CentralDiv = styled.div`
     padding: 5%;
     margin-top: -10px;
+    position: absolute;
+    top: 40%;
 `;
 
 const GoogleButton = styled.a`
@@ -71,10 +75,9 @@ const Plant = styled.img`
 const LoginComponent = props => {
     return (
             <Container>
-                <Plant src="https://s3-alpha-sig.figma.com/img/6c63/70ed/ad1930cd4b50ded9905c58f50ef09c33?Expires=1583107200&Signature=gCz7L7810K8SjuRcWD~8M2u4HHRjNAmFCM8k7SWsa3J9eyb9oervC6ASyUkXD0ZSr4bX4nTQql2VRnUslMYTb7GPwqAlxMlqnN38UnqRLoGIcFjIx4Ntf64glsb15gIn~~xy9tmSSkxnH47NdWQhXEvH4SIP7e7z8-JnIdL5EkeSbBeKQ09cbh3WDrxteuU0MASJjqx4Yko20WjfYIwnNeDYPvUGrYxf19s8rcJPlAFANqoNeqJ~YgtI6bSihYevKruHkOGdMqo0aSi47aIUjqpsfkL591Y5plrr61k0m2cBunmiG3AfFtKbcPgi2gulnS0AQwh95TkH~lA32VAYTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" />
+                <GrowthBackground yStart={0.2} keyBase="login" />
                 <CentralDiv>
                     <TitleText>PlantCalender</TitleText>
-                    {/*<GoogleButton href="https://hungry-plants.herokuapp.com/auth/google">*/}
                     <Intro>
                         Keep track of when to water plants.  Collaborate with
                         others to keep them watered and happy.
@@ -83,7 +86,7 @@ const LoginComponent = props => {
                         > See a demo here. </DemoLink>
                         Click below to get started!
                     </Intro>
-                    <GoogleButton href="http://localhost:3000/auth/google">
+                    <GoogleButton href={`${apiBaseUrl}/auth/google`}>
                         <GoogleImage src="/icons/google-icon.png"/>
                         <GoogleTextContainer>
                             <GoogleText>Sign in with Google</GoogleText>

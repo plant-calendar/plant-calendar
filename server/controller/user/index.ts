@@ -1,5 +1,5 @@
 import { userQueries } from "./queries";
 import { userMutations } from './mutations';
-import { userType } from './types';
+import { userType, habitatSubscriptionType } from './types';
 
-export default { userType, userQueries, userMutations };
+export default { userType, habitatSubscriptionType, userQueries, userMutations };

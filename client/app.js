@@ -10,12 +10,22 @@ const AppDiv = styled.div`
     font-style: normal;
     font-weight: normal;
     color: ${COLORS.primaryGreen};
+    height: 100%;
+    width: 100%;
 `;
 
 const App = props => {
     const { userToken, logOut } = props;
     const loggedIn = userToken && userToken.length;
-    return <AppDiv>{loggedIn ? <button onClick={logOut}>Logout</button> : null}<Routes/></AppDiv>;
+    return (
+        <AppDiv>
+            {loggedIn
+                ? <button onClick={logOut}>Logout</button>
+                : null
+            }
+            <Routes/>
+        </AppDiv>
+    );
 };
 
 const mapStateToProps = state => ({

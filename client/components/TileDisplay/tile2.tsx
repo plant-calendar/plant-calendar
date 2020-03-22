@@ -68,10 +68,11 @@ const Details = styled.div`
 
 export interface ITileProps {
     title: string;
-    details: string;
+    details?: string;
     elementKey: entityId;
     imageUrl: string;
     linkTo?: string;
+    onClick?: () => any;
     tags?: ITagProps[];
     hasSettings?: boolean;
     openSettings?: () => any;
@@ -95,7 +96,7 @@ export default (props: ITileProps) => {
             </AvatarVerticalFlexer>
             <TextVerticalFlexer>
                 <Title style={{ ...(isHover ? { color: COLORS.primaryGreen } : {})}}>{props.title}</Title>
-                <Details>{props.details}</Details>
+                <Details>{props.details || ''}</Details>
             </TextVerticalFlexer>
             <div>
                 {...(props.tags || []).map(tagProps => <Tag {...tagProps} />)}
@@ -143,6 +144,7 @@ export default (props: ITileProps) => {
     };
     return (
         <StyledTile
+            onClick={props.onClick || (() => undefined)}
             onMouseOver={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
             style={addedStyle}

@@ -142,7 +142,7 @@ exports.default = (function (client) { return ({
         request: function (habitatIds) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, client.query({
-                        query: apollo_boost_1.gql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n                query GetHabitats($habitatIds: [Int]!) {\n                  getHabitats(id: $habitatIds) {\n                    id\n                    name\n                    plants {\n                      id\n                      name\n                      habitatId\n                      imageUrl\n                      lastWatered\n                      waterInterval\n                      createdAt\n                      updatedAt\n                    }\n                    subscriptions\n                  }\n                }\n            "], ["\n                query GetHabitats($habitatIds: [Int]!) {\n                  getHabitats(id: $habitatIds) {\n                    id\n                    name\n                    plants {\n                      id\n                      name\n                      habitatId\n                      imageUrl\n                      lastWatered\n                      waterInterval\n                      createdAt\n                      updatedAt\n                    }\n                    subscriptions\n                  }\n                }\n            "]))),
+                        query: apollo_boost_1.gql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n                query GetHabitats($habitatIds: [Int]!) {\n                  getHabitats(id: $habitatIds) {\n                    id\n                    name\n                    imageUrl\n                    plants {\n                      id\n                      name\n                      habitatId\n                      imageUrl\n                      lastWatered\n                      waterInterval\n                      createdAt\n                      updatedAt\n                    }\n                    subscriptions\n                  }\n                }\n            "], ["\n                query GetHabitats($habitatIds: [Int]!) {\n                  getHabitats(id: $habitatIds) {\n                    id\n                    name\n                    imageUrl\n                    plants {\n                      id\n                      name\n                      habitatId\n                      imageUrl\n                      lastWatered\n                      waterInterval\n                      createdAt\n                      updatedAt\n                    }\n                    subscriptions\n                  }\n                }\n            "]))),
                         variables: { habitatIds: habitatIds },
                         fetchPolicy: 'no-cache',
                     })];
@@ -154,7 +154,7 @@ exports.default = (function (client) { return ({
         request: function (userId) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 return [2 /*return*/, client.query({
-                        query: apollo_boost_1.gql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n                query GetUserSubscribedHabitats($id: Int!) {\n                    getUserSubscribedHabitats(id: $id) {\n                        id\n                        name\n                        plants {\n                            id\n                            name\n                            habitatId\n                            imageUrl\n                            lastWatered\n                            waterInterval\n                            createdAt\n                            updatedAt\n                        }\n                        subscriptions\n                    }\n                }\n            "], ["\n                query GetUserSubscribedHabitats($id: Int!) {\n                    getUserSubscribedHabitats(id: $id) {\n                        id\n                        name\n                        plants {\n                            id\n                            name\n                            habitatId\n                            imageUrl\n                            lastWatered\n                            waterInterval\n                            createdAt\n                            updatedAt\n                        }\n                        subscriptions\n                    }\n                }\n            "]))),
+                        query: apollo_boost_1.gql(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n                query GetUserSubscribedHabitats($id: Int!) {\n                    getUserSubscribedHabitats(id: $id) {\n                        id\n                        name\n                        imageUrl\n                        plants {\n                            id\n                            name\n                            habitatId\n                            imageUrl\n                            lastWatered\n                            waterInterval\n                            createdAt\n                            updatedAt\n                        }\n                        plantSubscriptions\n                        subscription {\n                            id\n                            userId\n                            habitatId\n                            status\n                        }\n                    }\n                }\n            "], ["\n                query GetUserSubscribedHabitats($id: Int!) {\n                    getUserSubscribedHabitats(id: $id) {\n                        id\n                        name\n                        imageUrl\n                        plants {\n                            id\n                            name\n                            habitatId\n                            imageUrl\n                            lastWatered\n                            waterInterval\n                            createdAt\n                            updatedAt\n                        }\n                        plantSubscriptions\n                        subscription {\n                            id\n                            userId\n                            habitatId\n                            status\n                        }\n                    }\n                }\n            "]))),
                         variables: { id: userId },
                         fetchPolicy: 'no-cache',
                     })];
@@ -164,20 +164,43 @@ exports.default = (function (client) { return ({
     },
     createOne: {
         request: function (_a) {
-            var name = _a.name;
+            var name = _a.name, imageUrl = _a.imageUrl;
             return __awaiter(_this, void 0, void 0, function () {
                 return __generator(this, function (_b) {
                     return [2 /*return*/, client.mutate({
-                            mutation: apollo_boost_1.gql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n                mutation CreateHabitat($name: String!) {\n                    createHabitat(name: $name) {\n                        id\n                        name\n                        plants {\n                          id\n                          name\n                          habitatId\n                          imageUrl\n                          lastWatered\n                          waterInterval\n                          createdAt\n                          updatedAt\n                        }\n                        subscriptions\n                    }\n                }\n            "], ["\n                mutation CreateHabitat($name: String!) {\n                    createHabitat(name: $name) {\n                        id\n                        name\n                        plants {\n                          id\n                          name\n                          habitatId\n                          imageUrl\n                          lastWatered\n                          waterInterval\n                          createdAt\n                          updatedAt\n                        }\n                        subscriptions\n                    }\n                }\n            "]))),
-                            variables: { name: name },
+                            mutation: apollo_boost_1.gql(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n                mutation CreateHabitat($name: String!, $imageUrl: String!) {\n                    createHabitat(name: $name, imageUrl: $imageUrl) {\n                        id\n                        name\n                        imageUrl\n                        plants {\n                          id\n                          name\n                          habitatId\n                          imageUrl\n                          lastWatered\n                          waterInterval\n                          createdAt\n                          updatedAt\n                        }\n                        subscriptions\n                    }\n                }\n            "], ["\n                mutation CreateHabitat($name: String!, $imageUrl: String!) {\n                    createHabitat(name: $name, imageUrl: $imageUrl) {\n                        id\n                        name\n                        imageUrl\n                        plants {\n                          id\n                          name\n                          habitatId\n                          imageUrl\n                          lastWatered\n                          waterInterval\n                          createdAt\n                          updatedAt\n                        }\n                        subscriptions\n                    }\n                }\n            "]))),
+                            variables: { name: name, imageUrl: imageUrl },
                         })];
                 });
             });
         },
         response: function (res) { return res.data.createHabitat; },
     },
+    nameSearch: {
+        request: function (searchedString) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, client.query({
+                        query: apollo_boost_1.gql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n            query HabitatSearch($name: String!) {\n                searchHabitats(name: $name) {\n                    id\n                    name\n                    imageUrl\n                }\n            }\n        "], ["\n            query HabitatSearch($name: String!) {\n                searchHabitats(name: $name) {\n                    id\n                    name\n                    imageUrl\n                }\n            }\n        "]))),
+                        variables: { name: searchedString },
+                        fetchPolicy: 'no-cache',
+                    })];
+            });
+        }); },
+        response: function (res) { return res.data.searchHabitats; },
+    },
+    requestSubscription: {
+        request: function (habitatId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, client.mutate({
+                        mutation: apollo_boost_1.gql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n                mutation RequestSubscriptionToHabitat($habitatId: Int!) {\n                    requestSubscriptionToHabitat(habitatId: $habitatId)\n                }\n            "], ["\n                mutation RequestSubscriptionToHabitat($habitatId: Int!) {\n                    requestSubscriptionToHabitat(habitatId: $habitatId)\n                }\n            "]))),
+                        variables: { habitatId: habitatId },
+                    })];
+            });
+        }); },
+        response: function (res) { return res.data.requestSubscriptionToHabitat; },
+    },
 }); });
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5;
 
 
 /***/ }),
@@ -443,8 +466,41 @@ exports.default = (function (client) { return ({
         }); },
         response: function (res) { return res.data.getAllNames; },
     },
+    getSubscriptionRequests: {
+        request: function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, client.query({
+                        query: apollo_boost_1.gql(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n                query GetSubscriptionRequests {\n                  getSubscriptionRequests {\n                    id\n                    userId\n                    userName\n                    habitatId\n                    habitatName\n                    status\n                  }\n                }\n            "], ["\n                query GetSubscriptionRequests {\n                  getSubscriptionRequests {\n                    id\n                    userId\n                    userName\n                    habitatId\n                    habitatName\n                    status\n                  }\n                }\n            "]))),
+                        fetchPolicy: 'no-cache',
+                    })];
+            });
+        }); },
+        response: function (res) { return res.data.getSubscriptionRequests; },
+    },
+    acceptSubscriptionRequest: {
+        request: function (subscriptionId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, client.mutate({
+                        mutation: apollo_boost_1.gql(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n                mutation AcceptHabitatSubscriptionRequest($subscriptionId: Int!) {\n                    acceptHabitatSubscriptionRequest(subscriptionId: $subscriptionId)\n                }\n            "], ["\n                mutation AcceptHabitatSubscriptionRequest($subscriptionId: Int!) {\n                    acceptHabitatSubscriptionRequest(subscriptionId: $subscriptionId)\n                }\n            "]))),
+                        variables: { subscriptionId: subscriptionId },
+                    })];
+            });
+        }); },
+        response: function (res) { return res.data.acceptHabitatSubscriptionRequest; },
+    },
+    rejectSubscriptionRequest: {
+        request: function (subscriptionId) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                return [2 /*return*/, client.mutate({
+                        mutation: apollo_boost_1.gql(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n                mutation RejectHabitatSubscriptionRequest($subscriptionId: Int!) {\n                    rejectHabitatSubscriptionRequest(subscriptionId: $subscriptionId)\n                }\n            "], ["\n                mutation RejectHabitatSubscriptionRequest($subscriptionId: Int!) {\n                    rejectHabitatSubscriptionRequest(subscriptionId: $subscriptionId)\n                }\n            "]))),
+                        variables: { subscriptionId: subscriptionId },
+                    })];
+            });
+        }); },
+        response: function (res) { return res.data.acceptHabitatSubscriptionRequest; },
+    },
 }); });
-var templateObject_1, templateObject_2, templateObject_3;
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 
 
 /***/ }),
@@ -469,7 +525,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_style_config__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/style-config */ "./client/components/style-config.ts");
 /* harmony import */ var _components_style_config__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_components_style_config__WEBPACK_IMPORTED_MODULE_5__);
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    font-family: Montserrat;\n    font-style: normal;\n    font-weight: normal;\n    color: ", ";\n"]);
+  var data = _taggedTemplateLiteral(["\n    font-family: Montserrat;\n    font-style: normal;\n    font-weight: normal;\n    color: ", ";\n    height: 100%;\n    width: 100%;\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -535,19 +591,47 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
 var CreateModal_1 = __importDefault(__webpack_require__(/*! ../common/CreateModal */ "./client/components/common/CreateModal/index.tsx"));
 var validation_1 = __webpack_require__(/*! ../../forms/validation */ "./client/forms/validation/index.ts");
-var stages = [
-    {
-        fields: [
-            {
-                key: 'name',
-                label: 'what do you want to call this habitat?',
-                validators: [validation_1.validatorGetters.isNotNil(), validation_1.validatorGetters.isOfLength(3)],
-            },
-        ],
-    },
-];
+var interfaces_1 = __webpack_require__(/*! ../../forms/interfaces */ "./client/forms/interfaces.ts");
+var getStages = function (existingHabitat) {
+    var _a = (existingHabitat || {}), _b = _a.name, name = _b === void 0 ? '' : _b, _c = _a.imageUrl, imageUrl = _c === void 0 ? '/habitat-avatars/habitat1.png' : _c;
+    return [
+        {
+            fields: [
+                {
+                    key: 'name',
+                    label: 'what do you want to call this habitat?',
+                    lowerCase: true,
+                    validators: [
+                        validation_1.validatorGetters.isNotNil(),
+                        validation_1.validatorGetters.isAtLeastLength(3),
+                        validation_1.validatorGetters.isOfGenericAllowedCharacters(),
+                    ],
+                    initial: name,
+                    type: interfaces_1.FieldTypes.INPUT,
+                },
+                {
+                    key: 'imageUrl',
+                    label: 'pick an avatar for this habitat .',
+                    validators: [],
+                    type: interfaces_1.FieldTypes.AVATAR,
+                    imageUrls: [
+                        '/habitat-avatars/habitat1.png',
+                        '/habitat-avatars/habitat2.png',
+                        '/habitat-avatars/habitat3.png',
+                        '/habitat-avatars/habitat4.png',
+                        '/habitat-avatars/habitat5.png',
+                        '/habitat-avatars/habitat6.png',
+                        '/habitat-avatars/habitat7.png',
+                        '/habitat-avatars/habitat8.png',
+                    ],
+                    initial: imageUrl,
+                },
+            ],
+        },
+    ];
+};
 var Component = function (props) {
-    return (react_1.default.createElement(CreateModal_1.default, { stages: stages, save: props.create, afterSave: props.afterCreate, close: props.onCancel }));
+    return (react_1.default.createElement(CreateModal_1.default, { stages: getStages(), save: props.create, afterSave: props.afterCreate, close: props.onCancel, submitButtonText: "create!" }));
 };
 var mapDispatchToProps = function (dispatch) { return ({
     create: function (habitat, callback) { return dispatch(habitat_1.actions.createOne(habitat, callback)); },
@@ -607,8 +691,12 @@ var lastWateredOptions = [
     { value: 0, label: 'today' },
     { value: 1, label: 'yesterday' },
 ].concat(timeOptions.map(function (option) { return ({ value: option.value, label: option.label + " ago" }); }));
+var millisecondsInADay = 1000 * 60 * 60 * 24;
 var convertDaysAgoToDate = function (daysAgo) {
-    return new Date(new Date().getTime() - (daysAgo * 1000 * 60 * 60 * 24));
+    return new Date(new Date().getTime() - (daysAgo * millisecondsInADay)).toUTCString();
+};
+var convertDateStringToDaysAgo = function (dateString) {
+    return (new Date().getTime() - dateString) / millisecondsInADay;
 };
 var getStages = function (augmentedPlant) {
     var _a = (augmentedPlant || {}), _b = _a.plant, plant = _b === void 0 ? {
@@ -616,9 +704,7 @@ var getStages = function (augmentedPlant) {
         name: '',
         imageUrl: '/plant-avatars/plant1.png',
         waterInterval: waterIntervalOptions[0].value,
-        lastWatered: convertDaysAgoToDate(lastWateredOptions[0].value),
     } : _b, _c = _a.subscribed, subscribed = _c === void 0 ? true : _c;
-    console.log({ augmentedPlant: augmentedPlant });
     return [
         {
             fields: [
@@ -632,7 +718,12 @@ var getStages = function (augmentedPlant) {
                 {
                     key: 'name',
                     label: "what is this plant's name?",
-                    validators: [validation_1.validatorGetters.isNotNil()],
+                    validators: [
+                        validation_1.validatorGetters.isNotNil(),
+                        validation_1.validatorGetters.isAtLeastLength(3),
+                        validation_1.validatorGetters.isAtMostLength(20),
+                        validation_1.validatorGetters.isOfGenericAllowedCharacters(),
+                    ],
                     type: interfaces_1.FieldTypes.INPUT,
                     initial: plant.name,
                     lowerCase: true,
@@ -648,16 +739,15 @@ var getStages = function (augmentedPlant) {
                     type: interfaces_1.FieldTypes.DROPDOWN,
                     options: waterIntervalOptions,
                     initial: plant.waterInterval,
-                },
-                {
+                }
+            ].concat((augmentedPlant ? [] : [{
                     key: 'lastWatered',
                     label: 'how long ago did you last water it?',
                     validators: [],
                     type: interfaces_1.FieldTypes.DROPDOWN,
                     options: lastWateredOptions,
-                    initial: plant.lastWatered,
-                    getFinalValue: convertDaysAgoToDate,
-                },
+                    initial: 0,
+                }]), [
                 {
                     key: 'imageUrl',
                     label: 'pick an avatar for this plant.',
@@ -675,14 +765,18 @@ var getStages = function (augmentedPlant) {
                     ],
                     initial: plant.imageUrl,
                 },
-            ],
+            ]),
         },
     ];
 };
 var Component = function (props) {
     return (react_1.default.createElement(CreateModal_1.default, { stages: getStages(props.augmentedPlant), close: props.onCancel, save: props.isCreate
-            ? props.create
-            : function (updates, callback) { return props.update(__assign({}, updates, { id: props.augmentedPlant.plant.id }), callback); }, afterSave: props.afterSave, submitButtonText: props.isCreate ? 'create' : 'update' }));
+            ? function (toCreate, callback) {
+                props.create(__assign({}, toCreate, { lastWatered: convertDaysAgoToDate(toCreate.lastWatered), waterInterval: +toCreate.waterInterval }), callback);
+            } : function (updates, callback) {
+            var existingPlant = props.augmentedPlant.plant;
+            props.update(__assign({}, updates, { id: existingPlant.id }), callback);
+        }, afterSave: props.afterSave, submitButtonText: props.isCreate ? 'create' : 'update' }));
 };
 var mapDispatchToProps = function (dispatch, ownProps) { return ({
     create: function (plantData, callback) { return dispatch(plant_1.actions.createOne(__assign({}, plantData, { habitatId: ownProps.habitatId }), callback)); },
@@ -911,8 +1005,10 @@ var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react
 var user_1 = __webpack_require__(/*! ../../store/user */ "./client/store/user/index.ts");
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var GrowthBackground_1 = __importDefault(__webpack_require__(/*! ../common/GrowthBackground */ "./client/components/common/GrowthBackground/index.tsx"));
+var config_1 = __webpack_require__(/*! ../../config */ "./client/config.js");
 var Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n\n"], ["\n\n"])));
-var CentralDiv = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    padding: 5%;\n    margin-top: -10px;\n"], ["\n    padding: 5%;\n    margin-top: -10px;\n"])));
+var CentralDiv = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    padding: 5%;\n    margin-top: -10px;\n    position: absolute;\n    top: 40%;\n"], ["\n    padding: 5%;\n    margin-top: -10px;\n    position: absolute;\n    top: 40%;\n"])));
 var GoogleButton = styled_components_1.default.a(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    display: flex;\n    background: rgb(61, 136, 237);\n    color: white;\n    text-decoration: none;\n    border-radius: 5px;\n    padding: 1px;\n    width: 210px;\n\n    &:active {\n        background: rgb(48, 106, 207);\n    }\n"], ["\n    display: flex;\n    background: rgb(61, 136, 237);\n    color: white;\n    text-decoration: none;\n    border-radius: 5px;\n    padding: 1px;\n    width: 210px;\n\n    &:active {\n        background: rgb(48, 106, 207);\n    }\n"])));
 var GoogleImage = styled_components_1.default.img(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    height: 50px;\n    width: 50px;\n"], ["\n    height: 50px;\n    width: 50px;\n"])));
 var GoogleTextContainer = styled_components_1.default.div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    padding-left: 7px;\n"], ["\n    position: relative;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    padding-left: 7px;\n"])));
@@ -923,14 +1019,14 @@ var DemoLink = styled_components_1.default.a(templateObject_9 || (templateObject
 var Plant = styled_components_1.default.img(templateObject_10 || (templateObject_10 = __makeTemplateObject(["\n    height: 45vh;  \n    max-width: 100vw;\n"], ["\n    height: 45vh;  \n    max-width: 100vw;\n"])));
 var LoginComponent = function (props) {
     return (react_1.default.createElement(Container, null,
-        react_1.default.createElement(Plant, { src: "https://s3-alpha-sig.figma.com/img/6c63/70ed/ad1930cd4b50ded9905c58f50ef09c33?Expires=1583107200&Signature=gCz7L7810K8SjuRcWD~8M2u4HHRjNAmFCM8k7SWsa3J9eyb9oervC6ASyUkXD0ZSr4bX4nTQql2VRnUslMYTb7GPwqAlxMlqnN38UnqRLoGIcFjIx4Ntf64glsb15gIn~~xy9tmSSkxnH47NdWQhXEvH4SIP7e7z8-JnIdL5EkeSbBeKQ09cbh3WDrxteuU0MASJjqx4Yko20WjfYIwnNeDYPvUGrYxf19s8rcJPlAFANqoNeqJ~YgtI6bSihYevKruHkOGdMqo0aSi47aIUjqpsfkL591Y5plrr61k0m2cBunmiG3AfFtKbcPgi2gulnS0AQwh95TkH~lA32VAYTw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA" }),
+        react_1.default.createElement(GrowthBackground_1.default, { yStart: 0.2, keyBase: "login" }),
         react_1.default.createElement(CentralDiv, null,
             react_1.default.createElement(TitleText, null, "PlantCalender"),
             react_1.default.createElement(Intro, null,
                 "Keep track of when to water plants.  Collaborate with others to keep them watered and happy.",
                 react_1.default.createElement(DemoLink, { href: "https://www.youtube.com/watch?v=YYUyGZMJTSc" }, " See a demo here. "),
                 "Click below to get started!"),
-            react_1.default.createElement(GoogleButton, { href: "http://localhost:3000/auth/google" },
+            react_1.default.createElement(GoogleButton, { href: config_1.apiBaseUrl + "/auth/google" },
                 react_1.default.createElement(GoogleImage, { src: "/icons/google-icon.png" }),
                 react_1.default.createElement(GoogleTextContainer, null,
                     react_1.default.createElement(GoogleText, null, "Sign in with Google"))))));
@@ -946,6 +1042,34 @@ var mapDispatchToProps = function (dispatch) { return ({
 }); };
 exports.Login = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7, templateObject_8, templateObject_9, templateObject_10;
+
+
+/***/ }),
+
+/***/ "./client/components/Logout/index.tsx":
+/*!********************************************!*\
+  !*** ./client/components/Logout/index.tsx ***!
+  \********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var config_1 = __webpack_require__(/*! ../../config */ "./client/config.js");
+var StyledLogout = styled_components_1.default.a(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    background: ", ";\n    border-radius: 5px;\n    padding: 1px;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    text-align: center;\n    width: 75px;\n\n    &:hover {\n        background: ", ";\n    }\n    &:active {\n        background: ", ";\n    }\n    text-decoration: none;\n    color: ", ";\n"], ["\n    background: ", ";\n    border-radius: 5px;\n    padding: 1px;\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    text-align: center;\n    width: 75px;\n\n    &:hover {\n        background: ", ";\n    }\n    &:active {\n        background: ", ";\n    }\n    text-decoration: none;\n    color: ", ";\n"])), style_config_1.COLORS.lightGray, style_config_1.COLORS.darkGray, style_config_1.COLORS.darkGray, style_config_1.COLORS.white);
+exports.default = (function () { return (react_1.default.createElement(StyledLogout, { href: config_1.apiBaseUrl + "/auth/logout" }, "logout")); });
+var templateObject_1;
 
 
 /***/ }),
@@ -974,6 +1098,9 @@ var AvatarImage = styled_components_1.default.img(templateObject_1 || (templateO
 var VerticalFlexer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"])));
 var Avatar = function (props) {
     var style = "\n    height: " + (style_config_1.TILE_HEIGHT - 10) + "px;\n    width: " + (style_config_1.TILE_HEIGHT - 10) + "px;\n    border-radius: 50%;\n    display: flex;\n    justify-content: center;\n  ";
+    if (props.borderColor) {
+        style += "border: 2px solid " + props.borderColor + ";";
+    }
     if (props.alert) {
         style += "border: 2px solid " + style_config_1.COLORS.notification + ";";
     }
@@ -1119,7 +1246,7 @@ exports.default = (function (props) {
             react_1.default.createElement(avatar_1.default, { imageUrl: props.imageUrl })),
         react_1.default.createElement(TextVerticalFlexer, null,
             react_1.default.createElement(Title, { style: __assign({}, (isHover ? { color: style_config_1.COLORS.primaryGreen } : {})) }, props.title),
-            react_1.default.createElement(Details, null, props.details)),
+            react_1.default.createElement(Details, null, props.details || '')),
         react_1.default.createElement("div", null, (props.tags || []).map(function (tagProps) { return react_1.default.createElement(tag_1.Tag, __assign({}, tagProps)); })),
         props.hasSettings
             ? (react_1.default.createElement(GearContainer, { id: gearContainerId, onClick: function (e) {
@@ -1136,7 +1263,7 @@ exports.default = (function (props) {
         contents = (react_1.default.createElement(wrap_in_wave_1.default, { elementIdKey: props.elementKey, onReachEnd: props.onReachEndOfWaveTransition ? props.onReachEndOfWaveTransition : function () { return undefined; }, suppressWaveForNodes: elementIdsForGear }, innerContents));
     }
     var addedStyle = __assign({}, (isHover ? { border: "1px solid " + style_config_1.COLORS.fadedPrimaryGreen } : {}), (props.containerStyle || {}));
-    return (react_1.default.createElement(StyledTile, { onMouseOver: function () { return setIsHover(true); }, onMouseLeave: function () { return setIsHover(false); }, style: addedStyle, key: props.elementKey }, contents));
+    return (react_1.default.createElement(StyledTile, { onClick: props.onClick || (function () { return undefined; }), onMouseOver: function () { return setIsHover(true); }, onMouseLeave: function () { return setIsHover(false); }, style: addedStyle, key: props.elementKey }, contents));
 });
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
 
@@ -1213,10 +1340,217 @@ var templateObject_1, templateObject_2;
 
 /***/ }),
 
-/***/ "./client/components/User/index.tsx":
-/*!******************************************!*\
-  !*** ./client/components/User/index.tsx ***!
-  \******************************************/
+/***/ "./client/components/User/AcceptSubscriptionsModal/index.tsx":
+/*!*******************************************************************!*\
+  !*** ./client/components/User/AcceptSubscriptionsModal/index.tsx ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_modal_1 = __importDefault(__webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
+var CloseSign_1 = __webpack_require__(/*! ../../common/CloseSign */ "./client/components/common/CloseSign.tsx");
+var SubmitButton_1 = __webpack_require__(/*! ../../common/SubmitButton */ "./client/components/common/SubmitButton.tsx");
+var style_config_2 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
+var StyledContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    margin-top: 40px;\n"], ["\n    margin-top: 40px;\n"])));
+var StyledRequest = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    height: ", "px;\n    box-shadow: 2px 2px #e8e8e8;\n    width: 100%;\n    margin-bottom: 10px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n"], ["\n    height: ", "px;\n    box-shadow: 2px 2px #e8e8e8;\n    width: 100%;\n    margin-bottom: 10px;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n"])), style_config_2.TILE_HEIGHT + 20);
+var StyledRequestText = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    color: ", ";\n    padding-top: 15px;\n"], ["\n    color: ", ";\n    padding-top: 15px;\n"])), style_config_1.COLORS.darkGreen);
+var StyledButtonsContainer = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    display: flex;\n    justify-content: flex-end;\n    margin-right: 30px;\n    margin-bottom: 16px;\n"], ["\n    display: flex;\n    justify-content: flex-end;\n    margin-right: 30px;\n    margin-bottom: 16px;\n"])));
+var StyledEmphasizedText = styled_components_1.default.span(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n   color: ", ";\n"], ["\n   color: ", ";\n"])), style_config_1.COLORS.notification);
+var StyledNoMoreRequests = styled_components_1.default.div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n    text-align: center;\n    color: ", ";\n"], ["\n    text-align: center;\n    color: ", ";\n"])), style_config_1.COLORS.lightGray);
+exports.default = (function (props) {
+    var contents = !props.requests.length
+        ? react_1.default.createElement(StyledNoMoreRequests, null, "you responded to all requests")
+        : props.requests.map(function (request) {
+            var buttonWidth = '60px';
+            return (react_1.default.createElement(StyledRequest, null,
+                react_1.default.createElement(StyledRequestText, null,
+                    "User",
+                    ' ',
+                    react_1.default.createElement(StyledEmphasizedText, null, request.userName),
+                    ' ',
+                    "wants to subscribe to your habitat ",
+                    request.habitatName),
+                react_1.default.createElement(StyledButtonsContainer, null,
+                    react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: function () { return props.accept(request); }, text: 'accept', styles: { width: buttonWidth } }),
+                    react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: function () { return props.reject(request); }, text: 'decline', styles: {
+                            width: buttonWidth,
+                            marginLeft: '10px',
+                            background: style_config_1.COLORS.notification,
+                        } }))));
+        });
+    return (react_1.default.createElement(react_modal_1.default, { isOpen: true, style: { content: style_config_1.BASE_MODAL_STYLE.CONTENT } },
+        react_1.default.createElement(CloseSign_1.Close, { onClick: props.close }),
+        react_1.default.createElement(StyledContainer, null, contents)));
+});
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
+
+
+/***/ }),
+
+/***/ "./client/components/User/SubscribeModal/Confirm/index.tsx":
+/*!*****************************************************************!*\
+  !*** ./client/components/User/SubscribeModal/Confirm/index.tsx ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var SubmitButton_1 = __webpack_require__(/*! ../../../common/SubmitButton */ "./client/components/common/SubmitButton.tsx");
+var style_config_1 = __webpack_require__(/*! ../../../style-config */ "./client/components/style-config.ts");
+var avatar_1 = __importDefault(__webpack_require__(/*! ../../../TileDisplay/avatar */ "./client/components/TileDisplay/avatar.tsx"));
+var StyledContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    margin-top: 40%;\n"], ["\n    display: flex;\n    flex-direction: column;\n    margin-top: 40%;\n"])));
+var StyledMessage = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    color: ", ";\n    text-align: center;\n    margin-bottom: 20px;\n"], ["\n    color: ", ";\n    text-align: center;\n    margin-bottom: 20px;\n"])), style_config_1.COLORS.darkGreen);
+var StyledButtonContainer = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n"], ["\n    display: flex;\n    justify-content: center;\n"])));
+var StyledAvatarContainer = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n    margin-bottom: 15px;\n"], ["\n    display: flex;\n    justify-content: center;\n    margin-bottom: 15px;\n"])));
+exports.default = (function (props) {
+    return (react_1.default.createElement(StyledContainer, null,
+        react_1.default.createElement(StyledAvatarContainer, null,
+            react_1.default.createElement(avatar_1.default, { imageUrl: props.habitat.imageUrl, borderColor: style_config_1.COLORS.primaryGreen })),
+        react_1.default.createElement(StyledMessage, null,
+            "Request to subscribe to ",
+            props.habitat.name,
+            "?"),
+        react_1.default.createElement(StyledButtonContainer, null,
+            react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: function () { return props.onConfirm(props.habitat.id); }, text: "request!", styles: { width: "50%", maxWidth: "200px", minWidth: "80px" } }))));
+});
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+
+
+/***/ }),
+
+/***/ "./client/components/User/SubscribeModal/Select/index.tsx":
+/*!****************************************************************!*\
+  !*** ./client/components/User/SubscribeModal/Select/index.tsx ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var tile2_1 = __importDefault(__webpack_require__(/*! ../../../TileDisplay/tile2 */ "./client/components/TileDisplay/tile2.tsx"));
+var search_bar_1 = __importDefault(__webpack_require__(/*! ./search-bar */ "./client/components/User/SubscribeModal/Select/search-bar.tsx"));
+var style_config_1 = __webpack_require__(/*! ../../../style-config */ "./client/components/style-config.ts");
+var StyledTileContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n"], ["\n"])));
+var StyledNoHabitatsMessage = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    text-align: center;\n    color: ", ";\n"], ["\n    text-align: center;\n    color: ", ";\n"])), style_config_1.COLORS.lightGray);
+exports.default = (function (props) {
+    var habitats = props.habitats, searchHabitats = props.searchHabitats, onClickHabitat = props.onClickHabitat;
+    return (react_1.default.createElement("div", null,
+        react_1.default.createElement(search_bar_1.default, { onSearch: function (searchString) { return searchHabitats(searchString); } }),
+        habitats.length === 0
+            ? (react_1.default.createElement(StyledNoHabitatsMessage, null, "no matching habitats found"))
+            : null,
+        react_1.default.createElement(StyledTileContainer, null, habitats.map(function (habitat) { return (react_1.default.createElement(tile2_1.default, { title: habitat.name, details: '', elementKey: habitat.id, imageUrl: habitat.imageUrl, containerStyle: { width: '100%' }, onClick: function () { return onClickHabitat(habitat); } })); }))));
+});
+var templateObject_1, templateObject_2;
+
+
+/***/ }),
+
+/***/ "./client/components/User/SubscribeModal/Select/search-bar.tsx":
+/*!*********************************************************************!*\
+  !*** ./client/components/User/SubscribeModal/Select/search-bar.tsx ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var style_config_1 = __webpack_require__(/*! ../../../style-config */ "./client/components/style-config.ts");
+var StyledBar = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    margin-top: 30px;\n    margin-bottom: 30px;\n    display: flex;\n    justify-content: center;\n    color: ", ";\n"], ["\n    margin-top: 30px;\n    margin-bottom: 30px;\n    display: flex;\n    justify-content: center;\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen);
+var VerticalFlexer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    width: 50%;\n"], ["\n    display: flex;\n    flex-direction: column;\n    width: 50%;\n"])));
+var StyledTextArea = styled_components_1.default.textarea(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    resize: none;\n    width: 100%;\n    height: 30px;\n    color: ", ";\n    border: 1px solid ", ";\n    text-decoration: none;\n"], ["\n    resize: none;\n    width: 100%;\n    height: 30px;\n    color: ", ";\n    border: 1px solid ", ";\n    text-decoration: none;\n"])), style_config_1.COLORS.darkGreen, style_config_1.COLORS.darkGreen);
+var StyledLabel = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    margin-top: 5px;\n    width: 100%;\n    text-align: center;\n"], ["\n    margin-top: 5px;\n    width: 100%;\n    text-align: center;\n"])));
+var Component = function (_a) {
+    var debouncedSearch = _a.debouncedSearch;
+    var _b = react_1.useState(''), searchString = _b[0], setSearchString = _b[1];
+    return (react_1.default.createElement(StyledBar, null,
+        react_1.default.createElement(VerticalFlexer, null,
+            react_1.default.createElement(StyledTextArea, { value: searchString, onChange: function (event) {
+                    var searched = event.target.value.toLowerCase();
+                    setSearchString(searched);
+                    if (searched.length > 2) {
+                        debouncedSearch(searched);
+                    }
+                }, spellCheck: false }),
+            react_1.default.createElement(StyledLabel, null, "search for habitats"))));
+};
+var debounce = function (func, delay) {
+    var timerId;
+    return function (searchStr) {
+        clearTimeout(timerId);
+        timerId = setTimeout(function () { return func(searchStr); }, delay);
+    };
+};
+// we must have a wrapper component to define our debounced function b/c, if we were
+// to put the definition in the child component, it would be redefined each time state
+// changed, at which point the timerId in the debouncer would be lost.
+exports.default = (function (props) {
+    var debouncedSearch = debounce(function (str) {
+        props.onSearch(str);
+        // console.log(str)
+    }, 500);
+    return react_1.default.createElement(Component, { debouncedSearch: debouncedSearch });
+});
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4;
+
+
+/***/ }),
+
+/***/ "./client/components/User/SubscribeModal/index.tsx":
+/*!*********************************************************!*\
+  !*** ./client/components/User/SubscribeModal/index.tsx ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1234,15 +1568,114 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_modal_1 = __importDefault(__webpack_require__(/*! react-modal */ "./node_modules/react-modal/lib/index.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-var styled_components_1 = __webpack_require__(/*! ../Habitat/styled-components */ "./client/components/Habitat/styled-components.ts");
+var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
+var Confirm_1 = __importDefault(__webpack_require__(/*! ./Confirm */ "./client/components/User/SubscribeModal/Confirm/index.tsx"));
+var Select_1 = __importDefault(__webpack_require__(/*! ./Select */ "./client/components/User/SubscribeModal/Select/index.tsx"));
+var CloseSign_1 = __webpack_require__(/*! ../../common/CloseSign */ "./client/components/common/CloseSign.tsx");
+var habitat_1 = __webpack_require__(/*! ../../../store/habitat */ "./client/store/habitat/index.ts");
+var Component = function (props) {
+    var _a = react_1.useState(null), habitatToConfirm = _a[0], setToConfirm = _a[1];
+    var onConfirmSubscriptionRequest = function (habitatId) {
+        props.requestSubscription(habitatId, function () { return props.close(); });
+    };
+    return (react_1.default.createElement(react_modal_1.default, { isOpen: true, style: { content: style_config_1.BASE_MODAL_STYLE.CONTENT } },
+        react_1.default.createElement(CloseSign_1.Close, { onClick: props.close }),
+        habitatToConfirm
+            ? react_1.default.createElement(Confirm_1.default, { habitat: habitatToConfirm, onConfirm: onConfirmSubscriptionRequest })
+            : react_1.default.createElement(Select_1.default, { searchHabitats: props.searchHabitats, habitats: props.habitats, onClickHabitat: function (selected) { return setToConfirm(selected); } })));
+};
+var mapDispatchToProps = function (dispatch) { return ({
+    searchHabitats: function (searchString) { return dispatch(habitat_1.actions.habitatSearch(searchString)); },
+    requestSubscription: function (habitatId, callback) { return dispatch(habitat_1.actions.requestSubscription(habitatId, callback)); },
+}); };
+var mapStateToProps = function (state) { return ({
+    habitats: habitat_1.selectors.queriedHabitats(state),
+}); };
+exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Component);
+
+
+/***/ }),
+
+/***/ "./client/components/User/get-habitat-tile-data.tsx":
+/*!**********************************************************!*\
+  !*** ./client/components/User/get-habitat-tile-data.tsx ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var types_1 = __webpack_require__(/*! ../../../server/db/types */ "./server/db/types.ts");
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var getTags = function (props, isSubscribed) {
+    return isSubscribed ? [] : [
+        {
+            text: "subscription " + props.subscription.status,
+            elementKey: "tag-" + props.id + "-status",
+            backgroundColor: style_config_1.COLORS.darkGray,
+            color: style_config_1.COLORS.white,
+        },
+    ];
+};
+exports.default = (function (props) {
+    var isSubscribed = props.subscription.status === types_1.SUBSCRIPTION_STATUSES.ACTIVE;
+    return {
+        elementKey: props.id,
+        title: props.name,
+        details: isSubscribed ? props.plants.length + " plants" : undefined,
+        imageUrl: props.imageUrl,
+        linkTo: isSubscribed ? "/habitats/" + props.id : undefined,
+        tags: getTags(props, isSubscribed),
+    };
+});
+
+
+/***/ }),
+
+/***/ "./client/components/User/index.tsx":
+/*!******************************************!*\
+  !*** ./client/components/User/index.tsx ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var styled_components_2 = __webpack_require__(/*! ../Habitat/styled-components */ "./client/components/Habitat/styled-components.ts");
 var user_1 = __webpack_require__(/*! ../../store/user */ "./client/store/user/index.ts");
 var habitat_1 = __webpack_require__(/*! ../../store/habitat */ "./client/store/habitat/index.ts");
 var AddTile_1 = __importDefault(__webpack_require__(/*! ../common/AddTile */ "./client/components/common/AddTile.tsx"));
 var CreateHabitatModal_1 = __webpack_require__(/*! ../CreateHabitatModal */ "./client/components/CreateHabitatModal/index.tsx");
 var index2_1 = __importDefault(__webpack_require__(/*! ../TileDisplay/index2 */ "./client/components/TileDisplay/index2.tsx"));
+var SubscribeModal_1 = __importDefault(__webpack_require__(/*! ./SubscribeModal */ "./client/components/User/SubscribeModal/index.tsx"));
+var Notification_1 = __importDefault(__webpack_require__(/*! ../common/Notification */ "./client/components/common/Notification.tsx"));
+var AcceptSubscriptionsModal_1 = __importDefault(__webpack_require__(/*! ./AcceptSubscriptionsModal */ "./client/components/User/AcceptSubscriptionsModal/index.tsx"));
+var get_habitat_tile_data_1 = __importDefault(__webpack_require__(/*! ./get-habitat-tile-data */ "./client/components/User/get-habitat-tile-data.tsx"));
+var Logout_1 = __importDefault(__webpack_require__(/*! ../Logout */ "./client/components/Logout/index.tsx"));
+var StyledNotificationAndLogoutContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    display: flex;\n    justify-content: space-between;\n    width: 125px;\n"], ["\n    display: flex;\n    justify-content: space-between;\n    width: 125px;\n"])));
 var UserHabitatsComponent = function (props) {
-    var user = props.user, _a = props.habitats, habitats = _a === void 0 ? [] : _a, match = props.match, fetchUser = props.fetchUser, fetchUserSubscribedHabitats = props.fetchUserSubscribedHabitats;
+    var user = props.user, _a = props.habitats, habitats = _a === void 0 ? [] : _a, match = props.match, fetchUser = props.fetchUser, fetchUserSubscribedHabitats = props.fetchUserSubscribedHabitats, subscriptionRequests = props.subscriptionRequests, fetchSubscriptionRequests = props.fetchSubscriptionRequests, acceptSubscriptionRequest = props.acceptSubscriptionRequest, rejectSubscriptionRequest = props.rejectSubscriptionRequest, setSubscriptionRequests = props.setSubscriptionRequests;
     var userId = +match.params.id;
     if (!user) {
         fetchUser(userId);
@@ -1250,9 +1683,16 @@ var UserHabitatsComponent = function (props) {
     }
     var _b = react_1.useState(false), addHabitatOpen = _b[0], setAddHabitatOpen = _b[1];
     var _c = react_1.useState(false), subscribeToNewHabitatOpen = _c[0], setSubscribeToNewHabitatOpen = _c[1];
+    var _d = react_1.useState(false), subscriptionRequestModalOpen = _d[0], setSubscriptionRequestModalOpen = _d[1];
     react_1.useEffect(function () {
         fetchUserSubscribedHabitats(userId);
     }, []);
+    react_1.useEffect(function () {
+        fetchSubscriptionRequests();
+    }, []);
+    var getSubscriptionRequestDecisionCallback = function (requestId) { return function () {
+        setSubscriptionRequests(subscriptionRequests.filter(function (request) { return request.id !== requestId; }));
+    }; };
     return (react_1.default.createElement("div", null,
         addHabitatOpen
             ? react_1.default.createElement(CreateHabitatModal_1.CreateHabitat, { afterCreate: function (createdHabitat) {
@@ -1260,34 +1700,46 @@ var UserHabitatsComponent = function (props) {
                     props.history.push("/habitats/" + createdHabitat.id);
                 }, onCancel: function () { return setAddHabitatOpen(false); } })
             : null,
-        react_1.default.createElement(styled_components_1.Container, null,
-            react_1.default.createElement(styled_components_1.TitleAndBackContainer, null,
-                react_1.default.createElement(styled_components_1.Title, null,
+        subscribeToNewHabitatOpen
+            ? react_1.default.createElement(SubscribeModal_1.default, { close: function () { return setSubscribeToNewHabitatOpen(false); } })
+            : null,
+        subscriptionRequestModalOpen
+            ? (react_1.default.createElement(AcceptSubscriptionsModal_1.default, { close: function () { return setSubscriptionRequestModalOpen(false); }, accept: function (request) { return acceptSubscriptionRequest(request, getSubscriptionRequestDecisionCallback(request.id)); }, reject: function (request) { return rejectSubscriptionRequest(request, getSubscriptionRequestDecisionCallback(request.id)); }, requests: subscriptionRequests })) : null,
+        react_1.default.createElement(styled_components_2.Container, null,
+            react_1.default.createElement(styled_components_2.TitleAndBackContainer, null,
+                react_1.default.createElement(StyledNotificationAndLogoutContainer, null,
+                    react_1.default.createElement(Logout_1.default, null),
+                    react_1.default.createElement(Notification_1.default, { active: !!subscriptionRequests.length, onClick: !!subscriptionRequests.length
+                            ? function () { return setSubscriptionRequestModalOpen(true); }
+                            : function () { return undefined; } })),
+                react_1.default.createElement(styled_components_2.Title, null,
                     "@",
                     user.name)),
             react_1.default.createElement(AddTile_1.default, { message: "Create new habitat", onClick: function () { return setAddHabitatOpen(true); } }),
             react_1.default.createElement(AddTile_1.default, { message: "Subscribe to habitat", onClick: function () { return setSubscribeToNewHabitatOpen(true); } }),
-            react_1.default.createElement(index2_1.default, { tiles: habitats.map(function (habitat) { return ({
-                    elementKey: habitat.id,
-                    linkTo: "/habitats/" + habitat.id,
-                    title: habitat.name,
-                    details: habitat.plants.length + " plants",
-                    imageUrl: '/plant-avatars/plant5.png',
-                    hasSettings: true,
-                    openSettings: function () { return console.log("opened settings for habitat " + habitat.id); }
-                }); }) }))));
+            react_1.default.createElement(index2_1.default, { tiles: habitats.map(get_habitat_tile_data_1.default) }))));
 };
 var mapStateToProps = function (state) { return ({
     user: user_1.selectors.getUser(state),
     habitats: habitat_1.selectors.habitats(state),
+    subscriptionRequests: user_1.selectors.getSubscriptionRequests(state),
 }); };
 var mapDispatchToProps = function (dispatch) { return ({
     fetchUserSubscribedHabitats: function (userId, callback) {
         return dispatch(habitat_1.actions.fetchUserSubscribedHabitats(userId, callback));
     },
     fetchUser: function (userId) { return dispatch(user_1.actions.fetchUserById(userId)); },
+    fetchSubscriptionRequests: function (callback) { return dispatch(user_1.actions.fetchSubscriptionRequests(callback)); },
+    acceptSubscriptionRequest: function (request, callback) {
+        return dispatch(user_1.actions.acceptSubscriptionRequest(request, callback));
+    },
+    rejectSubscriptionRequest: function (request, callback) {
+        return dispatch(user_1.actions.rejectSubscriptionRequest(request, callback));
+    },
+    setSubscriptionRequests: function (requests) { return dispatch(user_1.actions.setSubscriptionRequests(requests)); },
 }); };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(UserHabitatsComponent);
+var templateObject_1;
 
 
 /***/ }),
@@ -1301,6 +1753,10 @@ exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(Use
 
 "use strict";
 
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -1308,24 +1764,43 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 var validation_1 = __webpack_require__(/*! ../../forms/validation */ "./client/forms/validation/index.ts");
 var user_1 = __webpack_require__(/*! ../../store/user */ "./client/store/user/index.ts");
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var SubmitButton_1 = __webpack_require__(/*! ../common/SubmitButton */ "./client/components/common/SubmitButton.tsx");
+var GrowthBackground_1 = __importDefault(__webpack_require__(/*! ../common/GrowthBackground */ "./client/components/common/GrowthBackground/index.tsx"));
+var render_fields_1 = __importDefault(__webpack_require__(/*! ../../forms/rendering/render-fields */ "./client/forms/rendering/render-fields.tsx"));
+var interfaces_1 = __webpack_require__(/*! ../../forms/interfaces */ "./client/forms/interfaces.ts");
+var validation_2 = __webpack_require__(/*! ../../forms/validation */ "./client/forms/validation/index.ts");
+var Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    width: 100%;\n    height: 100%;\n"], ["\n    display: flex;\n    flex-direction: column;\n    justify-content: center;\n    width: 100%;\n    height: 100%;\n"])));
+var SecondContainer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n    color: ", ";\n"], ["\n    display: flex;\n    justify-content: center;\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen);
+var TextContainer = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n    padding: 20px;\n"], ["\n    display: flex;\n    justify-content: center;\n    padding: 20px;\n"])));
+var InputContainer = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n    padding: 10px;\n"], ["\n    display: flex;\n    justify-content: center;\n    padding: 10px;\n"])));
+var HorizontalFlexer = styled_components_1.default.div(templateObject_5 || (templateObject_5 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n"], ["\n    display: flex;\n    justify-content: center;\n"])));
+var VerticalFlexer = styled_components_1.default.div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n"], ["\n    display: flex;\n    flex-direction: column;\n"])));
+var MAX_ALLOWED_LENGTH = 20;
+var MIN_ALLOWED_LENGTH = 3;
 var MakeProfile = function (props) {
     var allUserNames = props.allUserNames, fetchAllNames = props.fetchAllNames, updateName = props.updateName, history = props.history;
     var _a = react_1.useState(''), name = _a[0], setName = _a[1];
+    var _b = react_1.useState(''), nameError = _b[0], setNameError = _b[1];
     react_1.useEffect(function () {
         fetchAllNames();
     }, []);
-    var _b = react_1.useState(''), submissionErrorMessage = _b[0], setSubmissionErrorMessage = _b[1];
+    var _c = react_1.useState(''), submissionErrorMessage = _c[0], setSubmissionErrorMessage = _c[1];
     var onSubmit = function () {
         var errorMessages = validation_1.getFormErrorMessages([
             {
                 value: name,
                 label: 'Name',
-                validators: [validation_1.validatorGetters.isNotNil(), validation_1.validatorGetters.isOfLength(3)],
+                validators: [validation_1.validatorGetters.isNotNil(), validation_1.validatorGetters.isAtLeastLength(3)],
                 key: 'name',
             },
         ], { name: name });
@@ -1341,12 +1816,45 @@ var MakeProfile = function (props) {
             history.push("/users/" + user.id + "/habitats");
         });
     };
-    var getOnChangeInput = function (stateSetter) { return function (event) { return stateSetter(event.target.value); }; };
-    return (react_1.default.createElement("div", null,
-        "Looks like this is your first time here :) What would you like to be called?",
-        react_1.default.createElement("input", { value: name, onChange: getOnChangeInput(setName) }),
-        react_1.default.createElement("button", { onClick: onSubmit }, "Get started!"),
-        react_1.default.createElement("div", null, submissionErrorMessage)));
+    var onChangeInput = function (input) {
+        setName(input);
+        if (input.length > MAX_ALLOWED_LENGTH) {
+            setNameError('too long!');
+            return;
+        }
+        var uniqueInvalidCharacters = {};
+        for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
+            var char = input_1[_i];
+            if (char === ' ') {
+                setNameError('spaces not allowed');
+                return;
+            }
+            if (!validation_2.ALLOWED_CHARACTERS.includes(char)) {
+                uniqueInvalidCharacters[char] = true;
+            }
+        }
+        if (Object.keys(uniqueInvalidCharacters).length) {
+            setNameError("invalid characters: \"" + Object.keys(uniqueInvalidCharacters).join('') + "\"");
+            return;
+        }
+        setNameError('');
+    };
+    return (react_1.default.createElement(Container, null,
+        react_1.default.createElement(GrowthBackground_1.default, { keyBase: "make-profile", yStart: 0.25 }),
+        react_1.default.createElement(SecondContainer, null,
+            react_1.default.createElement(VerticalFlexer, null,
+                react_1.default.createElement(TextContainer, null, "Looks like this is your first time here. What would you like to be called?"),
+                react_1.default.createElement(InputContainer, null, render_fields_1.default({
+                    type: interfaces_1.FieldTypes.INPUT,
+                    label: '',
+                    key: 'make-profile-name',
+                    validators: [],
+                    lowerCase: true,
+                }, name, onChangeInput, nameError, function () { return setNameError(''); }, function () { return undefined; })),
+                react_1.default.createElement(HorizontalFlexer, null,
+                    react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: onSubmit, text: "Get started!", disabled: nameError.length > 0 || name.length < MIN_ALLOWED_LENGTH })),
+                react_1.default.createElement(HorizontalFlexer, null,
+                    react_1.default.createElement("div", null, submissionErrorMessage))))));
 };
 var mapStateToProps = function (state) { return ({
     allUserNames: user_1.selectors.getAllUserNames(state),
@@ -1356,6 +1864,7 @@ var mapDispatchToProps = function (dispatch) { return ({
     updateName: function (newName, callback) { return dispatch(user_1.actions.updateName(newName, callback)); },
 }); };
 exports.default = react_redux_1.connect(mapStateToProps, mapDispatchToProps)(MakeProfile);
+var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6;
 
 
 /***/ }),
@@ -1388,14 +1897,14 @@ var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/reac
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var PlusSign_1 = __importDefault(__webpack_require__(/*! ./PlusSign */ "./client/components/common/PlusSign.tsx"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
-var HorizontalContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 24px;\n  height: 72px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n  opacity: 0.7;\n  box-shadow: 2px 2px #e8e8e8;\n"], ["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 24px;\n  height: 72px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n  opacity: 0.7;\n  box-shadow: 2px 2px #e8e8e8;\n"])), style_config_1.COLORS.lightGray, style_config_1.COLORS.darkGray);
+var HorizontalContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 16px;\n  height: 60px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n  opacity: 0.7;\n  box-shadow: 2px 2px #e8e8e8;\n"], ["\n  border: 1px solid ", ";\n  display: flex;\n  color: ", ";\n  font-size: 16px;\n  height: 60px;\n  margin-top: 20px;\n  padding-left: 7%;\n  cursor: pointer;\n  opacity: 0.7;\n  box-shadow: 2px 2px #e8e8e8;\n"])), style_config_1.COLORS.lightGray, style_config_1.COLORS.darkGray);
 var VerticalContainer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"], ["\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n"])));
 var Message = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n  margin-left: 10px;\n"], ["\n  margin-left: 10px;\n"])));
 var AddTile = function (props) {
     var _a = react_1.useState(style_config_1.COLORS.lightGray), color = _a[0], setColor = _a[1];
     return (react_1.default.createElement(HorizontalContainer, { onMouseOver: function () { return setColor(style_config_1.COLORS.primaryGreen); }, onMouseLeave: function () { return setColor(style_config_1.COLORS.lightGray); }, onClick: props.onClick, style: { borderColor: color, color: color } },
         react_1.default.createElement(VerticalContainer, null,
-            react_1.default.createElement(PlusSign_1.default, { color: color, height: 40, width: 40 })),
+            react_1.default.createElement(PlusSign_1.default, { color: color, height: 30, width: 30 })),
         react_1.default.createElement(VerticalContainer, null,
             react_1.default.createElement(Message, null, props.message))));
 };
@@ -1460,6 +1969,7 @@ var CloseSign_1 = __webpack_require__(/*! ../CloseSign */ "./client/components/c
 var SubmitButton_1 = __webpack_require__(/*! ../SubmitButton */ "./client/components/common/SubmitButton.tsx");
 var render_fields_1 = __importDefault(__webpack_require__(/*! ../../../forms/rendering/render-fields */ "./client/forms/rendering/render-fields.tsx"));
 var arrows_1 = __webpack_require__(/*! ../arrows */ "./client/components/common/arrows.tsx");
+var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
 var Middle = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    display: flex;\n    height: 80%;\n"], ["\n    display: flex;\n    height: 80%;\n"])));
 var LeftArrowContainer = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    width: 33%;\n    justify-content: center;\n"], ["\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    width: 33%;\n    justify-content: center;\n"])));
 var RightArrowContainer = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    width: 33%;\n    justify-content: center;\n"], ["\n    display: flex;\n    flex-direction: column;\n    height: 100%;\n    width: 33%;\n    justify-content: center;\n"])));
@@ -1468,7 +1978,7 @@ var RightArrowSubContainer = styled_components_1.default.div(templateObject_5 ||
 var FieldContainer = styled_components_1.default.div(templateObject_6 || (templateObject_6 = __makeTemplateObject(["\n    height: 100%;\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-evenly;\n"], ["\n    height: 100%;\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    justify-content: space-evenly;\n"])));
 var SubmitButtonContainer = styled_components_1.default.div(templateObject_7 || (templateObject_7 = __makeTemplateObject(["\n    display: flex;\n    justify-content: center;\n"], ["\n    display: flex;\n    justify-content: center;\n"])));
 exports.default = (function (props) {
-    return (react_1.default.createElement(react_modal_1.default, { isOpen: true, style: { content: { left: '33%', width: '50%', minWidth: '300px', maxWidth: '500px' } } },
+    return (react_1.default.createElement(react_modal_1.default, { isOpen: true, style: { content: style_config_1.BASE_MODAL_STYLE.CONTENT } },
         react_1.default.createElement(CloseSign_1.Close, { onClick: props.close }),
         react_1.default.createElement(Middle, null,
             react_1.default.createElement(LeftArrowContainer, null, props.canBack
@@ -1483,7 +1993,7 @@ exports.default = (function (props) {
                 ? (react_1.default.createElement(RightArrowSubContainer, null,
                     react_1.default.createElement(arrows_1.Arrow, { onClick: props.onForward, size: "medium", direction: "right" }))) : null)),
         props.canSubmit ? (react_1.default.createElement(SubmitButtonContainer, null,
-            react_1.default.createElement(SubmitButton_1.SubmitButton, { onClick: props.onSubmit, text: props.buttonText }))) : null,
+            react_1.default.createElement(SubmitButton_1.SubmitButton, { styles: { width: "50%" }, onClick: props.onSubmit, text: props.buttonText }))) : null,
         props.submissionError));
 });
 var templateObject_1, templateObject_2, templateObject_3, templateObject_4, templateObject_5, templateObject_6, templateObject_7;
@@ -1526,6 +2036,7 @@ exports.default = (function (props) {
         });
         return acc;
     }, {});
+    console.log({ states: states });
     var _a = react_1.useState(''), submissionError = _a[0], setSubmissionError = _a[1];
     var _b = react_1.useState(0), currentStageIdx = _b[0], setCurrentStageIdx = _b[1];
     var onNext = function () {
@@ -1552,9 +2063,9 @@ exports.default = (function (props) {
         if (haveError) {
             return;
         }
+        console.log({ toSave: toSave });
         props.save(toSave, function (saved) { return props.afterSave(saved); });
     };
-    console.log({ states: states });
     return (react_1.default.createElement(display_1.default, { fields: stages[currentStageIdx].fields.map(function (field) {
             var _a = states[field.key], setter = _a.setter, value = _a.value, error = _a.error, errorSetter = _a.errorSetter;
             return {
@@ -1594,6 +2105,365 @@ exports.Gear = function (props) {
         react_1.default.createElement("g", { id: gId },
             react_1.default.createElement("path", { id: pathId, fillRule: "evenodd", clipRule: "evenodd", d: "M19.5022 12C19.5022 12.34 19.4722 12.66 19.4321 12.98L21.5421 14.63C21.7322 14.78 21.7821 15.05 21.6621 15.27L19.6621 18.73C19.5721 18.89 19.4021 18.98 19.2322 18.98C19.1721 18.98 19.1122 18.97 19.0521 18.95L16.5621 17.95C16.0421 18.34 15.4822 18.68 14.8722 18.93L14.4922 21.58C14.4622 21.82 14.2522 22 14.0022 22H10.0022C9.7522 22 9.54211 21.82 9.51221 21.58L9.1322 18.93C8.52222 18.68 7.96216 18.35 7.44214 17.95L4.95215 18.95C4.9021 18.97 4.84216 18.98 4.7821 18.98C4.60217 18.98 4.43213 18.89 4.34216 18.73L2.34216 15.27C2.22217 15.05 2.27222 14.78 2.46216 14.63L4.57214 12.98C4.5321 12.66 4.5022 12.33 4.5022 12C4.5022 11.67 4.5321 11.34 4.57214 11.02L2.46216 9.37C2.27222 9.22 2.21216 8.95001 2.34216 8.73001L4.34216 5.26999C4.43213 5.10999 4.60217 5.01999 4.77222 5.01999C4.83215 5.01999 4.89221 5.03 4.95215 5.04999L7.44214 6.04999C7.96216 5.66 8.52222 5.32001 9.1322 5.07001L9.51221 2.42001C9.54211 2.17999 9.7522 2 10.0022 2H14.0022C14.2522 2 14.4622 2.17999 14.4922 2.42001L14.8722 5.07001C15.4822 5.32001 16.0421 5.64999 16.5621 6.04999L19.0521 5.04999C19.1022 5.03 19.1621 5.01999 19.2222 5.01999C19.4021 5.01999 19.5721 5.10999 19.6621 5.26999L21.6621 8.73001C21.7821 8.95001 21.7322 9.22 21.5421 9.37L19.4321 11.02C19.4722 11.34 19.5022 11.66 19.5022 12ZM17.5022 12C17.5022 11.79 17.4922 11.58 17.4521 11.27L17.3121 10.14L18.2021 9.44L19.2722 8.59L18.5721 7.38L17.3021 7.89001L16.2422 8.32001L15.3322 7.62C14.9321 7.32001 14.5322 7.09 14.1022 6.91L13.0421 6.48001L12.8822 5.35001L12.6921 4H11.3021L11.1022 5.35001L10.9421 6.48001L9.8822 6.91C9.47217 7.07999 9.06213 7.32001 8.6322 7.64001L7.73218 8.32001L6.69214 7.89999L5.42212 7.39001L4.72217 8.60001L5.80212 9.44L6.69214 10.14L6.55212 11.27C6.52222 11.57 6.5022 11.8 6.5022 12C6.5022 12.2 6.52222 12.43 6.55212 12.74L6.69214 13.87L5.80212 14.57L4.72217 15.41L5.42212 16.62L6.69214 16.11L7.7522 15.68L8.66211 16.38C9.06213 16.68 9.46216 16.91 9.89221 17.09L10.9521 17.52L11.1122 18.65L11.3021 20H12.7021L12.9022 18.65L13.0621 17.52L14.1222 17.09C14.5322 16.92 14.9421 16.68 15.3722 16.36L16.2722 15.68L17.3121 16.1L18.5822 16.61L19.2822 15.4L18.2021 14.56L17.3121 13.86L17.4521 12.73C17.4822 12.43 17.5022 12.21 17.5022 12ZM12.0022 8C9.79224 8 8.0022 9.79001 8.0022 12C8.0022 14.21 9.79224 16 12.0022 16C14.2122 16 16.0022 14.21 16.0022 12C16.0022 9.79001 14.2122 8 12.0022 8ZM10.0022 12C10.0022 13.1 10.9022 14 12.0022 14C13.1022 14 14.0022 13.1 14.0022 12C14.0022 10.9 13.1022 10 12.0022 10C10.9022 10 10.0022 10.9 10.0022 12Z", fill: props.color || "black", fillOpacity: props.opacity || "0.54" }))));
 };
+
+
+/***/ }),
+
+/***/ "./client/components/common/GrowthBackground/b-spline.tsx":
+/*!****************************************************************!*\
+  !*** ./client/components/common/GrowthBackground/b-spline.tsx ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+// adapted from https://github.com/Tagussan/BSpline
+var BSpline = function (points, degree, copy) {
+    if (copy) {
+        this.points = [];
+        for (var i = 0; i < points.length; i++) {
+            this.points.push(points[i]);
+        }
+    }
+    else {
+        this.points = points;
+    }
+    this.degree = degree;
+    this.dimension = points[0].length;
+    if (degree == 2) {
+        this.baseFunc = this.basisDeg2;
+        this.baseFuncRangeInt = 2;
+    }
+    else if (degree == 3) {
+        this.baseFunc = this.basisDeg3;
+        this.baseFuncRangeInt = 2;
+    }
+    else if (degree == 4) {
+        this.baseFunc = this.basisDeg4;
+        this.baseFuncRangeInt = 3;
+    }
+    else if (degree == 5) {
+        this.baseFunc = this.basisDeg5;
+        this.baseFuncRangeInt = 3;
+    }
+};
+BSpline.prototype.seqAt = function (dim) {
+    var points = this.points;
+    var margin = this.degree + 1;
+    return function (n) {
+        if (n < margin) {
+            return points[0][dim];
+        }
+        else if (points.length + margin <= n) {
+            return points[points.length - 1][dim];
+        }
+        else {
+            return points[n - margin][dim];
+        }
+    };
+};
+BSpline.prototype.basisDeg2 = function (x) {
+    if (-0.5 <= x && x < 0.5) {
+        return 0.75 - x * x;
+    }
+    else if (0.5 <= x && x <= 1.5) {
+        return 1.125 + (-1.5 + x / 2.0) * x;
+    }
+    else if (-1.5 <= x && x < -0.5) {
+        return 1.125 + (1.5 + x / 2.0) * x;
+    }
+    else {
+        return 0;
+    }
+};
+BSpline.prototype.basisDeg3 = function (x) {
+    if (-1 <= x && x < 0) {
+        return 2.0 / 3.0 + (-1.0 - x / 2.0) * x * x;
+    }
+    else if (1 <= x && x <= 2) {
+        return 4.0 / 3.0 + x * (-2.0 + (1.0 - x / 6.0) * x);
+    }
+    else if (-2 <= x && x < -1) {
+        return 4.0 / 3.0 + x * (2.0 + (1.0 + x / 6.0) * x);
+    }
+    else if (0 <= x && x < 1) {
+        return 2.0 / 3.0 + (-1.0 + x / 2.0) * x * x;
+    }
+    else {
+        return 0;
+    }
+};
+BSpline.prototype.basisDeg4 = function (x) {
+    if (-1.5 <= x && x < -0.5) {
+        return 55.0 / 96.0 + x * (-(5.0 / 24.0) + x * (-(5.0 / 4.0) + (-(5.0 / 6.0) - x / 6.0) * x));
+    }
+    else if (0.5 <= x && x < 1.5) {
+        return 55.0 / 96.0 + x * (5.0 / 24.0 + x * (-(5.0 / 4.0) + (5.0 / 6.0 - x / 6.0) * x));
+    }
+    else if (1.5 <= x && x <= 2.5) {
+        return 625.0 / 384.0 + x * (-(125.0 / 48.0) + x * (25.0 / 16.0 + (-(5.0 / 12.0) + x / 24.0) * x));
+    }
+    else if (-2.5 <= x && x <= -1.5) {
+        return 625.0 / 384.0 + x * (125.0 / 48.0 + x * (25.0 / 16.0 + (5.0 / 12.0 + x / 24.0) * x));
+    }
+    else if (-1.5 <= x && x < 1.5) {
+        return 115.0 / 192.0 + x * x * (-(5.0 / 8.0) + x * x / 4.0);
+    }
+    else {
+        return 0;
+    }
+};
+BSpline.prototype.basisDeg5 = function (x) {
+    if (-2 <= x && x < -1) {
+        return 17.0 / 40.0 + x * (-(5.0 / 8.0) + x * (-(7.0 / 4.0) + x * (-(5.0 / 4.0) + (-(3.0 / 8.0) - x / 24.0) * x)));
+    }
+    else if (0 <= x && x < 1) {
+        return 11.0 / 20.0 + x * x * (-(1.0 / 2.0) + (1.0 / 4.0 - x / 12.0) * x * x);
+    }
+    else if (2 <= x && x <= 3) {
+        return 81.0 / 40.0 + x * (-(27.0 / 8.0) + x * (9.0 / 4.0 + x * (-(3.0 / 4.0) + (1.0 / 8.0 - x / 120.0) * x)));
+    }
+    else if (-3 <= x && x < -2) {
+        return 81.0 / 40.0 + x * (27.0 / 8.0 + x * (9.0 / 4.0 + x * (3.0 / 4.0 + (1.0 / 8.0 + x / 120.0) * x)));
+    }
+    else if (1 <= x && x < 2) {
+        return 17.0 / 40.0 + x * (5.0 / 8.0 + x * (-(7.0 / 4.0) + x * (5.0 / 4.0 + (-(3.0 / 8.0) + x / 24.0) * x)));
+    }
+    else if (-1 <= x && x < 0) {
+        return 11.0 / 20.0 + x * x * (-(1.0 / 2.0) + (1.0 / 4.0 + x / 12.0) * x * x);
+    }
+    else {
+        return 0;
+    }
+};
+BSpline.prototype.getInterpol = function (seq, t) {
+    var f = this.baseFunc;
+    var rangeInt = this.baseFuncRangeInt;
+    var tInt = Math.floor(t);
+    var result = 0;
+    for (var i = tInt - rangeInt; i <= tInt + rangeInt; i++) {
+        result += seq(i) * f(t - i);
+    }
+    return result;
+};
+BSpline.prototype.calcAt = function (t) {
+    t = t * ((this.degree + 1) * 2 + this.points.length); //t must be in [0,1]
+    if (this.dimension == 2) {
+        return [this.getInterpol(this.seqAt(0), t), this.getInterpol(this.seqAt(1), t)];
+    }
+    else if (this.dimension == 3) {
+        return [this.getInterpol(this.seqAt(0), t), this.getInterpol(this.seqAt(1), t), this.getInterpol(this.seqAt(2), t)];
+    }
+    else {
+        var res = [];
+        for (var i = 0; i < this.dimension; i++) {
+            res.push(this.getInterpol(this.seqAt(i), t));
+        }
+        return res;
+    }
+};
+exports.default = BSpline;
+
+
+/***/ }),
+
+/***/ "./client/components/common/GrowthBackground/draw.tsx":
+/*!************************************************************!*\
+  !*** ./client/components/common/GrowthBackground/draw.tsx ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var b_spline_1 = __importDefault(__webpack_require__(/*! ./b-spline */ "./client/components/common/GrowthBackground/b-spline.tsx"));
+exports.default = (function (configs, containerWidth, containerHeight, yStartPercent) {
+    var degree = 2;
+    var yStart = containerHeight * yStartPercent;
+    var pts = [[0, yStart]];
+    var start = null;
+    var leaf = document.getElementById('spline-leaf');
+    var rose = null;
+    var leafSize = 15;
+    var flowerSize = 0.5;
+    var yFactor = 40;
+    var xFactor = containerWidth < 770 ? 20 : 30;
+    configs.forEach(function (_a) {
+        var context = _a.context, canvas = _a.canvas;
+        context.globalCompositeOperation = 'destination-over';
+        context.lineWidth = 1;
+        window.requestAnimationFrame(getStep(context, canvas));
+    });
+    console.log({ containerWidth: containerWidth });
+    function getStep(ctx, canv) {
+        return function step(timestamp) {
+            if (!start)
+                start = timestamp;
+            var progress = timestamp - start;
+            var lastPoint = pts[pts.length - 1];
+            var xx = Math.random() * xFactor;
+            var yy = Math.random() * yFactor;
+            putPoint(ctx, canv, lastPoint[0] + xx, yStart + yy, timestamp > 2000);
+            console.log('working on growth background');
+            if (lastPoint[0] < containerWidth) {
+                window.requestAnimationFrame(step);
+            }
+        };
+    }
+    function putPoint(ctx, canv, x, y, shouldDrawFlowers) {
+        pts.push([x, y]);
+        drawSpline(ctx, canv, shouldDrawFlowers);
+    }
+    function drawSpline(ctx, canv, shouldDrawFlowers) {
+        ctx.clearRect(0, 0, canv.width, canv.height);
+        ctx.lineWidth += 0.002;
+        leafSize += 0.1;
+        //
+        // if(pts.length == 0) {
+        //     return;
+        // }
+        for (var i = 0; i < pts.length; i++) {
+            // ctx.beginPath();
+            //
+            // if (berriesAt[i]) {
+            //     if (shouldDrawFlowers) {
+            //         drawImage(ctx, rose, pts[i][0], pts[i][1], flowerSize, flowerSize);
+            //         // ctx.arc(pts[i][0],pts[i][1],flowerSize,0,Math.PI*2,false);
+            //         ctx.fill();
+            //         flowerSize += 0.04;
+            //     }
+            // } else if (i % 2 === 0) {
+            //     const angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
+            //     drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
+            //     ctx.fill();
+            // }
+            var angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
+            drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
+            ctx.fill();
+            ctx.closePath();
+        }
+        var spline = new b_spline_1.default(pts, degree, true);
+        ctx.beginPath();
+        var x;
+        var y;
+        var oldx = spline.calcAt(0)[0];
+        var oldy = spline.calcAt(0)[1];
+        for (var t = 0; t <= 1; t += 0.0001) {
+            ctx.moveTo(oldx, oldy);
+            var interpol = spline.calcAt(t);
+            x = interpol[0];
+            y = interpol[1];
+            ctx.lineTo(x, y);
+            oldx = x;
+            oldy = y;
+        }
+        ctx.stroke();
+        ctx.closePath();
+    }
+});
+function drawImage(ctx, image, x, y, width, height, angleInRadians) {
+    if (angleInRadians === void 0) { angleInRadians = 0; }
+    ctx.translate(x, y);
+    ctx.rotate(angleInRadians);
+    ctx.drawImage(image, -width / 2, -height / 2, width, height);
+    ctx.rotate(-angleInRadians);
+    ctx.translate(-x, -y);
+}
+
+
+/***/ }),
+
+/***/ "./client/components/common/GrowthBackground/index.tsx":
+/*!*************************************************************!*\
+  !*** ./client/components/common/GrowthBackground/index.tsx ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
+    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
+    return cooked;
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importStar(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
+var draw_1 = __importDefault(__webpack_require__(/*! ./draw */ "./client/components/common/GrowthBackground/draw.tsx"));
+var style_config_1 = __webpack_require__(/*! ../../style-config */ "./client/components/style-config.ts");
+var Container = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    z-index: -1000;\n"], ["\n    position: absolute;\n    width: 100%;\n    height: 100%;\n    z-index: -1000;\n"])));
+var CONTAINER_BASE_ID = 'growth-container-id';
+exports.default = (function (props) {
+    var containerId = CONTAINER_BASE_ID + "-" + props.keyBase;
+    // the percent down the canvas to start the vine: for example, 0.4 will start the vine
+    // 40% of the way down the canvas
+    var yStart = (props.yStart || props.yStart === 0) ? props.yStart : 0.4;
+    react_1.useEffect(function () {
+        var container = document.getElementById(containerId);
+        var configs = [];
+        for (var i = 0; i < 1; i += 1) {
+            var canv = document.createElement('CANVAS');
+            canv.width = window.innerWidth;
+            canv.height = window.innerHeight;
+            canv.style.zIndex = '-10000';
+            canv.style.position = 'absolute';
+            container.appendChild(canv);
+            var context = canv.getContext('2d');
+            context.strokeStyle = style_config_1.COLORS.darkGreen;
+            configs.push({ canvas: canv, context: context });
+        }
+        draw_1.default(configs, window.innerWidth, window.innerHeight, yStart);
+    }, []);
+    return (react_1.default.createElement(Container, { id: containerId }));
+});
+var templateObject_1;
+
+
+/***/ }),
+
+/***/ "./client/components/common/Notification.tsx":
+/*!***************************************************!*\
+  !*** ./client/components/common/Notification.tsx ***!
+  \***************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
+var Active = function (_a) {
+    var onClick = _a.onClick;
+    return (react_1.default.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none", style: { cursor: 'pointer' }, onClick: onClick },
+        react_1.default.createElement("g", { id: "notifications_24px" },
+            react_1.default.createElement("path", { fillRule: "evenodd", clipRule: "evenodd", d: "M18 15.75V10.75C18 7.68 16.37 5.11 13.5 4.43V3.75C13.5 2.92 12.83 2.25 12 2.25C11.17 2.25 10.5 2.92 10.5 3.75V4.43C7.64003 5.11 6.00003 7.67 6.00003 10.75V15.75L4.00003 17.75V18.75H20V17.75L18 15.75ZM12 21.75C13.1 21.75 14 20.85 14 19.75H10C10 20.85 10.9 21.75 12 21.75ZM8.00003 16.75H16V10.75C16 8.27 14.49 6.25 12 6.25C9.51003 6.25 8.00003 8.27 8.00003 10.75V16.75ZM7.58003 3.83L6.15003 2.4C3.75003 4.23 2.17003 7.05 2.03003 10.25H4.03003C4.18003 7.6 5.54003 5.28 7.58003 3.83ZM21.97 10.25H19.97C19.82 7.6 18.45 5.28 16.43 3.83L17.85 2.4C20.24 4.23 21.82 7.05 21.97 10.25Z", fill: style_config_1.COLORS.notification, fillOpacity: "0.8" }))));
+};
+var Inactive = function () {
+    return (react_1.default.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", width: "32", height: "32", viewBox: "0 0 24 24", fill: "none" },
+        react_1.default.createElement("g", { id: "notifications_24px" },
+            react_1.default.createElement("path", { id: "icon/social/notifications_24px", fillRule: "evenodd", clipRule: "evenodd", d: "M18 15.75V10.75C18 7.68 16.37 5.11 13.5 4.43V3.75C13.5 2.92 12.83 2.25 12 2.25C11.17 2.25 10.5 2.92 10.5 3.75V4.43C7.64 5.11 6 7.67 6 10.75V15.75L4 17.75V18.75H20V17.75L18 15.75ZM12 21.75C13.1 21.75 14 20.85 14 19.75H10C10 20.85 10.9 21.75 12 21.75ZM8 16.75H16V10.75C16 8.27 14.49 6.25 12 6.25C9.51 6.25 8 8.27 8 10.75V16.75Z", fill: style_config_1.COLORS.darkGray, fillOpacity: "1" }))));
+};
+exports.default = (function (props) { return props.active ? react_1.default.createElement(Active, { onClick: props.onClick }) : react_1.default.createElement(Inactive, null); });
 
 
 /***/ }),
@@ -1638,11 +2508,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var style_config_1 = __webpack_require__(/*! ../style-config */ "./client/components/style-config.ts");
-var StyledButton = styled_components_1.default.button(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    background: ", ";\n    color: ", ";\n    width: 30vw;\n    height: 4vh;\n    cursor: pointer;\n"], ["\n    background: ", ";\n    color: ", ";\n    width: 30vw;\n    height: 4vh;\n    cursor: pointer;\n"])), style_config_1.COLORS.primaryGreen, style_config_1.COLORS.white);
+var StyledButton = styled_components_1.default.button(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    background: ", ";\n    color: ", ";\n    height: 25px;\n    cursor: pointer;\n    border-radius: 8%;\n        \n    :focus {\n        border: none;\n    }\n    :active {\n        background: ", ";\n    }\n"], ["\n    background: ", ";\n    color: ", ";\n    height: 25px;\n    cursor: pointer;\n    border-radius: 8%;\n        \n    :focus {\n        border: none;\n    }\n    :active {\n        background: ", ";\n    }\n"])), style_config_1.COLORS.primaryGreen, style_config_1.COLORS.white, style_config_1.COLORS.darkGreen);
+var DisabledButton = styled_components_1.default.button(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    background: ", ";\n    color: ", ";\n    height: 25px;\n    \n    :focus {\n        border: none;\n    }\n    border-radius: 8%;\n"], ["\n    background: ", ";\n    color: ", ";\n    height: 25px;\n    \n    :focus {\n        border: none;\n    }\n    border-radius: 8%;\n"])), style_config_1.COLORS.fadedPrimaryGreen, style_config_1.COLORS.white);
 exports.SubmitButton = function (props) {
-    return react_1.default.createElement(StyledButton, { onClick: props.onClick }, props.text);
+    return props.disabled
+        ? (react_1.default.createElement(DisabledButton, { style: (props.styles || {}), onClick: function () { return undefined; } }, props.text)) : (react_1.default.createElement(StyledButton, { style: (props.styles || {}), onClick: props.onClick }, props.text));
 };
-var templateObject_1;
+var templateObject_1, templateObject_2;
 
 
 /***/ }),
@@ -1765,7 +2637,24 @@ exports.TILE_HEIGHT = 80;
 exports.FONT_STYLES = {
     primary: 'Montserrat',
 };
+exports.BASE_MODAL_STYLE = {
+    CONTENT: { left: '33%', width: '50%', minWidth: '300px', maxWidth: '500px' },
+};
 
+
+/***/ }),
+
+/***/ "./client/config.js":
+/*!**************************!*\
+  !*** ./client/config.js ***!
+  \**************************/
+/*! exports provided: apiBaseUrl */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "apiBaseUrl", function() { return apiBaseUrl; });
+var apiBaseUrl = "http://localhost:3000";
 
 /***/ }),
 
@@ -1810,7 +2699,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var styled_components_1 = __importDefault(__webpack_require__(/*! styled-components */ "./node_modules/styled-components/dist/styled-components.browser.esm.js"));
 var react_1 = __importDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
 var style_config_1 = __webpack_require__(/*! ../../components/style-config */ "./client/components/style-config.ts");
-var PicturesContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 100%;\n    height: 20vh;\n"], ["\n    border: 1px solid ", ";\n    width: 100%;\n    height: 20vh;\n"])), style_config_1.COLORS.darkGreen);
+var PicturesContainer = styled_components_1.default.div(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 100%;\n    height: 20vh;\n    margin-top: 2px;\n"], ["\n    border: 1px solid ", ";\n    width: 100%;\n    height: 20vh;\n    margin-top: 2px;\n"])), style_config_1.COLORS.darkGreen);
 var PicturesContainerRow = styled_components_1.default.div(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    display: flex;\n    height: 50%;\n"], ["\n    display: flex;\n    height: 50%;\n"])));
 var SinglePictureContainer = styled_components_1.default.button(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 25%;\n    height: 100%;\n    background: none;\n    cursor: pointer;\n"], ["\n    border: 1px solid ", ";\n    width: 25%;\n    height: 100%;\n    background: none;\n    cursor: pointer;\n"])), style_config_1.COLORS.darkGreen);
 var SelectableBox = function (props) {
@@ -1870,16 +2759,16 @@ var avatars_1 = __importDefault(__webpack_require__(/*! ./avatars */ "./client/f
 var style_config_1 = __webpack_require__(/*! ../../components/style-config */ "./client/components/style-config.ts");
 var interfaces_1 = __webpack_require__(/*! ../interfaces */ "./client/forms/interfaces.ts");
 var toggle_1 = __importDefault(__webpack_require__(/*! ./toggle */ "./client/forms/rendering/toggle.tsx"));
-var StyledInput = styled_components_1.default.textarea(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    border: 1px solid ", ";\n    width: 95%;\n    color: ", ";\n"], ["\n    border: 1px solid ", ";\n    width: 95%;\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen, style_config_1.COLORS.darkGreen);
+var StyledInput = styled_components_1.default.textarea(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n    resize: none;\n    border: 1px solid ", ";\n    width: 95%;\n    color: ", ";\n    text-decoration: none;\n"], ["\n    resize: none;\n    border: 1px solid ", ";\n    width: 95%;\n    color: ", ";\n    text-decoration: none;\n"])), style_config_1.COLORS.darkGreen, style_config_1.COLORS.darkGreen);
 var StyledDropdown = styled_components_1.default.select(templateObject_2 || (templateObject_2 = __makeTemplateObject(["\n    background: ", ";\n    border: 1px solid ", ";\n    width: 100%;\n    color:  ", ";\n"], ["\n    background: ", ";\n    border: 1px solid ", ";\n    width: 100%;\n    color:  ", ";\n"])), style_config_1.COLORS.white, style_config_1.COLORS.darkGreen, style_config_1.COLORS.darkGreen);
 var StyledLabel = styled_components_1.default.div(templateObject_3 || (templateObject_3 = __makeTemplateObject(["\n    color: ", ";\n"], ["\n    color: ", ";\n"])), style_config_1.COLORS.darkGreen);
-var StyledError = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    color: ", ";\n    font-size: small;\n"], ["\n    color: ", ";\n    font-size: small;\n"])), style_config_1.COLORS.notification);
+var StyledError = styled_components_1.default.div(templateObject_4 || (templateObject_4 = __makeTemplateObject(["\n    color: ", ";\n    font-size: small;\n    height: 20px;\n"], ["\n    color: ", ";\n    font-size: small;\n    height: 20px;\n"])), style_config_1.COLORS.notification);
 var fieldGetters = (_a = {},
     _a[interfaces_1.FieldTypes.INPUT] = function (_a, value, onChange, error, clearError, onLeave) {
         var label = _a.label, lowerCase = _a.lowerCase;
         return (react_1.default.createElement("div", { key: "create-" + label + "-1" },
             react_1.default.createElement(StyledLabel, null, label),
-            react_1.default.createElement(StyledInput, { onFocus: clearError, onBlur: onLeave, value: value, onChange: function (event) { return onChange(lowerCase ? event.target.value.toLowerCase() : event.target.value); } }),
+            react_1.default.createElement(StyledInput, { onFocus: clearError, onBlur: onLeave, value: value, onChange: function (event) { return onChange(lowerCase ? event.target.value.toLowerCase() : event.target.value); }, spellCheck: false }),
             react_1.default.createElement(StyledError, null, error)));
     },
     _a[interfaces_1.FieldTypes.AVATAR] = function (_a, value, onChange, error) {
@@ -1958,6 +2847,7 @@ var templateObject_1;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ALLOWED_CHARACTERS = 'abcdefghijklmnopqrstuvwxyz0123456789-';
 exports.validatorGetters = {
     isDate: function () { return ({
         validate: function () { return function (val) { return true; }; },
@@ -1971,10 +2861,32 @@ exports.validatorGetters = {
         validate: function (val) { return !isNaN(parseFloat(val)); },
         getMessage: function () { return "must be a number"; },
     }); },
-    isOfLength: function (length) { return ({
+    isAtLeastLength: function (length) { return ({
         validate: function (val) { return val && val.length >= length; },
         getMessage: function () { return "must be at least " + length + " characters long"; },
     }); },
+    isAtMostLength: function (length) { return ({
+        validate: function (val) { return val && val.length <= length; },
+        getMessage: function () { return "cannot be more than " + length + " characters long"; },
+    }); },
+    isOfGenericAllowedCharacters: function () {
+        var uniqueInvalidCharacters = {};
+        return {
+            validate: function (input) {
+                uniqueInvalidCharacters = {};
+                for (var _i = 0, input_1 = input; _i < input_1.length; _i++) {
+                    var char = input_1[_i];
+                    if (!exports.ALLOWED_CHARACTERS.includes(char)) {
+                        uniqueInvalidCharacters[char] = true;
+                    }
+                }
+                return !Object.keys(uniqueInvalidCharacters).length;
+            },
+            getMessage: function () {
+                return "invalid characters: \"" + Object.keys(uniqueInvalidCharacters).join('') + "\"";
+            },
+        };
+    },
 };
 exports.validateField = function (value, validatorsForField) {
     return validatorsForField.reduce(function (errorMessages, validator) {
@@ -2139,7 +3051,7 @@ var LoggedInRouteComponent = function (_a) {
         LOGGED_IN_ROUTE__getHaveUser();
     }, []);
     if (LOGGED_IN_ROUTE__haveUser !== null && !LOGGED_IN_ROUTE_loadingHaveUser) {
-        return react_1.default.createElement(react_router_dom_1.Route, __assign({}, rest, { render: function (props) { return (LOGGED_IN_ROUTE__haveUser ? react_1.default.createElement(Component, __assign({}, props)) : react_1.default.createElement(react_router_dom_1.Redirect, { to: "/login" })); } }));
+        return (react_1.default.createElement(react_router_dom_1.Route, __assign({}, rest, { render: function (props) { return (LOGGED_IN_ROUTE__haveUser ? react_1.default.createElement(Component, __assign({}, props)) : react_1.default.createElement(react_router_dom_1.Redirect, { to: "/login" })); } })));
     }
     return null;
 };
@@ -2380,6 +3292,15 @@ function setHabitats(habitats) {
     return { type: types_1.default.SET_HABITATS, habitats: habitats };
 }
 exports.setHabitats = setHabitats;
+function setQueriedHabitats(habitats) {
+    return { type: types_1.default.HABITATS_SET_QUERIED_HABITATS, queriedHabitats: habitats };
+}
+exports.setQueriedHabitats = setQueriedHabitats;
+function habitatSearch(searchString, callback) {
+    if (callback === void 0) { callback = function () { return undefined; }; }
+    return { type: types_1.default.HABITATS_SEARCH_REQUESTED, name: searchString, callback: callback };
+}
+exports.habitatSearch = habitatSearch;
 function createOne(habitat, callback) {
     if (callback === void 0) { callback = function (result) { return undefined; }; }
     return { type: types_1.default.HABITATS_CREATE_ONE_REQUESTED, habitat: habitat, callback: callback };
@@ -2389,6 +3310,11 @@ function createOneSucceeded() {
     return { type: types_1.default.HABITATS_CREATE_ONE_SUCCEEDED };
 }
 exports.createOneSucceeded = createOneSucceeded;
+function requestSubscription(habitatId, callback) {
+    if (callback === void 0) { callback = function () { return undefined; }; }
+    return { type: types_1.default.HABITATS_REQUEST_SUBSCRIPTION_REQUESTED, habitatId: habitatId, callback: callback };
+}
+exports.requestSubscription = requestSubscription;
 
 
 /***/ }),
@@ -2449,15 +3375,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __importDefault(__webpack_require__(/*! ./types */ "./client/store/habitat/types.ts"));
 var defaultState = {
-    data: [],
+    data: {
+        habitats: [],
+        queriedHabitats: [],
+    },
 };
 exports.default = (function (state, action) {
     if (state === void 0) { state = defaultState; }
-    console.log("reducer got action of ", action);
     switch (action.type) {
         case types_1.default.SET_HABITATS:
             var habitats = action.habitats;
-            return __assign({}, state, { data: habitats });
+            return __assign({}, state, { data: __assign({}, state.data, { habitats: habitats }) });
+        case types_1.default.HABITATS_SET_QUERIED_HABITATS:
+            var queriedHabitats = action.queriedHabitats;
+            return __assign({}, state, { data: __assign({}, state.data, { queriedHabitats: queriedHabitats }) });
         default:
             return state;
     }
@@ -2559,6 +3490,37 @@ function createOne(_a) {
         }
     });
 }
+function searchHabitats(_a) {
+    var res, found;
+    var name = _a.name, callback = _a.callback;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, effects_1.call(api_1.default.habitat.nameSearch.request, name)];
+            case 1:
+                res = _b.sent();
+                found = api_1.default.habitat.nameSearch.response(res);
+                return [4 /*yield*/, effects_1.put(actions_1.setQueriedHabitats(found))];
+            case 2:
+                _b.sent();
+                callback(found);
+                return [2 /*return*/];
+        }
+    });
+}
+function requestSubscription(_a) {
+    var habitatId = _a.habitatId, callback = _a.callback;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                console.log({ habitatIdInSaga: habitatId });
+                return [4 /*yield*/, effects_1.call(api_1.default.habitat.requestSubscription.request, habitatId)];
+            case 1:
+                _b.sent();
+                callback();
+                return [2 /*return*/];
+        }
+    });
+}
 exports.default = [
     // @ts-ignore
     effects_1.takeLatest(types_1.default.HABITATS_FETCH_BY_IDS_REQUESTED, fetchHabitatsByIds),
@@ -2566,6 +3528,10 @@ exports.default = [
     effects_1.takeLatest(types_1.default.HABITATS_FETCH_USER_SUBSCRIBED_REQUESTED, fetchUserSubscribedHabitats),
     // @ts-ignore
     effects_1.takeLatest(types_1.default.HABITATS_CREATE_ONE_REQUESTED, createOne),
+    // @ts-ignore
+    effects_1.takeLatest(types_1.default.HABITATS_SEARCH_REQUESTED, searchHabitats),
+    // @ts-ignore
+    effects_1.takeLatest(types_1.default.HABITATS_REQUEST_SUBSCRIPTION_REQUESTED, requestSubscription),
 ];
 
 
@@ -2583,13 +3549,14 @@ exports.default = [
 Object.defineProperty(exports, "__esModule", { value: true });
 var reselect_1 = __webpack_require__(/*! reselect */ "./node_modules/reselect/es/index.js");
 var plant_1 = __webpack_require__(/*! ../../../common/data-accessors/plant */ "./common/data-accessors/plant.ts");
-exports.habitats = function (state) { return state.habitats.data || []; };
+exports.habitats = function (state) { return state.habitats.data.habitats || []; };
+exports.queriedHabitats = function (state) { return state.habitats.data.queriedHabitats || []; };
 exports.habitatById = function (state, props) {
     var habitatId = +props.match.params.id;
     return exports.habitats(state).find(function (habitat) { return habitat.id === habitatId; }) || {};
 };
 var plants = reselect_1.createSelector(exports.habitatById, function (habitat) { return habitat.plants || []; });
-var getSubscriptions = reselect_1.createSelector(exports.habitatById, function (habitat) { return habitat.subscriptions || []; });
+var getSubscriptions = reselect_1.createSelector(exports.habitatById, function (habitat) { return habitat.plantSubscriptions || []; });
 var getNonSubscribedPlants = reselect_1.createSelector([plants, getSubscriptions], function (allPlants, subscriptions) { return allPlants.filter(function (plant) { return !subscriptions.includes(plant.id); }); });
 var getSubscribedPlants = reselect_1.createSelector([plants, getSubscriptions], function (allPlants, subscriptions) { return allPlants.filter(function (plant) { return subscriptions.includes(plant.id); }); });
 exports.getPlantDataForDisplayInHabitat = reselect_1.createSelector([getSubscribedPlants, getNonSubscribedPlants], function (subscribedPlants, nonSubscribedPlants) {
@@ -2629,6 +3596,10 @@ var types;
     types["HABITATS_FETCH_USER_SUBSCRIBED_REQUESTED"] = "HABITATS/FETCH_USER_SUBSCRIBED_REQUESTED";
     types["HABITATS_CREATE_ONE_REQUESTED"] = "HABITATS/CREATE_ONE_REQUESTED";
     types["HABITATS_CREATE_ONE_SUCCEEDED"] = "HABITATS/CREATE_ONE_SUCCEEDED";
+    types["HABITATS_SEARCH_REQUESTED"] = "HABITATS/SEARCH_REQUESTED";
+    types["HABITATS_SET_QUERIED_HABITATS"] = "HABITATS/SET_QUERIED_HABITATS";
+    types["HABITATS_REQUEST_SUBSCRIPTION_REQUESTED"] = "HABITATS/REQUEST_SUBSCRIPTION_REQUESTED";
+    types["HABITATS_REQUEST_SUBSCRIPTION_SUCCEEDED"] = "HABITATS/REQUEST_SUBSCRIPTION_SUCCEEDED";
 })(types || (types = {}));
 exports.default = types;
 
@@ -2944,6 +3915,25 @@ function updateName(name, callback) {
     return { type: types_1.default.USER_UPDATE_NAME_REQUESTED, name: name, callback: callback };
 }
 exports.updateName = updateName;
+function fetchSubscriptionRequests(callback) {
+    if (callback === void 0) { callback = function () { return undefined; }; }
+    return { type: types_1.default.USER_FETCH_SUBSCRIPTION_REQUESTS_REQUESTED, callback: callback };
+}
+exports.fetchSubscriptionRequests = fetchSubscriptionRequests;
+function setSubscriptionRequests(requests) {
+    return { type: types_1.default.USER_SET_SUBSCRIPTION_REQUESTS, requests: requests };
+}
+exports.setSubscriptionRequests = setSubscriptionRequests;
+function acceptSubscriptionRequest(request, callback) {
+    if (callback === void 0) { callback = function () { return undefined; }; }
+    return { type: types_1.default.USER_ACCEPT_SUBSCRIPTION_REQUEST_REQUESTED, request: request, callback: callback };
+}
+exports.acceptSubscriptionRequest = acceptSubscriptionRequest;
+function rejectSubscriptionRequest(request, callback) {
+    if (callback === void 0) { callback = function () { return undefined; }; }
+    return { type: types_1.default.USER_REJECT_SUBSCRIPTION_REQUEST_REQUESTED, request: request, callback: callback };
+}
+exports.rejectSubscriptionRequest = rejectSubscriptionRequest;
 
 
 /***/ }),
@@ -2957,17 +3947,22 @@ exports.updateName = updateName;
 
 "use strict";
 
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var actions_1 = __webpack_require__(/*! ./actions */ "./client/store/user/actions.ts");
-var selectors_1 = __webpack_require__(/*! ./selectors */ "./client/store/user/selectors.ts");
-var reducer_1 = __importDefault(__webpack_require__(/*! ./reducer */ "./client/store/user/reducer.ts"));
-var actions = { setUserToken: actions_1.setUserToken, createUser: actions_1.createUser, fetchUserById: actions_1.fetchUserById, setUser: actions_1.setUser, fetchAllNames: actions_1.fetchAllNames, updateName: actions_1.updateName };
+var actions = __importStar(__webpack_require__(/*! ./actions */ "./client/store/user/actions.ts"));
 exports.actions = actions;
-var selectors = { getUserToken: selectors_1.getUserToken, getUser: selectors_1.getUser, getAllUserNames: selectors_1.getAllUserNames };
+var selectors = __importStar(__webpack_require__(/*! ./selectors */ "./client/store/user/selectors.ts"));
 exports.selectors = selectors;
+var reducer_1 = __importDefault(__webpack_require__(/*! ./reducer */ "./client/store/user/reducer.ts"));
 exports.default = reducer_1.default;
 
 
@@ -2999,7 +3994,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var types_1 = __importDefault(__webpack_require__(/*! ./types */ "./client/store/user/types.ts"));
 var defaultState = {
-    data: { token: '', user: null, allNames: [] },
+    data: { user: null, allNames: [], subscriptionRequests: [] },
 };
 exports.default = (function (state, action) {
     if (state === void 0) { state = defaultState; }
@@ -3016,6 +4011,9 @@ exports.default = (function (state, action) {
         case types_1.default.USER_SET_ALL_NAMES:
             var allNames = action.allNames;
             return __assign({}, state, { data: __assign({}, state.data, { allNames: allNames }) });
+        case types_1.default.USER_SET_SUBSCRIPTION_REQUESTS:
+            var requests = action.requests;
+            return __assign({}, state, { data: __assign({}, state.data, { subscriptionRequests: requests }) });
         default:
             return state;
     }
@@ -3112,8 +4110,52 @@ function updateName(_a) {
                 return [4 /*yield*/, effects_1.put(actions_1.setUser(updatedUser))];
             case 2:
                 _b.sent();
-                console.log(callback);
                 callback(updatedUser);
+                return [2 /*return*/];
+        }
+    });
+}
+function fetchSubscriptionRequests(_a) {
+    var response, requests;
+    var callback = _a.callback;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, effects_1.call(api_1.default.user.getSubscriptionRequests.request)];
+            case 1:
+                response = _b.sent();
+                requests = api_1.default.user.getSubscriptionRequests.response(response);
+                return [4 /*yield*/, effects_1.put(actions_1.setSubscriptionRequests(requests))];
+            case 2:
+                _b.sent();
+                callback(requests);
+                return [2 /*return*/];
+        }
+    });
+}
+function acceptSubscriptionRequest(_a) {
+    var response, resData;
+    var request = _a.request, callback = _a.callback;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, effects_1.call(api_1.default.user.acceptSubscriptionRequest.request, request.id)];
+            case 1:
+                response = _b.sent();
+                resData = api_1.default.user.acceptSubscriptionRequest.response(response);
+                callback(resData);
+                return [2 /*return*/];
+        }
+    });
+}
+function rejectSubscriptionRequest(_a) {
+    var response, resData;
+    var request = _a.request, callback = _a.callback;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0: return [4 /*yield*/, effects_1.call(api_1.default.user.rejectSubscriptionRequest.request, request.id)];
+            case 1:
+                response = _b.sent();
+                resData = api_1.default.user.rejectSubscriptionRequest.response(response);
+                callback(resData);
                 return [2 /*return*/];
         }
     });
@@ -3125,6 +4167,12 @@ exports.default = [
     effects_1.takeLatest(types_1.default.USER_FETCH_ALL_NAMES_REQUESTED, fetchAllNames),
     // @ts-ignore
     effects_1.takeLatest(types_1.default.USER_UPDATE_NAME_REQUESTED, updateName),
+    // @ts-ignore
+    effects_1.takeLatest(types_1.default.USER_FETCH_SUBSCRIPTION_REQUESTS_REQUESTED, fetchSubscriptionRequests),
+    // @ts-ignore
+    effects_1.takeLatest(types_1.default.USER_ACCEPT_SUBSCRIPTION_REQUEST_REQUESTED, acceptSubscriptionRequest),
+    // @ts-ignore
+    effects_1.takeLatest(types_1.default.USER_REJECT_SUBSCRIPTION_REQUEST_REQUESTED, rejectSubscriptionRequest),
 ];
 
 
@@ -3143,6 +4191,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUserToken = function (state) { return state.user.data.token; };
 exports.getUser = function (state) { return state.user.data.user; };
 exports.getAllUserNames = function (state) { return state.user.data.allNames; };
+exports.getSubscriptionRequests = function (state) { return state.user.data.subscriptionRequests; };
 
 
 /***/ }),
@@ -3167,6 +4216,10 @@ var types;
     types["USER_FETCH_ALL_NAMES_REQUESTED"] = "USER/USER_FETCH_ALL_NAMES_REQUESTED";
     types["USER_SET_ALL_NAMES"] = "USER/USER_SET_ALL_NAMES";
     types["USER_UPDATE_NAME_REQUESTED"] = "USER/USER_UPDATE_NAME_REQUESTED";
+    types["USER_FETCH_SUBSCRIPTION_REQUESTS_REQUESTED"] = "USER/FETCH_SUBSCRIPTION_REQUESTS_REQUESTED";
+    types["USER_SET_SUBSCRIPTION_REQUESTS"] = "USER/USER_SET_SUBSCRIPTION_REQUESTS";
+    types["USER_ACCEPT_SUBSCRIPTION_REQUEST_REQUESTED"] = "USER/ACCEPT_SUBSCRIPTION_REQUEST_REQUESTED";
+    types["USER_REJECT_SUBSCRIPTION_REQUEST_REQUESTED"] = "USER/REJECT_SUBSCRIPTION_REQUEST_REQUESTED";
 })(types || (types = {}));
 exports.default = types;
 
@@ -73088,6 +74141,27 @@ if (hasSymbols()) {
     configurable: true
   });
 }
+
+/***/ }),
+
+/***/ "./server/db/types.ts":
+/*!****************************!*\
+  !*** ./server/db/types.ts ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var SUBSCRIPTION_STATUSES;
+(function (SUBSCRIPTION_STATUSES) {
+    SUBSCRIPTION_STATUSES["REJECTED"] = "rejected";
+    SUBSCRIPTION_STATUSES["PENDING"] = "pending";
+    SUBSCRIPTION_STATUSES["ACTIVE"] = "active";
+    SUBSCRIPTION_STATUSES["INACTIVE"] = "inactive";
+})(SUBSCRIPTION_STATUSES = exports.SUBSCRIPTION_STATUSES || (exports.SUBSCRIPTION_STATUSES = {}));
+
 
 /***/ }),
 

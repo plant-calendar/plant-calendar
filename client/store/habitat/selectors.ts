@@ -3,7 +3,8 @@ import {plantDataAccessors} from "../../../common/data-accessors/plant";
 import {IPlant} from "../../../server/db/models/plant/plant.interface";
 import {IHabitatComponentProps} from "../../components/Habitat";
 
-export const habitats = state => state.habitats.data || [];
+export const habitats = state => state.habitats.data.habitats || [];
+export const queriedHabitats = state => state.habitats.data.queriedHabitats || [];
 
 export const habitatById = (state, props: IHabitatComponentProps) => {
   const habitatId: number = +props.match.params.id;
@@ -18,7 +19,7 @@ const plants = createSelector(
 
 const getSubscriptions = createSelector(
   habitatById,
-  habitat => habitat.subscriptions || [],
+  habitat => habitat.plantSubscriptions || [],
 );
 
 const getNonSubscribedPlants = createSelector(
@@ -30,18 +31,7 @@ const getSubscribedPlants = createSelector(
   [plants, getSubscriptions],
   (allPlants, subscriptions) => allPlants.filter(plant => subscriptions.includes(plant.id)),
 );
-//
-// const plantNeedsWater = (plant: IPlant) => plantDataAccessors.daysSinceWatered(plant) >= plant.waterInterval;
 
-// export const plantsToWater = createSelector(
-//   subscribedPlants,
-//   (allPlants: IPlant[]) => allPlants.filter(plant => plantNeedsWater(plant)),
-// );
-// //
-// export const plantsThatDontNeedWater = createSelector(
-//   subscribedPlants,
-//   (allPlants: IPlant[]) => allPlants.filter(plant => !plantNeedsWater(plant)),
-// );
 export interface IAugmentedPlant {
   plant: IPlant;
   subscribed: boolean;

@@ -10,6 +10,13 @@ const Habitat = db.define('habitat', {
     },
     unique: true,
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
 });
 
 export default Habitat;

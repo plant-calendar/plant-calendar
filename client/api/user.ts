@@ -1,5 +1,6 @@
 import {entityId} from "../../server/db/types";
 import {gql} from "apollo-boost";
+import {ISubscriptionRequest} from "../components/User/AcceptSubscriptionsModal";
 
 export default client => ({
     getById: {
@@ -41,5 +42,45 @@ export default client => ({
             fetchPolicy: 'no-cache',
         }),
         response: res => res.data.getAllNames,
+    },
+    getSubscriptionRequests: {
+        request: async () => client.query({
+            query: gql`
+                query GetSubscriptionRequests {
+                  getSubscriptionRequests {
+                    id
+                    userId
+                    userName
+                    habitatId
+                    habitatName
+                    status
+                  }
+                }
+            `,
+            fetchPolicy: 'no-cache',
+        }),
+        response: res => res.data.getSubscriptionRequests,
+    },
+    acceptSubscriptionRequest: {
+        request: async (subscriptionId: entityId) => client.mutate({
+            mutation: gql`
+                mutation AcceptHabitatSubscriptionRequest($subscriptionId: Int!) {
+                    acceptHabitatSubscriptionRequest(subscriptionId: $subscriptionId)
+                }
+            `,
+            variables: { subscriptionId },
+        }),
+        response: res => res.data.acceptHabitatSubscriptionRequest,
+    },
+    rejectSubscriptionRequest: {
+        request: async (subscriptionId: entityId) => client.mutate({
+            mutation: gql`
+                mutation RejectHabitatSubscriptionRequest($subscriptionId: Int!) {
+                    rejectHabitatSubscriptionRequest(subscriptionId: $subscriptionId)
+                }
+            `,
+            variables: { subscriptionId },
+        }),
+        response: res => res.data.acceptHabitatSubscriptionRequest,
     },
 });

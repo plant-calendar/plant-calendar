@@ -5,17 +5,17 @@ export interface IDrawConfig {
  canvas: any;
 }
 
-export default (configs: IDrawConfig[], containerSize: number) => {
+export default (configs: IDrawConfig[], containerWidth: number, containerHeight: number, yStartPercent: number) => {
     const degree = 2;
-    const yStart = containerSize * 0.4;
+    const yStart = containerHeight * yStartPercent;
     const pts = [[0, yStart]];
     let start = null;
-    const leaf = null;
+    const leaf = document.getElementById('spline-leaf');
     const rose = null;
-    const leafSize = 15;
+    let leafSize = 15;
     const flowerSize  = 0.5;
     const yFactor = 40;
-    const xFactor = 20;
+    const xFactor = containerWidth < 770 ? 20 : 30;
     configs.forEach(({ context, canvas }) => {
         context.globalCompositeOperation = 'destination-over';
         context.lineWidth = 1;
@@ -23,7 +23,7 @@ export default (configs: IDrawConfig[], containerSize: number) => {
             getStep(context, canvas),
         );
     });
-
+    console.log({containerWidth});
 
     function getStep(ctx, canv) {
         return function step(timestamp) {
@@ -35,8 +35,9 @@ export default (configs: IDrawConfig[], containerSize: number) => {
             const yy = Math.random() * yFactor;
 
             putPoint(ctx, canv, lastPoint[0] + xx, yStart + yy, timestamp > 2000)
+            console.log('working on growth background');
 
-            if (progress < 2500) {
+            if (lastPoint[0] < containerWidth) {
                 window.requestAnimationFrame(step);
             }
         };
@@ -49,29 +50,32 @@ export default (configs: IDrawConfig[], containerSize: number) => {
 
     function drawSpline(ctx, canv, shouldDrawFlowers){
         ctx.clearRect(0, 0, canv.width, canv.height);
-        ctx.lineWidth += 0.001;
-        // leafSize += 0.2
+        ctx.lineWidth += 0.002;
+        leafSize += 0.1;
         //
         // if(pts.length == 0) {
         //     return;
         // }
-        // for(var i = 0;i<pts.length;i++){
-        //     ctx.beginPath();
-        //
-        //     if (berriesAt[i]) {
-        //         if (shouldDrawFlowers) {
-        //             drawImage(ctx, rose, pts[i][0], pts[i][1], flowerSize, flowerSize);
-        //             // ctx.arc(pts[i][0],pts[i][1],flowerSize,0,Math.PI*2,false);
-        //             ctx.fill();
-        //             flowerSize += 0.04;
-        //         }
-        //     } else if (i % 2 === 0) {
-        //         const angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
-        //         drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
-        //         ctx.fill();
-        //     }
-        //     ctx.closePath();
-        // }
+        for (let i = 0; i < pts.length; i++){
+            // ctx.beginPath();
+            //
+            // if (berriesAt[i]) {
+            //     if (shouldDrawFlowers) {
+            //         drawImage(ctx, rose, pts[i][0], pts[i][1], flowerSize, flowerSize);
+            //         // ctx.arc(pts[i][0],pts[i][1],flowerSize,0,Math.PI*2,false);
+            //         ctx.fill();
+            //         flowerSize += 0.04;
+            //     }
+            // } else if (i % 2 === 0) {
+            //     const angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
+            //     drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
+            //     ctx.fill();
+            // }
+                const angle = pts[i][1] < yStart + (yFactor / 2) ? 0 : 3;
+                drawImage(ctx, leaf, pts[i][0], pts[i][1], leafSize, leafSize, angle);
+                ctx.fill();
+            ctx.closePath();
+        }
         const spline = new BSpline(pts, degree, true);
         ctx.beginPath();
         let x;
@@ -91,3 +95,11 @@ export default (configs: IDrawConfig[], containerSize: number) => {
         ctx.closePath();
     }
 };
+
+function drawImage(ctx, image, x, y, width, height, angleInRadians = 0) {
+    ctx.translate(x, y);
+    ctx.rotate(angleInRadians);
+    ctx.drawImage(image, -width / 2, -height / 2, width, height);
+    ctx.rotate(-angleInRadians);
+    ctx.translate(-x, -y);
+}

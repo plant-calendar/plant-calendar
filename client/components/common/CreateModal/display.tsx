@@ -6,7 +6,7 @@ import {Close} from "../CloseSign";
 import {SubmitButton} from "../SubmitButton";
 import renderField from '../../../forms/rendering/render-fields';
 import { Arrow } from "../arrows";
-import {COLORS} from "../../style-config";
+import {BASE_MODAL_STYLE, COLORS} from "../../style-config";
 
 const Middle = styled.div`
     display: flex;
@@ -72,7 +72,7 @@ interface IProps {
 
 export default (props: IProps) => {
     return (
-        <ReactModal isOpen style={{content: { left: '33%', width: '50%', minWidth: '300px', maxWidth: '500px' }}}>
+        <ReactModal isOpen style={{content: BASE_MODAL_STYLE.CONTENT }}>
             <Close onClick={props.close} />
             <Middle>
                 <LeftArrowContainer>
@@ -104,6 +104,7 @@ export default (props: IProps) => {
             {props.canSubmit ? (
                 <SubmitButtonContainer>
                     <SubmitButton
+                        styles={{ width: "50%" }}
                         onClick={props.onSubmit}
                         text={props.buttonText}
                     />

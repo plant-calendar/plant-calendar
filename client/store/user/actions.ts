@@ -1,6 +1,7 @@
 import TYPES from './types';
 import {IUser} from "../../../server/db/models/user/user.interface";
 import {entityId} from "../../../server/db/types";
+import {ISubscriptionRequest} from "../../components/User/AcceptSubscriptionsModal";
 
 export function setUserToken(token: string) {
     return { type: TYPES.USER_SET_TOKEN, token };
@@ -31,4 +32,20 @@ export function setAllNames(allNames: string[]) {
 
 export function updateName(name, callback = () => undefined) {
     return { type: TYPES.USER_UPDATE_NAME_REQUESTED, name, callback };
+}
+
+export function fetchSubscriptionRequests(callback = () => undefined) {
+    return { type: TYPES.USER_FETCH_SUBSCRIPTION_REQUESTS_REQUESTED, callback };
+}
+
+export function setSubscriptionRequests(requests) {
+    return { type: TYPES.USER_SET_SUBSCRIPTION_REQUESTS, requests };
+}
+
+export function acceptSubscriptionRequest(request: ISubscriptionRequest, callback = () => undefined) {
+    return { type: TYPES.USER_ACCEPT_SUBSCRIPTION_REQUEST_REQUESTED, request, callback };
+}
+
+export function rejectSubscriptionRequest(request: ISubscriptionRequest, callback = () => undefined) {
+    return { type: TYPES.USER_REJECT_SUBSCRIPTION_REQUEST_REQUESTED, request, callback };
 }

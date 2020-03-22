@@ -27,6 +27,7 @@ export default (props: IProps) => {
         });
         return acc;
     }, {});
+    console.log({states});
 
     const [submissionError, setSubmissionError] = useState('');
     const [currentStageIdx, setCurrentStageIdx] = useState(0);
@@ -55,10 +56,10 @@ export default (props: IProps) => {
         if (haveError) {
             return;
         }
+        console.log({toSave});
         props.save(toSave, saved => props.afterSave(saved));
     };
 
-    console.log({states});
     return (
         <Display
             fields={stages[currentStageIdx].fields.map(field => {

@@ -1,11 +1,13 @@
 import GenericService from './generic.service';
 import {HabitatSubscription} from "../db/models";
-import {entityId} from "../db/types";
+import {entityId, SUBSCRIPTION_STATUSES} from "../db/types";
 import {IHabitatSubscription} from "../db/models/habitatSubsription/habitatSubscription.interface";
+import HabitatSubscriptionRepository from "../repository/habitat-subscription.repository";
 
 export default class extends GenericService {
     constructor() {
         super(HabitatSubscription);
+        this.repository = new HabitatSubscriptionRepository(HabitatSubscription);
     }
 
     public async findInvitationToHabitat(userId: entityId, habitatId: entityId) {
@@ -31,19 +33,19 @@ export default class extends GenericService {
         });
     }
 
-    public async acceptUserRequestToHabitat(acceptorId: entityId, subscriptionId: entityId) {
+    public async respondToUserRequestToHabitat(acceptorId: entityId, subscriptionId: entityId, accepted: boolean) {
         const subscription = await this.findOneById(subscriptionId);
         if (!await this.userIsAdminOfHabitat(acceptorId, subscription.habitatId)) {
             throw new Error(`Acceptor is not an active admin of this habitat`);
         }
         return this.updateOne(subscriptionId, {
-           status: 'active',
-           adminAccepted: true,
+           status: accepted ? SUBSCRIPTION_STATUSES.ACTIVE : SUBSCRIPTION_STATUSES.REJECTED,
+           adminAccepted: accepted,
         });
     }
 
     public async inviteUserToHabitat(invitorId: entityId, invitedId: entityId, habitatId: entityId, asAdmin = false) {
-        if (!await this.userIsAdminOfHabitat(invitorId, habitatId)) {
+        if (!(await this.userIsAdminOfHabitat(invitorId, habitatId))) {
             throw new Error(`Invitor is not an active admin of this habitat`);
         }
         const existingSubscription: IHabitatSubscription = (await this.findAll({
@@ -61,6 +63,38 @@ export default class extends GenericService {
             adminAccepted: true,
             subscriberAccepted: false,
         });
+    }
+
+    public async requestSubscriptionToHabitat(userId: entityId, habitatId: entityId) {
+        const existingSubscription: IHabitatSubscription = (await this.findAll({
+            userId,
+            habitatId,
+            status: ['active', 'pending'],
+        }))[0];
+        if (existingSubscription) {
+            throw new Error(`Cannot request a subscription again! (currently have sub with status ${existingSubscription.status})`);
+        }
+        return this.createOne({
+            userId,
+            habitatId,
+            status: 'pending',
+            isAdmin: false,
+            adminAccepted: false,
+            subscriberAccepted: true,
+        });
+    }
+
+    public async getSubscriptionRequestsForAdmin(userId: entityId) {
+        const adminnedHabitatIds = (await this.findAll({
+            userId,
+            isAdmin: true,
+            status: 'active',
+        })).map(sub => sub.habitatId);
+        console.log({adminnedHabitatIds});
+        if (adminnedHabitatIds.length === 0) {
+            return [];
+        }
+        return this.repository.getSubscriptionRequestsForHabitats(adminnedHabitatIds);
     }
 
     private async userIsAdminOfHabitat(userId: entityId, habitatId: entityId) {

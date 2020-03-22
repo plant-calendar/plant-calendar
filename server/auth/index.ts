@@ -95,4 +95,9 @@ export default async app => {
         }
         res.send(true);
     });
+
+    app.get('/auth/logout', (req, res) => {
+        req.logout();
+        res.redirect('/login');
+    });
 };

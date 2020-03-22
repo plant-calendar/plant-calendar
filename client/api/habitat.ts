@@ -9,6 +9,7 @@ export default client => ({
                   getHabitats(id: $habitatIds) {
                     id
                     name
+                    imageUrl
                     plants {
                       id
                       name
@@ -35,6 +36,7 @@ export default client => ({
                     getUserSubscribedHabitats(id: $id) {
                         id
                         name
+                        imageUrl
                         plants {
                             id
                             name
@@ -45,7 +47,13 @@ export default client => ({
                             createdAt
                             updatedAt
                         }
-                        subscriptions
+                        plantSubscriptions
+                        subscription {
+                            id
+                            userId
+                            habitatId
+                            status
+                        }
                     }
                 }
             `,
@@ -55,12 +63,13 @@ export default client => ({
         response: res => res.data.getUserSubscribedHabitats,
     },
     createOne: {
-        request: async ({ name }) => client.mutate({
+        request: async ({ name, imageUrl }) => client.mutate({
             mutation: gql`
-                mutation CreateHabitat($name: String!) {
-                    createHabitat(name: $name) {
+                mutation CreateHabitat($name: String!, $imageUrl: String!) {
+                    createHabitat(name: $name, imageUrl: $imageUrl) {
                         id
                         name
+                        imageUrl
                         plants {
                           id
                           name
@@ -75,8 +84,35 @@ export default client => ({
                     }
                 }
             `,
-            variables: { name },
+            variables: { name, imageUrl },
         }),
         response: res => res.data.createHabitat,
+    },
+    nameSearch: {
+      request: async (searchedString: string) => client.query({
+        query: gql`
+            query HabitatSearch($name: String!) {
+                searchHabitats(name: $name) {
+                    id
+                    name
+                    imageUrl
+                }
+            }
+        `,
+        variables: { name: searchedString },
+        fetchPolicy: 'no-cache',
+      }),
+      response: res => res.data.searchHabitats,
+    },
+    requestSubscription: {
+        request: async (habitatId: entityId) => client.mutate({
+            mutation: gql`
+                mutation RequestSubscriptionToHabitat($habitatId: Int!) {
+                    requestSubscriptionToHabitat(habitatId: $habitatId)
+                }
+            `,
+            variables: { habitatId },
+        }),
+        response: res => res.data.requestSubscriptionToHabitat,
     },
 });

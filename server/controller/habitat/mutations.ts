@@ -4,6 +4,7 @@ import HabitatSubscriptionService from "../../service/habitat-subscription.servi
 import * as graphQl from "graphql";
 import {habitatType} from "./types";
 import {IHabitatSubscription} from "../../db/models/habitatSubsription/habitatSubscription.interface";
+import {SUBSCRIPTION_STATUSES} from "../../db/types";
 
 const habitatService = new HabitatService();
 const userService = new UserService();
@@ -12,6 +13,7 @@ const habitatSubscriptionService = new HabitatSubscriptionService();
 const createHabitat = {
     args: {
         name: { type: graphQl.GraphQLString },
+        imageUrl: { type: graphQl.GraphQLString },
     },
     resolve: async (_, args, context) => {
         const habitat = await habitatService.createOne(args);
@@ -23,11 +25,10 @@ const createHabitat = {
             isAdmin: true,
             adminAccepted: true,
             subscriberAccepted: true,
-            status: 'active',
+            status: SUBSCRIPTION_STATUSES.ACTIVE,
         };
 
         await habitatSubscriptionService.createOne(sub);
-        console.log('done creating subscription');
         return habitat;
     },
     type: habitatType,
@@ -40,19 +41,6 @@ const acceptInvitationToHabitat = {
     resolve: async (_, args, context) => {
         const { userId } = context;
         await habitatSubscriptionService.acceptInvitationToHabitat(userId, args.habitatId);
-    },
-    type: habitatType,
-};
-
-const adminAcceptUserRequestToHabitat = {
-    args: {
-      subscriptionId: { type: graphQl.GraphQLInt },
-    },
-    resolve: async (_, args, context) => {
-        await habitatSubscriptionService.acceptUserRequestToHabitat(
-            context.userId,
-            args.subscriptionId,
-        );
     },
     type: habitatType,
 };
@@ -74,11 +62,24 @@ const adminInviteUserToHabitat = {
     type: habitatType,
 };
 
+const requestSubscriptionToHabitat = {
+    args: {
+      habitatId: { type: graphQl.GraphQLInt },
+    },
+    resolve: async (_, args, context) => {
+        await habitatSubscriptionService.requestSubscriptionToHabitat(
+            context.userId,
+            args.habitatId,
+        );
+    },
+    // tbh i'm not sure what type this response actually is.. for our functionality we don't need a response at all
+    type: graphQl.GraphQLInt,
+};
 
 const habitatMutations = {
     createHabitat,
     acceptInvitationToHabitat,
-    adminAcceptUserRequestToHabitat,
     adminInviteUserToHabitat,
+    requestSubscriptionToHabitat,
 };
 export { habitatMutations };

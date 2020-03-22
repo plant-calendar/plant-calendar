@@ -32,8 +32,13 @@ const lastWateredOptions = [
     timeOptions.map(option => ({ value: option.value, label: `${option.label} ago` })),
 );
 
+
+const millisecondsInADay = 1000 * 60 * 60 * 24;
 const convertDaysAgoToDate = (daysAgo: number) =>
-        new Date(new Date().getTime() - (daysAgo * 1000 * 60 * 60 * 24));
+    new Date(new Date().getTime() - (daysAgo * millisecondsInADay)).toUTCString();
+
+const convertDateStringToDaysAgo = dateString =>
+    (new Date().getTime() - dateString) / millisecondsInADay;
 
 const getStages = (augmentedPlant?: IAugmentedPlant): IStage[] => {
     const {
@@ -42,11 +47,9 @@ const getStages = (augmentedPlant?: IAugmentedPlant): IStage[] => {
             name: '',
             imageUrl: '/plant-avatars/plant1.png',
             waterInterval: waterIntervalOptions[0].value,
-            lastWatered: convertDaysAgoToDate(lastWateredOptions[0].value),
         },
         subscribed = true,
     } = (augmentedPlant || {});
-    console.log({augmentedPlant});
 
     return [
         {
@@ -61,7 +64,12 @@ const getStages = (augmentedPlant?: IAugmentedPlant): IStage[] => {
                 {
                     key: 'name',
                     label: "what is this plant's name?",
-                    validators: [validatorGetters.isNotNil()],
+                    validators: [
+                        validatorGetters.isNotNil(),
+                        validatorGetters.isAtLeastLength(3),
+                        validatorGetters.isAtMostLength(20),
+                        validatorGetters.isOfGenericAllowedCharacters(),
+                    ],
                     type: FieldTypes.INPUT,
                     initial: plant.name,
                     lowerCase: true,
@@ -78,16 +86,14 @@ const getStages = (augmentedPlant?: IAugmentedPlant): IStage[] => {
                     options: waterIntervalOptions,
                     initial: plant.waterInterval,
                 },
-                {
+                ...(augmentedPlant ? []  : [{
                     key: 'lastWatered',
                     label: 'how long ago did you last water it?',
                     validators: [],
                     type: FieldTypes.DROPDOWN,
                     options: lastWateredOptions,
-                    initial: plant.lastWatered,
-                    getFinalValue: convertDaysAgoToDate,
-
-                },
+                    initial: 0,
+                }]),
                 {
                     key: 'imageUrl',
                     label: 'pick an avatar for this plant.',
@@ -127,11 +133,19 @@ const Component = (props: IProps) => {
           close={props.onCancel}
           save={
               props.isCreate
-                  ? props.create
-                  : (updates, callback) => props.update(
-                      { ...updates, id: props.augmentedPlant.plant.id },
-                    callback,
-                  )
+                  ? (toCreate, callback) => {
+                    props.create({
+                        ...toCreate,
+                        lastWatered: convertDaysAgoToDate(toCreate.lastWatered),
+                        waterInterval: +toCreate.waterInterval,
+                    }, callback);
+                  } : (updates, callback) => {
+                    const { plant: existingPlant } = props.augmentedPlant;
+                    props.update({
+                        ...updates,
+                        id: existingPlant.id,
+                    }, callback);
+                  }
           }
           afterSave={props.afterSave}
           submitButtonText={props.isCreate ? 'create' : 'update'}

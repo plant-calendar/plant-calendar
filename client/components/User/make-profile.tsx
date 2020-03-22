@@ -1,11 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import styled from 'styled-components';
+import {connect} from 'react-redux';
 import {getFormErrorMessages, validatorGetters} from "../../forms/validation";
-import { selectors as userSelectors, actions as userActions } from '../../store/user';
+import {actions as userActions, selectors as userSelectors} from '../../store/user';
+import {COLORS} from "../style-config";
+import {SubmitButton} from "../common/SubmitButton";
+import GrowthBackground from '../common/GrowthBackground';
+import renderField from '../../forms/rendering/render-fields';
+import {FieldTypes} from "../../forms/interfaces";
+import { ALLOWED_CHARACTERS } from "../../forms/validation";
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+`;
+
+const SecondContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    color: ${COLORS.darkGreen};
+`;
+
+const TextContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+`;
+
+const InputContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+`;
+
+
+const HorizontalFlexer = styled.div`
+    display: flex;
+    justify-content: center;
+`;
+
+const VerticalFlexer = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const MAX_ALLOWED_LENGTH = 20;
+const MIN_ALLOWED_LENGTH = 3;
 
 const MakeProfile = props => {
     const { allUserNames, fetchAllNames, updateName, history } = props;
     const [name, setName] = useState('');
+    const [nameError, setNameError] = useState('');
 
     useEffect(() => {
         fetchAllNames();
@@ -18,7 +66,7 @@ const MakeProfile = props => {
             {
                 value: name,
                 label: 'Name',
-                validators: [validatorGetters.isNotNil(), validatorGetters.isOfLength(3)],
+                validators: [validatorGetters.isNotNil(), validatorGetters.isAtLeastLength(3)],
                 key: 'name',
             },
         ],
@@ -35,14 +83,68 @@ const MakeProfile = props => {
             history.push(`/users/${user.id}/habitats`);
         });
     };
-    const getOnChangeInput = stateSetter => event => stateSetter(event.target.value);
+    const onChangeInput = (input: string) => {
+        setName(input);
+        if (input.length > MAX_ALLOWED_LENGTH) {
+            setNameError('too long!');
+            return;
+        }
+
+        const uniqueInvalidCharacters: { [char: string]: boolean } = {};
+        for (const char of input) {
+            if (char === ' ') {
+                setNameError('spaces not allowed');
+                return;
+            }
+            if (!ALLOWED_CHARACTERS.includes(char)) {
+                uniqueInvalidCharacters[char] = true;
+            }
+        }
+        if (Object.keys(uniqueInvalidCharacters).length) {
+            setNameError(`invalid characters: "${Object.keys(uniqueInvalidCharacters).join('')}"`);
+            return;
+        }
+        setNameError('');
+    };
     return (
-      <div>
-          Looks like this is your first time here :) What would you like to be called?
-          <input value={name} onChange={getOnChangeInput(setName)}/>
-          <button onClick={onSubmit}>Get started!</button>
-          <div>{submissionErrorMessage}</div>
-      </div>
+        <Container>
+            <GrowthBackground keyBase="make-profile" yStart={0.25} />
+            <SecondContainer>
+              <VerticalFlexer>
+                  <TextContainer>
+                      Looks like this is your first time here. What would you like to be called?
+                  </TextContainer>
+                  <InputContainer>
+                      {
+                          renderField(
+                              {
+                                  type: FieldTypes.INPUT,
+                                  label: '',
+                                  key: 'make-profile-name',
+                                  validators: [],
+                                  lowerCase: true,
+                              },
+                              name,
+                              onChangeInput,
+                              nameError,
+                              () => setNameError(''),
+                              () => undefined,
+                          )
+                      }
+                  </InputContainer>
+                  <HorizontalFlexer>
+                    <SubmitButton
+                        onClick={onSubmit}
+                        text="Get started!"
+                        disabled={nameError.length > 0 || name.length < MIN_ALLOWED_LENGTH}
+                    />
+                  </HorizontalFlexer>
+                  <HorizontalFlexer>
+                    <div>{submissionErrorMessage}</div>
+                  </HorizontalFlexer>
+              </VerticalFlexer>
+          </SecondContainer>
+        </Container>
     );
 };
 

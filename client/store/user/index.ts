@@ -1,8 +1,6 @@
-import { setUserToken, createUser, fetchUserById, setUser, fetchAllNames, updateName } from './actions';
-import { getUserToken, getUser, getAllUserNames } from './selectors';
+import * as actions from './actions';
+import * as selectors from './selectors';
 import reducer from './reducer';
 
-const actions = { setUserToken, createUser, fetchUserById, setUser, fetchAllNames, updateName };
-const selectors = { getUserToken, getUser, getAllUserNames };
 export { actions, selectors };
 export default reducer;

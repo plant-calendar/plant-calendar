@@ -5,4 +5,8 @@ export default class extends GenericService {
   constructor() {
     super(Habitat);
   }
+
+  public async searchByName(searched: string) {
+    return this.stringColumnIncludesSearch('name', searched);
+  }
 }

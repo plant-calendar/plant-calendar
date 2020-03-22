@@ -7,8 +7,8 @@ const HorizontalContainer = styled.div`
   border: 1px solid ${COLORS.lightGray};
   display: flex;
   color: ${COLORS.darkGray};
-  font-size: 24px;
-  height: 72px;
+  font-size: 16px;
+  height: 60px;
   margin-top: 20px;
   padding-left: 7%;
   cursor: pointer;
@@ -41,7 +41,7 @@ const AddTile = (props: IAddTileProps) => {
             style={{ borderColor: color, color}}
         >
           <VerticalContainer>
-            <PlusSign color={color} height={40} width={40} />
+            <PlusSign color={color} height={30} width={30} />
           </VerticalContainer>
           <VerticalContainer>
             <Message>{props.message}</Message>

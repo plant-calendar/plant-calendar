@@ -32,6 +32,7 @@ const updatePlant = {
   args: { ...configs, subscribed: { type: graphQl.GraphQLBoolean }},
   resolve: async (root, args, context) => {
     const plant = await plantService.updateOne(args.id, _.omit(args, 'subscribed'));
+    console.log(`successfully updated... ${plant.lastWatered}`);
     if (args.subscribed === true) {
       await plantSubscriptionService.subscribeIdempotently(context.userId, args.id);
     } else if (args.subscribed === false) {
