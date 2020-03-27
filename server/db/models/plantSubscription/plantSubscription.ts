@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+import Sequelize from 'sequelize/lib/sequelize';
 import db from '../../db';
 
 const PlantSubscription = db.define('plantSubscription', {

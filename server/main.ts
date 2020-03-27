@@ -28,7 +28,7 @@ const configureApp = () => {
   app.use(express.static(path.join(__dirname, '..', 'public')));
 
   app.use((req: any, res: any, next: any) => {
-    console.log('here is something', path.join(__dirname, '..', 'public'))
+    console.log('here is something', path.join(__dirname, '..', 'public'));
     if (path.extname(req.path).length) {
       console.log(
         'this is the req path that is giving us problems: ',

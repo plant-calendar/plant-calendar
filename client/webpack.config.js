@@ -5,11 +5,12 @@ module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: [
     // '@babel/polyfill', // enables async-await... but actually seems unnecessary
-    './client/index.tsx'
+    './index.tsx'
   ],
   output: {
     path: __dirname,
-    filename: './public/bundle.js'
+    filename: '../public/bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [

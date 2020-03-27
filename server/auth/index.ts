@@ -7,6 +7,7 @@ import UserService from '../service/user.service';
 import {IUser} from "../../common/db-interfaces/user.interface";
 import * as _ from 'lodash';
 import AuthService from "../service/auth.service";
+import LocalConfig from '../local-config';
 
 const FileStore = fileStore(session);
 const userService = new UserService();
@@ -17,9 +18,8 @@ const configureGoogleStrategy = async () => {
     let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
     const callbackURL = process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback";
     if (!process.env.GOOGLE_CLIENT_ID) {
-        const localConfig = await import('../../local-config.js');
-        clientID = localConfig.GOOGLE_CLIENT_ID;
-        clientSecret = localConfig.GOOGLE_CLIENT_SECRET;
+        clientID = LocalConfig.GOOGLE_CLIENT_ID;
+        clientSecret = LocalConfig.GOOGLE_CLIENT_SECRET;
     }
     passport.use(new passportGoogle.OAuth2Strategy({
             clientID,
