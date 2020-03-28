@@ -7,7 +7,6 @@ import UserService from '../service/user.service';
 import {IUser} from "../../common/db-interfaces/user.interface";
 import * as _ from 'lodash';
 import AuthService from "../service/auth.service";
-import { PORT } from "../main";
 
 const FileStore = fileStore(session);
 const userService = new UserService();
@@ -16,7 +15,7 @@ const authService = new AuthService();
 const configureGoogleStrategy = async () => {
     let clientID = process.env.GOOGLE_CLIENT_ID;
     let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+    const baseUrl = process.env.BASE_URL || `http://localhost:3000`;
     const callbackURL = `${baseUrl}/auth/google/callback`;
 
     if (!process.env.GOOGLE_CLIENT_ID) {

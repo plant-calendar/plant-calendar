@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const compression = require('compression');
 const graphqlHTTP = require('express-graphql');
 import db from './db';
-export const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 const app = express();
 module.exports = app;
 import schema from './controller';
@@ -50,6 +50,7 @@ const configureApp = () => {
       context = await getContextForGraphQlRequests(req);
     } catch (e) {
       res.redirect('/login');
+      return;
     }
     return {
       schema,
@@ -82,8 +83,6 @@ const syncDb = async () => {
   await db.sync();
   console.log('done syncing db');
 };
-
-
 
 async function bootApp() {
     await syncDb();

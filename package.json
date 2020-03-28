@@ -11,8 +11,10 @@
     "prestart": "npm run build-server && npm run build-client",
     "build-client-watch": "cd client && webpack -w && cd ..",
     "start": "cd backend-dist && node server/main.js",
-    "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
-    "start-server": "node server -e html,js,scss --ignore public --ignore client"
+    "dev-build-server": "cd server && tsc && cd ..",
+    "copy-dev-files": "cp public backend-dist/public && cp server/local-config.js backend-dist/server/local-config.js",
+    "start-dev": "NODE_ENV='development' npm run build-client-watch & npm run dev-build-server && NODE_ENV='development' npm run start-server",
+    "start-server": "cd backend-dist && node server/main.js -e html,js,scss --ignore public --ignore client"
   },
   "repository": {
     "type": "git",
