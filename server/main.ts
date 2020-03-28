@@ -45,12 +45,11 @@ const configureApp = () => {
   });
 
   app.use('/graphql',  graphqlHTTP(async (req, res) => {
-    let context;
-    try {
-      console.log('trying to get context for req');
-      context = await getContextForGraphQlRequests(req);
-      console.log('successfully got context for req');
-    } catch (e) {
+    console.log('trying to get context for req');
+    const context = await getContextForGraphQlRequests(req);
+    console.log('successfully got context for req');
+    if (!context.userId || !context.googleId) {
+      console.log('redirecting to login since no userId and/or no googleId');
       res.redirect('/login');
       return;
     }

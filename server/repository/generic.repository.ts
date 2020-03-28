@@ -74,6 +74,10 @@ export default class GenericRepository {
       ...((joins && joins.length) ? { include: joins.map(GenericRepository.getModel) } : {}),
     };
     console.log({finalQueryObject});
+    const results = await this.model.findAll(finalQueryObject);
+    console.log('got some results');
+    GenericRepository.getValuesFromFindAll((results));
+    console.log('parsed results');
     return GenericRepository.getValuesFromFindAll((await this.model.findAll(finalQueryObject)));
   }
 
