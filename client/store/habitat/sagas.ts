@@ -30,7 +30,6 @@ function* searchHabitats({ name, callback }) {
 }
 
 function* requestSubscription({ habitatId, callback }) {
-  console.log({habitatIdInSaga: habitatId});
   yield call(apiHabitat.requestSubscription.request, habitatId);
   callback();
 }

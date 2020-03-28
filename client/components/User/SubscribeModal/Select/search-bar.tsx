@@ -74,7 +74,6 @@ const debounce = (func, delay) => {
 export default (props: IProps) => {
     const debouncedSearch = debounce(str => {
         props.onSearch(str);
-        // console.log(str)
     }, 500);
     return <Component debouncedSearch={debouncedSearch} />;
 };

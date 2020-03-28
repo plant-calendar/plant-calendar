@@ -7,6 +7,7 @@ const LazyLogin = React.lazy(() => import('../components/Login'));
 const LazyUser = React.lazy(() => import('../components/User'));
 const LazyMakeProfile = React.lazy(() => import('../components/User/make-profile'));
 const LazyHabitat = React.lazy(() => import('../components/Habitat'));
+const LazyPageNotFound = React.lazy(() => import('../components/PageNotFound'));
 
 const Index = () => {
     return (
@@ -27,6 +28,7 @@ const Index = () => {
                     path="/habitats/:id"
                     component={LazyHabitat}
                 />
+                <Route path="*" component={LazyPageNotFound} />
             </Switch>
         </Suspense>
     );

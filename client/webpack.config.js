@@ -1,4 +1,5 @@
 const TSLintPlugin = require('tslint-webpack-plugin');
+const path = require('path');
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
@@ -8,8 +9,8 @@ module.exports = {
     './index.tsx'
   ],
   output: {
-    path: __dirname,
-    filename: '../public/bundle.js',
+    path: path.resolve(__dirname, '..', 'backend-dist/public'),
+    filename: 'bundle.js',
     publicPath: '/'
   },
   module: {

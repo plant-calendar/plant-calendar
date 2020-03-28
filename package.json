@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "tsc",
-    "build-client": "cd client && webpack && cd ..",
+    "build-server": "cd server && tsc && cd ..",
+    "build-client": "mv public backend-dist/public && cd client && webpack && cd ..",
+    "prestart": "echo 'running prestart' && npm run build-server && npm run build-client",
     "build-client-watch": "cd client && webpack -w && cd ..",
-    "start": "npm run start-server",
+    "start": "cd backend-dist && node server/main.js",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "node server -e html,js,scss --ignore public --ignore client"
   },

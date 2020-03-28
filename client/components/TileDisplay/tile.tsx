@@ -8,20 +8,34 @@ import {Tag, ITagProps} from "./tag";
 import {entityId} from "../../../common/db-interfaces/types";
 import WaveWrapper from './wrap-in-wave';
 
+// const StyledTile = styled.div`
+//     float: left;
+//     height: ${TILE_HEIGHT}px;
+//     box-shadow: 2px 2px #e8e8e8;
+//
+//     width: 45%;
+//     @media (max-width: 768px) {
+//         width: 100%;
+//     }
+//
+//     padding-left: 10px;
+//     margin-bottom: 5px;
+//     position: relative;
+//     cursor: pointer;
+// `;
+
+// the position is relative in order to accomodate the Gear's absolute position
 const StyledTile = styled.div`
-    float: left;
+    position: relative;
     height: ${TILE_HEIGHT}px;
     box-shadow: 2px 2px #e8e8e8;
+    cursor: pointer;
+    margin-bottom: 15px;
 
-    width: 45%; 
+    width: 49%;
     @media (max-width: 768px) {
         width: 100%;
     }
-    
-    padding-left: 10px;
-    margin-bottom: 5px;
-    position: relative;
-    cursor: pointer;
 `;
 
 const HorizontalFlexer = styled.div`

@@ -12,7 +12,8 @@ const LoggedInRouteComponent =
          LOGGED_IN_ROUTE_loadingHaveUser,
          ...rest
      }) => {
-        useEffect(() => {
+        useEffect(() =>
+        {
             LOGGED_IN_ROUTE__getHaveUser();
         }, []);
         if (LOGGED_IN_ROUTE__haveUser !== null && !LOGGED_IN_ROUTE_loadingHaveUser) {
@@ -29,9 +30,12 @@ const LoggedInRouteComponent =
 const mapStateToProps = state => ({
     LOGGED_IN_ROUTE__haveUser: authSelectors.getHaveUser(state),
 });
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {LOGGED_IN_ROUTE__getHaveUser: () => dispatch(authActions.getHaveUser(ownProps.location.pathname))};
-};
+const mapDispatchToProps = (dispatch, ownProps) => ({
+ LOGGED_IN_ROUTE__getHaveUser: () => {
+   console.log('dispatching getHaveUser');
+   dispatch(authActions.getHaveUser(ownProps.location.pathname));
+ },
+});
 
-const LoggedInRoute = connect(mapStateToProps, mapDispatchToProps)(LoggedInRouteComponent)
+const LoggedInRoute = connect(mapStateToProps, mapDispatchToProps)(LoggedInRouteComponent);
 export { LoggedInRoute };

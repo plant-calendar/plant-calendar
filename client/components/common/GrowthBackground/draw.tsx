@@ -23,7 +23,6 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
             getStep(context, canvas),
         );
     });
-    console.log({containerWidth});
 
     function getStep(ctx, canv) {
         return function step(timestamp) {

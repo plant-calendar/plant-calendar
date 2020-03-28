@@ -82,6 +82,9 @@ const getStages = (augmentedPlant?: IAugmentedPlant): IStage[] => {
                     type: FieldTypes.DROPDOWN,
                     options: waterIntervalOptions,
                     initial: plant.waterInterval,
+                    // these end up getting converted to strings by the form, so need to convert
+                    // back to integer before submitting
+                    getFinalValue: val => parseInt(val, 10),
                 },
                 ...(augmentedPlant ? []  : [{
                     key: 'lastWatered',

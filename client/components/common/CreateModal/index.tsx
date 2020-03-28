@@ -55,7 +55,6 @@ export default (props: IProps) => {
         if (haveError) {
             return;
         }
-        console.log({toSave});
         props.save(toSave, saved => props.afterSave(saved));
     };
 

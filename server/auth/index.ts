@@ -7,7 +7,7 @@ import UserService from '../service/user.service';
 import {IUser} from "../../common/db-interfaces/user.interface";
 import * as _ from 'lodash';
 import AuthService from "../service/auth.service";
-import LocalConfig from '../local-config';
+import { PORT } from "../main";
 
 const FileStore = fileStore(session);
 const userService = new UserService();
@@ -16,8 +16,13 @@ const authService = new AuthService();
 const configureGoogleStrategy = async () => {
     let clientID = process.env.GOOGLE_CLIENT_ID;
     let clientSecret = process.env.GOOGLE_CLIENT_SECRET;
-    const callbackURL = process.env.GOOGLE_CALLBACK_URL || "http://localhost:3000/auth/google/callback";
+    const baseUrl = process.env.BASE_URL || `http://localhost:${PORT}`;
+    const callbackURL = `${baseUrl}/auth/google/callback`;
+
     if (!process.env.GOOGLE_CLIENT_ID) {
+        // import in this so that dist on server will not try to import local-config module: module won't exist on
+        // server dist
+        const LocalConfig = await import('../local-config');
         clientID = LocalConfig.GOOGLE_CLIENT_ID;
         clientSecret = LocalConfig.GOOGLE_CLIENT_SECRET;
     }

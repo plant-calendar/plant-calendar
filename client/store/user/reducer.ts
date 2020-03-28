@@ -6,7 +6,6 @@ const defaultState = {
 };
 
 export default (state = defaultState, action: { type: TYPES, user?: IUser, allNames: string[], requests?: any }) => {
-    console.log("reducer got action of ", action);
     switch (action.type) {
         case TYPES.USER_SET_USER:
             const { user } = action;

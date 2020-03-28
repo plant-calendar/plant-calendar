@@ -44,7 +44,6 @@ interface IProps {
 
 export default (props: IProps) => {
     const { children, onReachEnd, elementIdKey, suppressWaveForNodes } = props;
-    console.log({suppressWaveForNodes});
     let timerId;
     const overlayElementId = `tile-transition-${elementIdKey}`;
     const waveElementId = `wave-${elementIdKey}`;

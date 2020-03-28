@@ -11,4 +11,6 @@ const client = new ApolloClient({});
 export const apiHabitat = habitatApi(client);
 export const apiPlant = plantApi(client);
 export const apiUser = userApi(client);
-export const haveCorrectUser = async url => axios.get('/auth/have-correct-user', { params: { url }});
+export const haveCorrectUser = async url => {
+  return axios.get('/auth/have-correct-user', { params: { url }});
+};

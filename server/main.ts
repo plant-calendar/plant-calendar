@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const compression = require('compression');
 const graphqlHTTP = require('express-graphql');
 import db from './db';
-const PORT = process.env.PORT || 3000;
+export const PORT = process.env.PORT || 3000;
 const app = express();
 module.exports = app;
 import schema from './controller';
@@ -26,6 +26,7 @@ const configureApp = () => {
   app.use(compression());
 
   app.use(express.static(path.join(__dirname, '..', 'public')));
+  app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
   app.use((req: any, res: any, next: any) => {
     console.log('here is something', path.join(__dirname, '..', 'public'));
