@@ -47,7 +47,9 @@ const configureApp = () => {
   app.use('/graphql',  graphqlHTTP(async (req, res) => {
     let context;
     try {
+      console.log('trying to get context for req');
       context = await getContextForGraphQlRequests(req);
+      console.log('successfully got context for req');
     } catch (e) {
       res.redirect('/login');
       return;
