@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-server": "cd server && tsc && cd ..",
+    "fake-local-config": "touch server/local-config.js && echo 'module.exports = {};' >> server/local-config.js",
+    "build-server": "npm run fake-local-config && cd server && tsc && cd ..",
     "build-client": "mv public backend-dist/public && cd client && webpack && cd ..",
     "prestart": "echo 'running prestart' && npm run build-server && npm run build-client",
     "build-client-watch": "cd client && webpack -w && cd ..",
