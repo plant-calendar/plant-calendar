@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "fake-local-config": "touch server/local-config.js && echo 'module.exports = {};' > server/local-config.js",
-    "overwrite-client-config": "echo \"export const apiBaseUrl = '$(BASE_URL)';\" > client/config.ts",
+    "overwrite-client-config": "echo \"export const apiBaseUrl = '$BASE_URL';\" > client/config.ts",
     "build-server": "npm run fake-local-config && cd server && tsc && cd ..",
     "build-client": "mv public backend-dist/public && npm run overwrite-client-config && cd client && webpack && cd ..",
     "prestart": "echo 'running prestart' && npm run build-server && npm run build-client",
