@@ -16,14 +16,23 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
     const flowerSize  = 0.5;
     const yFactor = 40;
     const xFactor = containerWidth < 770 ? 20 : 30;
-    configs.forEach(({ context, canvas }) => {
-        context.globalCompositeOperation = 'destination-over';
-        context.lineWidth = 1;
-        window.requestAnimationFrame(
-            getStep(context, canvas),
-        );
-    });
 
+    const draw = () => {
+        // @ts-ignore
+        if (!leaf.complete) {
+            console.log('not complete');
+            setTimeout(draw, 200);
+            return;
+        }
+        configs.forEach(({ context, canvas }) => {
+            context.globalCompositeOperation = 'destination-over';
+            context.lineWidth = 1;
+            window.requestAnimationFrame(
+              getStep(context, canvas),
+            );
+        });
+    };
+    draw();
     function getStep(ctx, canv) {
         return function step(timestamp) {
             if (!start) start = timestamp;
@@ -32,7 +41,7 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
             const xx = Math.random() * xFactor;
             const yy = Math.random() * yFactor;
 
-            putPoint(ctx, canv, lastPoint[0] + xx, yStart + yy, timestamp > 2000)
+            putPoint(ctx, canv, lastPoint[0] + xx, yStart + yy, timestamp > 2000);
             console.log('working on growth background');
 
             if (lastPoint[0] < containerWidth) {
@@ -42,7 +51,7 @@ export default (configs: IDrawConfig[], containerWidth: number, containerHeight:
     }
 
     function putPoint(ctx, canv, x, y, shouldDrawFlowers) {
-        pts.push([x,y]);
+        pts.push([x, y]);
         drawSpline(ctx, canv, shouldDrawFlowers);
     }
 

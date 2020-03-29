@@ -51,7 +51,6 @@ export default (props: IProps): ITileProps => {
         details = `Last watered ${lastWateredVerbage}`;
     }
 
-
     return {
         elementKey: plant.id,
         title,
