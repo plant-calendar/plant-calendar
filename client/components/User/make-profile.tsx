@@ -47,6 +47,10 @@ const VerticalFlexer = styled.div`
     background: ${COLORS.white};
     border: 1px solid ${COLORS.darkGreen};
     padding: 5vh;
+    
+    @media (max-width: 768px) {
+        width: 80%;
+    }
 `;
 
 const MAX_ALLOWED_LENGTH = 20;
@@ -60,9 +64,7 @@ const MakeProfile = props => {
     useEffect(() => {
         fetchAllNames();
     }, []);
-
-    const [submissionErrorMessage, setSubmissionErrorMessage] = useState('');
-
+    
     const onSubmit = () => {
         const errorMessages = getFormErrorMessages([
                 {
@@ -74,11 +76,11 @@ const MakeProfile = props => {
             { name },
         );
         if (errorMessages && errorMessages.length) {
-            setSubmissionErrorMessage(`There was a problem with your submission: \n${errorMessages.join('\n')}`);
+            setNameError(errorMessages[0]);
             return;
         }
         if (allUserNames.includes(name)) {
-            setSubmissionErrorMessage(`That name is already taken.  Try another?`);
+            setNameError(`That name is already taken.  Try another?`);
             return;
         }
         updateName(name, user => {
@@ -110,7 +112,7 @@ const MakeProfile = props => {
     };
     return (
         <Container>
-            <GrowthBackground keyBase="make-profile" yStart={0.25} />
+            <GrowthBackground keyBase="make-profile" yStart={0.1} />
             <SecondContainer>
               <VerticalFlexer>
                   <TextContainer>
@@ -131,6 +133,7 @@ const MakeProfile = props => {
                               nameError,
                               () => setNameError(''),
                               () => undefined,
+                            onSubmit,
                           )
                       }
                   </InputContainer>
@@ -140,9 +143,6 @@ const MakeProfile = props => {
                         text="Get started!"
                         disabled={nameError.length > 0 || name.length < MIN_ALLOWED_LENGTH}
                     />
-                  </HorizontalFlexer>
-                  <HorizontalFlexer>
-                    <div>{submissionErrorMessage}</div>
                   </HorizontalFlexer>
               </VerticalFlexer>
           </SecondContainer>

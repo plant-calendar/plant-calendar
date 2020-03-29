@@ -57,6 +57,7 @@ interface IProps {
         onLeave: () => any,
         clearError: () => any,
         error: string,
+        onHitEnter: any,
     }>;
     canSubmit: boolean;
     canBack: boolean;
@@ -87,8 +88,8 @@ export default (props: IProps) => {
                 <FieldContainer>
                     {
                         ...(props.fields || [])
-                            .map(({ field, onChange, value, error, clearError, onLeave }) =>
-                                renderField(field, value, onChange, error, clearError, onLeave))
+                            .map(({ field, onChange, value, error, clearError, onLeave, onHitEnter }) =>
+                                renderField(field, value, onChange, error, clearError, onLeave, onHitEnter))
                     }
                 </FieldContainer>
                 <RightArrowContainer>

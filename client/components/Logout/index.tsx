@@ -4,7 +4,7 @@ import {COLORS} from "../style-config";
 import {apiBaseUrl} from '../../config';
 
 const StyledLogout = styled.a`
-    background: ${COLORS.lightGray};
+    background: ${COLORS.primaryGreen};
     border-radius: 5px;
     padding: 1px;
     display: flex;
@@ -14,10 +14,10 @@ const StyledLogout = styled.a`
     width: 75px;
 
     &:hover {
-        background: ${COLORS.darkGray};
+        
     }
     &:active {
-        background: ${COLORS.darkGray};
+        background: ${COLORS.darkGreen};
     }
     text-decoration: none;
     color: ${COLORS.white};

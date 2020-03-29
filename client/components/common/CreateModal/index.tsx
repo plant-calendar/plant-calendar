@@ -62,13 +62,15 @@ export default (props: IProps) => {
         <Display
             fields={stages[currentStageIdx].fields.map(field => {
                 const { setter, value, error, errorSetter } = states[field.key];
+                const setErrors = () => errorSetter(getFieldErrors(field)[0] || '');
                 return {
                     field,
                     onChange: setter,
                     value,
                     error,
-                    onLeave: () => errorSetter(getFieldErrors(field)[0] || ''),
+                    onLeave: setErrors,
                     clearError: () => errorSetter(''),
+                    onHitEnter: setErrors,
                 };
             })}
             buttonText={props.submitButtonText}

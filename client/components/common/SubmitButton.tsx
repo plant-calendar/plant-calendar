@@ -25,6 +25,7 @@ const DisabledButton = styled.button`
     
     :focus {
         border: none;
+        outline: none;
     }
     border-radius: 8%;
 `;
