@@ -11,6 +11,7 @@ const StyledButton = styled.button`
         
     :focus {
         border: none;
+        outline: none;
     }
     :active {
         background: ${COLORS.darkGreen};

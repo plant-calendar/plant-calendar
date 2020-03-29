@@ -15,17 +15,13 @@ export default (props: IProps): ITileProps => {
     let tags: ITagProps[] = [];
     let details = '';
     let title = plant.name;
-    let hasSettings = true;
     let isWaterablePlant = true;
     let imageUrl = plant.imageUrl;
-    let containerStyle = {};
 
     if (props.justWatered) {
         title = 'Watered!';
-        hasSettings = false;
         isWaterablePlant = false;
         imageUrl = '/check_circle.png';
-        containerStyle = { border: `1px solid ${COLORS.fadedPrimaryGreen}` };
     } else {
         tags = [
             ...(daysOverdueForWater > 0
@@ -62,10 +58,9 @@ export default (props: IProps): ITileProps => {
         details,
         imageUrl,
         isWaterablePlant,
-        hasSettings,
+        hasSettings: true,
         openSettings: props.openSettings,
         tags,
         onReachEndOfWaveTransition,
-        containerStyle,
     };
 };

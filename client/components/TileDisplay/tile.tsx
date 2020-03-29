@@ -8,22 +8,6 @@ import {Tag, ITagProps} from "./tag";
 import {entityId} from "../../../common/db-interfaces/types";
 import WaveWrapper from './wrap-in-wave';
 
-// const StyledTile = styled.div`
-//     float: left;
-//     height: ${TILE_HEIGHT}px;
-//     box-shadow: 2px 2px #e8e8e8;
-//
-//     width: 45%;
-//     @media (max-width: 768px) {
-//         width: 100%;
-//     }
-//
-//     padding-left: 10px;
-//     margin-bottom: 5px;
-//     position: relative;
-//     cursor: pointer;
-// `;
-
 // the position is relative in order to accomodate the Gear's absolute position
 const StyledTile = styled.div`
     position: relative;
@@ -41,6 +25,9 @@ const StyledTile = styled.div`
 const HorizontalFlexer = styled.div`
     display: flex;
     padding-top: 3px;
+    justify-content: space-between;
+    margin-left: 2%;
+    margin-right: 8%;
 `;
 
 const AvatarVerticalFlexer = styled.div`
@@ -54,6 +41,7 @@ const TextVerticalFlexer = styled.div`
     flex-direction: column;
     justify-content: center;
     margin-left: 1vw;
+    flex-grow: 2;
     
     width: 40%;
     @media (max-width: 768px) {
@@ -96,12 +84,10 @@ export interface ITileProps {
 }
 
 export default (props: ITileProps) => {
-    const gearId = `gear-${props.elementKey}`;
     const gearContainerId = `gear-container-${props.elementKey}`;
     // @ts-ignore
     const elementIdsForGear = getElementIds(props.elementKey).concat(gearContainerId);
     const [isHover, setIsHover] = useState(false);
-
 
     const innerContents = (
         <HorizontalFlexer>

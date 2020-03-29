@@ -36,7 +36,6 @@ const InputContainer = styled.div`
     padding: 10px;
 `;
 
-
 const HorizontalFlexer = styled.div`
     display: flex;
     justify-content: center;
@@ -45,6 +44,9 @@ const HorizontalFlexer = styled.div`
 const VerticalFlexer = styled.div`
     display: flex;
     flex-direction: column;
+    background: ${COLORS.white};
+    border: 1px solid ${COLORS.darkGreen};
+    padding: 5vh;
 `;
 
 const MAX_ALLOWED_LENGTH = 20;

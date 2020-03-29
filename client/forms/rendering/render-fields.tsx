@@ -11,6 +11,10 @@ const StyledInput = styled.textarea`
     width: 95%;
     color: ${COLORS.darkGreen};
     text-decoration: none;
+    
+    :focus {
+      outline: none;
+    }
 `;
 
 const StyledDropdown = styled.select`
