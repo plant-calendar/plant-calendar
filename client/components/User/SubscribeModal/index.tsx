@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import ReactModal from 'react-modal';
 import { connect } from 'react-redux';
-import {BASE_MODAL_STYLE} from "../../style-config";
+import { getBaseModalStyle } from "../../style-config";
 import Confirm from './Confirm';
 import Select from './Select';
 import {Close} from "../../common/CloseSign";
@@ -23,7 +23,7 @@ const Component = (props: IProps) => {
     };
 
     return (
-        <ReactModal isOpen style={{ content: BASE_MODAL_STYLE.CONTENT }}>
+        <ReactModal isOpen style={getBaseModalStyle()}>
             <Close onClick={props.close} />
             {habitatToConfirm
                 ? <Confirm habitat={habitatToConfirm} onConfirm={onConfirmSubscriptionRequest} />

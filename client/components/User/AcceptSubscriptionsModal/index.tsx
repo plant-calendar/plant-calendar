@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import styled from 'styled-components';
-import {BASE_MODAL_STYLE, COLORS} from "../../style-config";
+import {getBaseModalStyle, COLORS} from "../../style-config";
 import {Close} from "../../common/CloseSign";
 import {entityId} from "../../../../common/db-interfaces/types";
 import {SubmitButton} from "../../common/SubmitButton";
@@ -89,10 +89,10 @@ export default (props: IProps) => {
             );
         });
 
-  return (
-      <ReactModal isOpen style={{ content: BASE_MODAL_STYLE.CONTENT }}>
-        <Close onClick={props.close} />
-        <StyledContainer>{contents}</StyledContainer>
-      </ReactModal>
-  );
+    return (
+        <ReactModal isOpen style={getBaseModalStyle()}>
+          <Close onClick={props.close} />
+          <StyledContainer>{contents}</StyledContainer>
+        </ReactModal>
+    );
 };

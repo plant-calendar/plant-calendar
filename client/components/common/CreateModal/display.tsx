@@ -6,7 +6,7 @@ import {Close} from "../CloseSign";
 import {SubmitButton} from "../SubmitButton";
 import renderField from '../../../forms/rendering/render-fields';
 import { Arrow } from "../arrows";
-import { BASE_MODAL_STYLE } from "../../style-config";
+import { getBaseModalStyle } from "../../style-config";
 
 const Middle = styled.div`
     display: flex;
@@ -73,7 +73,7 @@ interface IProps {
 
 export default (props: IProps) => {
     return (
-        <ReactModal isOpen style={{content: BASE_MODAL_STYLE.CONTENT }}>
+        <ReactModal isOpen style={getBaseModalStyle()}>
             <Close onClick={props.close} />
             <Middle>
                 <LeftArrowContainer>

@@ -13,6 +13,9 @@ export const FONT_STYLES = {
   primary: 'Montserrat',
 };
 
-export const BASE_MODAL_STYLE = {
-  CONTENT: { left: '33%', width: '50%', minWidth: '300px', maxWidth: '500px' },
+export const getBaseModalStyle = () => {
+  const leftPart = screen.width >= 768 ? { left: '33%' } : {};
+  return {
+    CONTENT: { ...leftPart, width: '50%', minWidth: '300px', maxWidth: '500px' },
+  };
 };
